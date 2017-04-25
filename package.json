@@ -46,7 +46,9 @@
     },
     "pre-git": {
       "commit-msg": "simple",
-      "pre-commit": [],
+      "pre-commit": [
+        "npm run test"
+      ],
       "pre-push": [],
       "post-commit": [],
       "post-checkout": [],
