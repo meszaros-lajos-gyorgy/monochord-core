@@ -1,10 +1,11 @@
-import MonochordCore from '../src/index.js'
-import assert from 'assert'
-
 /* global describe, it */
 
-const getType = x => typeof x
-const getRandomBetween = (min, max) => Math.floor(Math.random() * max - min) + min
+import MonochordCore from '../src/index'
+import assert from 'assert'
+import {
+  getType,
+  getRandomBetween
+} from './helpers'
 
 describe('MonochordCore', () => {
   it('has a baseVolume property', () => {
@@ -35,12 +36,10 @@ describe('MonochordCore', () => {
       MonochordCore.setBaseFrequency(newBaseFrequency)
       assert.equal(MonochordCore.baseFrequency, newBaseFrequency)
     })
-
-    /*
-    it('calculates baseFrequency from specified keynote', () => {
-      MonochordCore.setBaseFrequency(440, 'A4')
-      assert.equal(Math.floor(MonochordCore.baseFrequency), 262)
-    })
-    */
+    
+    // it('calculates baseFrequency from specified keynote', () => {
+      // MonochordCore.setBaseFrequency(440, 'A4')
+      // assert.equal(Math.floor(MonochordCore.baseFrequency), 262)
+    // })
   })
 })
