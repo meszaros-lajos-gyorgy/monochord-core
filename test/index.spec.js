@@ -1,11 +1,16 @@
 /* global describe, it */
 
-import MonochordCore from '../src/index'
 import assert from 'assert'
 import {
   getType,
   getRandomBetween
 } from './helpers'
+
+import {
+  isPrime,
+  leastFactor
+} from '../src/math'
+import MonochordCore from '../src/index'
 
 describe('MonochordCore', () => {
   it('has a baseVolume property', () => {
@@ -36,10 +41,26 @@ describe('MonochordCore', () => {
       MonochordCore.setBaseFrequency(newBaseFrequency)
       assert.equal(MonochordCore.baseFrequency, newBaseFrequency)
     })
-    
+
     // it('calculates baseFrequency from specified keynote', () => {
       // MonochordCore.setBaseFrequency(440, 'A4')
       // assert.equal(Math.floor(MonochordCore.baseFrequency), 262)
     // })
+  })
+})
+
+describe('Math', () => {
+  it('isPrime() returns true, if the given number is prime, false otherwise', () => {
+    const primes = [2, 3, 13, 71, 263, 977, 1871]
+    const notPrimes = [1, 13.8, 'F', true, 16, Math.PI, 9]
+
+    assert.equal(primes.map(isPrime).find(result => result === false), null, JSON.stringify(primes) + ' should all return true')
+    assert.equal(notPrimes.map(isPrime).find(result => result === true), null, JSON.stringify(notPrimes) + ' should all return false')
+  })
+
+  it('leastFactor() should return the smallest prime, which divides the passed number', () => {
+    assert.equal(leastFactor(49), 7, 'the smallest prime factor of 49 is 7')
+    assert.equal(leastFactor(50), 2, 'the smallest prime factor of 50 is 2')
+    assert.equal(leastFactor(51), 3, 'the smallest prime factor of 51 is 3')
   })
 })

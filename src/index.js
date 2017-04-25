@@ -1,3 +1,7 @@
+import {
+
+} from './math'
+
 class MonochordCore {
   constructor () {
     this.baseVolume = 0
