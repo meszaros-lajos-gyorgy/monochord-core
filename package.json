@@ -35,6 +35,7 @@
     "assert": "^1.4.1",
     "cz-conventional-changelog": "^2.0.0",
     "mocha": "^3.3.0",
+    "pre-git": "^3.14.0",
     "reify": "^0.7.5",
     "semantic-release": "^6.3.2",
     "standard": "^10.0.2"
@@ -42,6 +43,14 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    },
+    "pre-git": {
+      "commit-msg": "simple",
+      "pre-commit": [],
+      "pre-push": [],
+      "post-commit": [],
+      "post-checkout": [],
+      "post-merge": []
     }
   }
 }
