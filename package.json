@@ -1,0 +1,37 @@
+{
+  "title": "Monochord Core",
+  "name": "monochord-core",
+  "version": "0.0.1",
+  "description": "A low-level microtonal synth API",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollem",
+    "buildWatch": "npm run build -- --watch",
+    "unit": "mocha --require reify test/*.spec.js",
+    "format": "standard --fix -w src/*.js",
+    "lint": "standard --verbose src/*.js",
+    "test": "npm run format && npm run lint && npm run unit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meszaros-lajos-gyorgy/monochord-core.git"
+  },
+  "author": "Lajos Meszaros <m_lajos@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/meszaros-lajos-gyorgy/monochord-core/issues"
+  },
+  "homepage": "https://github.com/meszaros-lajos-gyorgy/monochord-core#readme",
+  "dependencies": {
+    "ramda": "^0.23.0",
+    "rollem": "^1.11.3",
+    "rollup-plugin-buble": "^0.15.0",
+    "rollup-plugin-uglify": "^1.0.2"
+  },
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "mocha": "^3.3.0",
+    "reify": "^0.7.5",
+    "standard": "^10.0.2"
+  }
+}
