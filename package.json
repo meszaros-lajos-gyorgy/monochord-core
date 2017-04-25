@@ -1,7 +1,7 @@
 {
   "title": "Monochord Core",
   "name": "monochord-core",
-  "version": "0.0.1",
+  "version": "0.0.0-development",
   "description": "A low-level microtonal synth API",
   "main": "index.js",
   "scripts": {
@@ -10,11 +10,12 @@
     "unit": "mocha --require reify test/*.spec.js",
     "format": "standard --fix -w src/*.js",
     "lint": "standard --verbose src/*.js",
-    "test": "npm run format && npm run lint && npm run unit"
+    "test": "npm run format && npm run lint && npm run unit",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/meszaros-lajos-gyorgy/monochord-core.git"
+    "url": "https://github.com/meszaros-lajos-gyorgy/monochord-core.git"
   },
   "author": "Lajos Meszaros <m_lajos@hotmail.com>",
   "license": "MIT",
@@ -32,6 +33,7 @@
     "assert": "^1.4.1",
     "mocha": "^3.3.0",
     "reify": "^0.7.5",
+    "semantic-release": "^6.3.2",
     "standard": "^10.0.2"
   }
 }
