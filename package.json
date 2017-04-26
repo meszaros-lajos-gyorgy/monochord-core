@@ -13,7 +13,9 @@
     "lint": "standard --verbose src/*.js",
     "test": "npm run format && npm run lint && npm run unit",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "commitAgain": "git-cz --retry",
+    "precommit": "npm run test"
   },
   "repository": {
     "type": "git",
@@ -34,8 +36,8 @@
   "devDependencies": {
     "assert": "^1.4.1",
     "cz-conventional-changelog": "^2.0.0",
+    "husky": "^0.13.3",
     "mocha": "^3.3.0",
-    "pre-git": "^3.14.0",
     "reify": "^0.7.5",
     "semantic-release": "^6.3.2",
     "standard": "^10.0.2"
@@ -43,16 +45,6 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
-    },
-    "pre-git": {
-      "commit-msg": "simple",
-      "pre-commit": [
-        "npm run test"
-      ],
-      "pre-push": [],
-      "post-commit": [],
-      "post-checkout": [],
-      "post-merge": []
     }
   }
 }
