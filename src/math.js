@@ -5,21 +5,17 @@ const isPrime = x => {
 
   if (isNaN(x) || !isFinite(x) || x % 1 || x < 2) {
     result = false
+  } else if (x % 2 === 0) {
+    result = x === 2
+  } else if (x % 3 === 0) {
+    result = x === 3
   } else {
-    if (x % 2 === 0) {
-      result = x === 2
-    } else {
-      if (x % 3 === 0) {
-        result = x === 3
-      } else {
-        const m = Math.sqrt(x)
+    const m = Math.sqrt(x)
 
-        for (let i = 5; i <= m; i += 6) {
-          if (x % i === 0 || x % (i + 2) === 0) {
-            result = false
-            break
-          }
-        }
+    for (let i = 5; i <= m; i += 6) {
+      if (x % i === 0 || x % (i + 2) === 0) {
+        result = false
+        break
       }
     }
   }
@@ -35,64 +31,42 @@ const leastFactor = n => {
   } else {
     if (n === 0) {
       result = 0
+    } else if (n % 1 || n * n < 2) {
+      result = 1
+    } else if (n % 2 === 0) {
+      result = 2
+    } else if (n % 3 === 0) {
+      result = 3
+    } else if (n % 5 === 0) {
+      result = 5
     } else {
-      if (n % 1 || n * n < 2) {
-        result = 1
-      } else {
-        if (n % 2 === 0) {
-          result = 2
-        } else {
-          if (n % 3 === 0) {
-            result = 3
-          } else {
-            if (n % 5 === 0) {
-              result = 5
-            } else {
-              const m = Math.sqrt(n)
+      const m = Math.sqrt(n)
 
-              for (let i = 7; i <= m; i += 30) {
-                if (n % i === 0) {
-                  result = i
-                  break
-                } else {
-                  if (n % (i + 4) === 0) {
-                    result = i + 4
-                    break
-                  } else {
-                    if (n % (i + 6) === 0) {
-                      result = i + 6
-                      break
-                    } else {
-                      if (n % (i + 10) === 0) {
-                        result = i + 10
-                        break
-                      } else {
-                        if (n % (i + 12) === 0) {
-                          result = i + 12
-                          break
-                        } else {
-                          if (n % (i + 16) === 0) {
-                            result = i + 16
-                            break
-                          } else {
-                            if (n % (i + 22) === 0) {
-                              result = i + 22
-                              break
-                            } else {
-                              if (n % (i + 24) === 0) {
-                                result = i + 24
-                                break
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+      for (let i = 7; i <= m; i += 30) {
+        if (n % i === 0) {
+          result = i
+          break
+        } else if (n % (i + 4) === 0) {
+          result = i + 4
+          break
+        } else if (n % (i + 6) === 0) {
+          result = i + 6
+          break
+        } else if (n % (i + 10) === 0) {
+          result = i + 10
+          break
+        } else if (n % (i + 12) === 0) {
+          result = i + 12
+          break
+        } else if (n % (i + 16) === 0) {
+          result = i + 16
+          break
+        } else if (n % (i + 22) === 0) {
+          result = i + 22
+          break
+        } else if (n % (i + 24) === 0) {
+          result = i + 24
+          break
         }
       }
     }
