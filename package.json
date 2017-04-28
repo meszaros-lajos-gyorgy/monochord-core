@@ -13,7 +13,7 @@
     "lint": "standard --verbose src/*.js",
     "test": "npm run format && npm run lint && npm run unit",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "commit": "git-cz",
+    "_commit": "git-cz",
     "commitAgain": "git-cz --retry",
     "precommit": "npm run test"
   },
