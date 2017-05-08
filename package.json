@@ -13,10 +13,10 @@
     "lint": "standard --verbose src/*.js",
     "test": "npm run format && npm run lint && npm run unit",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "_commit": "git-cz",
-    "commitAgain": "git-cz --retry",
-    "precommit": "npm run test"
+    "commit": "git-cz",
+    "commitAgain": "git-cz --retry"
   },
+  "pre-commit": "test",
   "repository": {
     "type": "git",
     "url": "https://github.com/meszaros-lajos-gyorgy/monochord-core.git"
@@ -36,8 +36,8 @@
   "devDependencies": {
     "assert": "^1.4.1",
     "cz-conventional-changelog": "^2.0.0",
-    "husky": "^0.13.3",
     "mocha": "^3.3.0",
+    "pre-commit": "^1.2.2",
     "reify": "^0.7.5",
     "semantic-release": "^6.3.2",
     "standard": "^10.0.2"
