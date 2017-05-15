@@ -14,9 +14,18 @@
     "test": "npm run format && npm run lint && npm run unit",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commit": "git-cz",
-    "commitAgain": "git-cz --retry"
+    "commitAgain": "git-cz --retry",
+    "examplesWatch": "browser-refresh ./testserver.js",
+    "testserver": "npm-run-all --parallel buildWatch examplesWatch",
+    "dist:clean": "git rm -r dist && rimraf dist || true",
+    "dist:stage": "git add dist"
   },
-  "pre-commit": "test",
+  "pre-commit": [
+    "test",
+    "dist:clean",
+    "build",
+    "dist:stage"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/meszaros-lajos-gyorgy/monochord-core.git"
@@ -27,18 +36,24 @@
     "url": "https://github.com/meszaros-lajos-gyorgy/monochord-core/issues"
   },
   "homepage": "https://github.com/meszaros-lajos-gyorgy/monochord-core#readme",
-  "dependencies": {
-    "ramda": "^0.23.0",
-    "rollem": "^1.11.3",
-    "rollup-plugin-buble": "^0.15.0",
-    "rollup-plugin-uglify": "^1.0.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "assert": "^1.4.1",
+    "browser-refresh": "^1.7.1",
     "cz-conventional-changelog": "^2.0.0",
     "mocha": "^3.3.0",
+    "node-static": "^0.7.9",
+    "npm-run-all": "^4.0.2",
     "pre-commit": "^1.2.2",
+    "ramda": "^0.23.0",
     "reify": "^0.10.0",
+    "rimraf": "^2.6.1",
+    "rollem": "^1.11.3",
+    "rollup-plugin-buble": "^0.15.0",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-ramda": "^1.0.5",
+    "rollup-plugin-uglify": "^1.0.2",
     "semantic-release": "^6.3.2",
     "standard": "^10.0.2"
   },
