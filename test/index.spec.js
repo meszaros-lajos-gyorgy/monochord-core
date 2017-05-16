@@ -8,7 +8,8 @@ import {
 
 import {
   isPrime,
-  leastFactor
+  leastFactor,
+  getPrimeFactors
 } from '../src/math'
 import MonochordCore from '../src/index'
 
@@ -50,17 +51,39 @@ describe('MonochordCore', () => {
 })
 
 describe('Math', () => {
-  it('isPrime() returns true, if the given number is prime, false otherwise', () => {
-    const primes = [2, 3, 13, 71, 263, 977, 1871]
-    const notPrimes = [1, 13.8, 'F', true, 16, Math.PI, 9]
+  describe('isPrime()', () => {
+    it('returns true, if the given number is prime, false otherwise', () => {
+      const primes = [2, 3, 13, 71, 263, 977, 1871]
+      const notPrimes = [1, 13.8, 'F', true, 16, Math.PI, 9]
 
-    assert.equal(primes.map(isPrime).find(result => result === false), null, JSON.stringify(primes) + ' should all return true')
-    assert.equal(notPrimes.map(isPrime).find(result => result === true), null, JSON.stringify(notPrimes) + ' should all return false')
+      assert.equal(primes.map(isPrime).find(result => result === false), null, JSON.stringify(primes) + ' should all return true')
+      assert.equal(notPrimes.map(isPrime).find(result => result === true), null, JSON.stringify(notPrimes) + ' should all return false')
+    })
   })
-
-  it('leastFactor() should return the smallest prime, which divides the passed number', () => {
-    assert.equal(leastFactor(49), 7, 'the smallest prime factor of 49 is 7')
-    assert.equal(leastFactor(50), 2, 'the smallest prime factor of 50 is 2')
-    assert.equal(leastFactor(51), 3, 'the smallest prime factor of 51 is 3')
+  
+  describe('leastFactor()', () => {
+    it('should return the smallest prime, which divides the passed number', () => {
+      assert.equal(leastFactor(49), 7, 'the smallest prime factor of 49 is 7')
+      assert.equal(leastFactor(50), 2, 'the smallest prime factor of 50 is 2')
+      assert.equal(leastFactor(51), 3, 'the smallest prime factor of 51 is 3')
+    })
+  })
+  
+  describe('getPrimeFactors()', () => {
+    it('should split a given number into an array of it\'s prime factors', () => {
+      assert.deepEqual(getPrimeFactors(70), [2, 5, 7], '70\'s prime factors are 2, 5 and 7')
+      assert.deepEqual(getPrimeFactors(27), [3, 3, 3], '27\'s prime factors are 3, 3 and 3')
+    })
+    
+    it('should set the first number in the result array to negative, when given number is negative', () => {
+      assert.deepEqual(getPrimeFactors(-4), [-2, 2], '-4\'s prime factors are -2 and 2')
+      assert.deepEqual(getPrimeFactors(-192), [-2, 2, 2, 2, 2, 2, 3], '-4\'s prime factors are -2, 2, 2, 2, 2, 2 and 3')
+    })
+    
+    it('should return an empty array, when given number is not a valid number', () => {
+      assert.deepEqual(getPrimeFactors(Math.PI), [], 'Math.PI is not a valid number for prime factorization')
+      assert.deepEqual(getPrimeFactors('String'), [], '"String" is not a valid number for prime factorization')
+      assert.deepEqual(getPrimeFactors(true), [], 'true is not a valid number for prime factorization')
+    })
   })
 })

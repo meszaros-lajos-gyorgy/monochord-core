@@ -75,9 +75,34 @@ const leastFactor = n => {
   return result
 }
 
+const getPrimeFactors = n => {
+  let result
+
+  if (isNaN(n) || typeof n === 'boolean' || !isFinite(n) || n % 1 || n === 0) {
+    result = []
+  } else {
+    if (n < 0) {
+      let factors = getPrimeFactors(-n)
+      factors[0] *= -1
+      result = factors
+    } else {
+      let minFactor = leastFactor(n)
+
+      if (n === minFactor) {
+        result = [n]
+      } else {
+        result = [minFactor].concat(getPrimeFactors(n / minFactor))
+      }
+    }
+  }
+
+  return result
+}
+
 export {
   isPrime,
-  leastFactor
+  leastFactor,
+  getPrimeFactors
 }
 
 /*
@@ -89,22 +114,6 @@ var cache = {
   f2c : {}, // fraction to cache
   c2f : {}  // cache to fraction
 };
-
-function getPrimeFactors(n){
-  if(isNaN(n) || !isFinite(n) || n % 1 || n === 0){
-    return [];
-  }
-  if(n < 0){
-    var factors = getPrimeFactors(-n);
-    factors[0] *= -1;
-    return factors;
-  }
-  var minFactor = leastFactor(n);
-  if(n === minFactor){
-    return [n];
-  }
-  return [minFactor].concat(getPrimeFactors(n / minFactor));
-}
 
 // num1, num2, ...
 function greatestCommonDivisor(){
@@ -201,12 +210,11 @@ function ratioToFraction(f1, f2){
 }
 
 return {
-  getPrimeFactors : getPrimeFactors,
-  greatestCommonDivisor : greatestCommonDivisor,
-  getRepeatingDecimal : getRepeatingDecimal,
-  fractionToCents : fractionToCents,
-  centsToFraction : centsToFraction,
-  fractionToRatio : fractionToRatio,
-  ratioToFraction : ratioToFraction
+  greatestCommonDivisor,
+  getRepeatingDecimal,
+  fractionToCents,
+  centsToFraction,
+  fractionToRatio,
+  ratioToFraction
 };
 */
