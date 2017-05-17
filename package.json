@@ -35,10 +35,8 @@
     "url": "https://github.com/meszaros-lajos-gyorgy/monochord-core/issues"
   },
   "homepage": "https://github.com/meszaros-lajos-gyorgy/monochord-core#readme",
-  "dependencies": {},
   "devDependencies": {
     "assert": "^1.4.1",
-    "browser-refresh": "^1.7.1",
     "cz-conventional-changelog": "^2.0.0",
     "express": "^4.15.2",
     "mocha": "^3.3.0",
@@ -62,5 +60,6 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "dependencies": {}
 }
