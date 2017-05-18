@@ -39,7 +39,7 @@ export default [{
   ]
 }, {
   entry: 'src/index.js',
-  dest: 'dist/monochord-core.js',
+  dest: 'dist/monochord-core.min.js',
   format: 'umd',
   moduleName: 'MonochordCore',
   sourceMap: true,

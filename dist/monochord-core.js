@@ -1,7 +1,24 @@
-// monochord-core - created by Lajos Meszaros <m_lajos@hotmail.com> - MIT licence - last built on 2017-05-18
-!function(e,n){"object"==typeof exports&&"undefined"!=typeof module?module.exports=n():"function"==typeof define&&define.amd?define(n):e.MonochordCore=n()}(this,function(){"use strict";var e=function(){this.baseVolume=0,this.baseFrequency=440};return e.prototype.setBaseFrequency=function(e,n){this.baseFrequency=e},new e});
-//# sourceMappingURL=monochord-core.js.map
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.MonochordCore = factory());
+}(this, (function () { 'use strict';
 
+// import R from 'ramda'
+
+
+
+/*
+const sortArrSizeAsc = (a, b) => {
+  return a.length - b.length;
+}
+
+var cache = {
+  f2c : {}, // fraction to cache
+  c2f : {}  // cache to fraction
+};
+
+// num1, num2, ...
 function greatestCommonDivisor(){
   var numbers = Array.prototype.slice.call(arguments);
   var numbersSize = numbers.length;
