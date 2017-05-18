@@ -1,4 +1,8 @@
-// import R from 'ramda'
+import {
+  adjust,
+  negate,
+  not
+} from 'ramda'
 
 const isPrime = x => {
   let result = true
@@ -76,23 +80,14 @@ const leastFactor = n => {
 }
 
 const getPrimeFactors = n => {
-  let result
+  let result = []
 
-  if (isNaN(n) || typeof n === 'boolean' || !isFinite(n) || n % 1 || n === 0) {
-    result = []
-  } else {
+  if (not(isNaN(n) || typeof n === 'boolean' || !isFinite(n) || n % 1 || n === 0)) {
     if (n < 0) {
-      let factors = getPrimeFactors(-n)
-      factors[0] *= -1
-      result = factors
+      result = adjust(negate, 0, getPrimeFactors(-n))
     } else {
-      let minFactor = leastFactor(n)
-
-      if (n === minFactor) {
-        result = [n]
-      } else {
-        result = [minFactor].concat(getPrimeFactors(n / minFactor))
-      }
+      const minFactor = leastFactor(n)
+      result = [minFactor].concat(n === minFactor ? [] : getPrimeFactors(n / minFactor))
     }
   }
 
