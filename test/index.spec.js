@@ -67,6 +67,11 @@ describe('Math', () => {
       assert.equal(leastFactor(50), 2, 'the smallest prime factor of 50 is 2')
       assert.equal(leastFactor(51), 3, 'the smallest prime factor of 51 is 3')
     })
+    it('should return NaN, when given number is not a valid number', () => {
+      assert.strictEqual(isNaN(leastFactor(Math.PI)), true, 'Math.PI is not a valid number for getting it\'s least prime factor')
+      assert.strictEqual(isNaN(leastFactor('String')), true, '"String" is not a valid number for getting it\'s least prime factor')
+      assert.strictEqual(isNaN(leastFactor(true)), true, 'true is not a valid number for getting it\'s least prime factor')
+    })
   })
   
   describe('getPrimeFactors()', () => {

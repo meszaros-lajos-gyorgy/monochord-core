@@ -4,10 +4,12 @@ import {
   not
 } from 'ramda'
 
+const isInteger = n => n % 1 === 0
+
 const isPrime = x => {
   let result = true
 
-  if (isNaN(x) || !isFinite(x) || x % 1 || x < 2) {
+  if (isNaN(x) || !isFinite(x) || !isInteger(x) || x < 2) {
     result = false
   } else if (x % 2 === 0) {
     result = x === 2
@@ -30,7 +32,7 @@ const isPrime = x => {
 const leastFactor = n => {
   let result = n
 
-  if (isNaN(n) || !isFinite(n)) {
+  if (isNaN(n) || typeof n === 'boolean' || !isFinite(n) || !isInteger(n)) {
     result = NaN
   } else {
     if (n === 0) {
@@ -82,7 +84,7 @@ const leastFactor = n => {
 const getPrimeFactors = n => {
   let result = []
 
-  if (not(isNaN(n) || typeof n === 'boolean' || !isFinite(n) || n % 1 || n === 0)) {
+  if (not(isNaN(n) || typeof n === 'boolean' || !isFinite(n) || !isInteger(n) || n === 0)) {
     if (n < 0) {
       result = adjust(negate, 0, getPrimeFactors(-n))
     } else {
