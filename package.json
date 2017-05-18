@@ -16,7 +16,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commit": "git-cz",
     "commit:again": "git-cz --retry",
-    "dist:clean": "git rm -r dist && rimraf dist || true",
+    "dist:clean": "git rm -rf dist && rimraf dist || true",
     "dist:stage": "git add dist"
   },
   "pre-commit": [
