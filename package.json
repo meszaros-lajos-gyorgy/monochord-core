@@ -10,17 +10,19 @@
     "unit": "mocha --require reify test/*.spec.js",
     "unit:watch": "npm run unit -- --watch",
     "watch": "npm-run-all --parallel build:watch examples:watch",
-    "examples:watch": "nodemon ./examples/server.js -e js,json,html,css --watch examples --watch dist",
+    "examples:watch": "nodemon ./examples/server.js -e js,json,html,css --watch examples --watch dist/*.min.js",
     "lint": "standard --verbose --fix src/*.js",
+    "stage-after-lint": "git add src",
     "test": "npm run lint && npm run unit",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commit": "git-cz",
     "commit:again": "git-cz --retry",
-    "dist:clean": "git rm -rf dist && rimraf dist || true",
-    "dist:stage": "git add dist"
+    "dist:clean": "rimraf dist || true",
+    "dist:stage": "git add dist --force -u"
   },
   "pre-commit": [
     "test",
+    "stage-after-lint",
     "dist:clean",
     "build",
     "dist:stage"
