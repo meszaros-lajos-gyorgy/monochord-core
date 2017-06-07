@@ -5,9 +5,9 @@
   "description": "A low-level microtonal synth API",
   "main": "index.js",
   "scripts": {
-    "build": "rollup -c rollup.config.js",
+    "build": "rollup -c",
     "build:watch": "npm run build -- --watch",
-    "unit": "mocha --require reify test/*.spec.js",
+    "unit": "mocha --require reify test/**/*.spec.js",
     "unit:watch": "npm run unit -- --watch",
     "watch": "npm-run-all --parallel build:watch examples:watch",
     "examples:watch": "nodemon ./examples/server.js -e js,json,html,css --watch examples --watch dist/*.min.js",
@@ -60,7 +60,7 @@
     "rollup-watch": "^4.0.0",
     "semantic-release": "^6.3.2",
     "standard": "^10.0.2",
-    "stash-to-branch": "^1.0.0"
+    "stash-to-branch": "^1.0.4"
   },
   "config": {
     "commitizen": {
