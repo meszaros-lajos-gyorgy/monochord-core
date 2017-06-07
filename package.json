@@ -18,7 +18,9 @@
     "commit": "git-cz",
     "commit:again": "git-cz --retry",
     "dist:clean": "rimraf dist || true",
-    "dist:stage": "git add dist --force -u"
+    "dist:stage": "git add dist --force -u",
+    "workspace:save": "stash-to-branch --save",
+    "workspace:restore": "stash-to-branch --restore"
   },
   "pre-commit": [
     "test",
@@ -57,7 +59,8 @@
     "rollup-plugin-uglify": "^1.0.2",
     "rollup-watch": "^4.0.0",
     "semantic-release": "^6.3.2",
-    "standard": "^10.0.2"
+    "standard": "^10.0.2",
+    "stash-to-branch": "^1.0.0"
   },
   "config": {
     "commitizen": {
