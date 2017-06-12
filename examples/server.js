@@ -82,7 +82,7 @@ app.use(/^\/\w+\/$/, (req, res, next) => {
       fs.readFile(path.join(__dirname, folder, 'index.html'), 'utf8', (err, data) => {
         res.writeHead(200, {'Content-Type': 'text/html'})
         res.write(data
-          .replace('"../../dist/', '"/')
+          .replace(/"\.\.\/\.\.\/dist\//g, '"/')
           .replace('<!-- script:live-reload -->', '<script src="/reload.js"></script>')
         )
         res.end()
