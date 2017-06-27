@@ -1,25 +1,19 @@
-import {
-  adjust,
-  negate,
-  not
-} from 'ramda'
-
 const isInteger = n => n % 1 === 0
 
-const isPrime = x => {
+const isPrime = n => {
   let result = true
 
-  if (isNaN(x) || !isFinite(x) || !isInteger(x) || x < 2) {
+  if (isNaN(n) || typeof n === 'boolean' || !isFinite(n) || !isInteger(n) || n < 2) {
     result = false
-  } else if (x % 2 === 0) {
-    result = x === 2
-  } else if (x % 3 === 0) {
-    result = x === 3
+  } else if (n % 2 === 0) {
+    result = n === 2
+  } else if (n % 3 === 0) {
+    result = n === 3
   } else {
-    const m = Math.sqrt(x)
+    const m = Math.sqrt(n)
 
     for (let i = 5; i <= m; i += 6) {
-      if (x % i === 0 || x % (i + 2) === 0) {
+      if (n % i === 0 || n % (i + 2) === 0) {
         result = false
         break
       }
@@ -32,12 +26,12 @@ const isPrime = x => {
 const leastFactor = n => {
   let result = n
 
-  if (isNaN(n) || typeof n === 'boolean' || !isFinite(n) || !isInteger(n)) {
+  if (isNaN(n) || typeof n === 'boolean' || !isFinite(n) || !isInteger(n) || n < 0) {
     result = NaN
   } else {
     if (n === 0) {
       result = 0
-    } else if (n % 1 || n * n < 2) {
+    } else if (n === 1) {
       result = 1
     } else if (n % 2 === 0) {
       result = 2
@@ -48,30 +42,12 @@ const leastFactor = n => {
     } else {
       const m = Math.sqrt(n)
 
-      for (let i = 7; i <= m; i += 30) {
+      for (let i = 5; i <= m; i += 6) {
         if (n % i === 0) {
           result = i
           break
-        } else if (n % (i + 4) === 0) {
-          result = i + 4
-          break
-        } else if (n % (i + 6) === 0) {
-          result = i + 6
-          break
-        } else if (n % (i + 10) === 0) {
-          result = i + 10
-          break
-        } else if (n % (i + 12) === 0) {
-          result = i + 12
-          break
-        } else if (n % (i + 16) === 0) {
-          result = i + 16
-          break
-        } else if (n % (i + 22) === 0) {
-          result = i + 22
-          break
-        } else if (n % (i + 24) === 0) {
-          result = i + 24
+        } else if (n % (i + 2) === 0) {
+          result = i + 2
           break
         }
       }
@@ -82,21 +58,12 @@ const leastFactor = n => {
 }
 
 const getPrimeFactors = n => {
-  let result = []
-
-  if (not(isNaN(n) || typeof n === 'boolean' || !isFinite(n) || !isInteger(n) || n === 0)) {
-    if (n < 0) {
-      result = adjust(negate, 0, getPrimeFactors(-n))
-    } else {
-      const minFactor = leastFactor(n)
-      result = [minFactor].concat(n === minFactor ? [] : getPrimeFactors(n / minFactor))
-    }
-  }
-
-  return result
+  const minFactor = leastFactor(n)
+  return isNaN(minFactor) ? [] : [minFactor].concat(n === minFactor ? [] : getPrimeFactors(n / minFactor))
 }
 
 export {
+  isInteger,
   isPrime,
   leastFactor,
   getPrimeFactors
