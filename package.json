@@ -13,7 +13,7 @@
     "examples:watch": "nodemon ./examples/server.js -e js,json,html,css --watch examples --watch dist/*.min.js",
     "lint": "standard --verbose --fix src/**/*.js",
     "stage-after-lint": "git add src",
-    "test": "npm run lint && npm run unit",
+    "test": "npm-run-all lint unit",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commit": "git-cz",
     "commit:again": "git-cz --retry",
