@@ -1,9 +1,9 @@
-// monochord-core - created by Lajos Meszaros <m_lajos@hotmail.com> - MIT licence - last built on 2017-07-27
+// monochord-core - created by Lajos Meszaros <m_lajos@hotmail.com> - MIT licence - last built on 2017-08-03
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.MonochordCore = factory());
-}(this, (function () { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(factory((global.MonochordCore = {})));
+}(this, (function (exports) { 'use strict';
 
 /*
 const sortArrSizeAsc = (a, b) => {
@@ -128,8 +128,6 @@ MonochordCore.prototype.setBaseFrequency = function setBaseFrequency (newFrequen
   this.baseFrequency = newFrequency;
 };
 
-var monochordCore = new MonochordCore();
-
-return monochordCore;
+Object.defineProperty(exports, '__esModule', { value: true });
 
 })));

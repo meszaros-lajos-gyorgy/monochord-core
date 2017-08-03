@@ -3,28 +3,38 @@ import buble from 'rollup-plugin-buble'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import ramda from 'rollup-plugin-ramda'
-import fs from 'fs'
+import multiEntry from 'rollup-plugin-multi-entry'
+
+const {
+  name,
+  author,
+  license
+} = require('./package.json')
+
+const lPadZero = num => (num < 10 ? '0' : '') + num
 
 const getDate = () => {
   const d = new Date()
   const year = d.getFullYear()
-  const month = (d.getMonth() + 1 < 10 ? '0' : '') + (d.getMonth() + 1)
-  const day = (d.getDate() < 10 ? '0' : '') + d.getDate()
+  const month = lPadZero(d.getMonth() + 1)
+  const day = lPadZero(d.getDate())
   return `${year}-${month}-${day}`
 }
 
-const config = JSON.parse(fs.readFileSync('package.json'))
-
-const banner = `// ${config.name} - created by ${config.author} - ${config.license} licence - last built on ${getDate()}`
+const isWatching = process.env.ROLLUP_WATCH
+const banner = `// ${name} - created by ${author} - ${license} licence - last built on ${getDate()}`
 
 export default [{
   banner: banner,
-  entry: 'src/index.js',
+  entry: [
+    'src/index.js'
+  ].concat(isWatching ? 'src/load-reload.js': []),
   dest: 'dist/monochord-core.js',
   format: 'umd',
   moduleName: 'MonochordCore',
   sourceMap: false,
   plugins: [
+    multiEntry(),
     resolve({
       jsnext: true,
       main: true
@@ -38,12 +48,15 @@ export default [{
     buble()
   ]
 }, {
-  entry: 'src/index.js',
+  entry: [
+    'src/index.js'
+  ].concat(isWatching ? 'src/load-reload.js': []),
   dest: 'dist/monochord-core.min.js',
   format: 'umd',
   moduleName: 'MonochordCore',
   sourceMap: true,
   plugins: [
+    multiEntry(),
     resolve({
       jsnext: true,
       main: true
@@ -56,9 +69,9 @@ export default [{
     ramda(),
     buble(),
     uglify({
-			output: {
-				preamble: banner
-			}
-		})
+      output: {
+        preamble: banner
+      }
+    })
   ]
 }]
