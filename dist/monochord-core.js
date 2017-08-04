@@ -1,4 +1,4 @@
-// monochord-core - created by Lajos Meszaros <m_lajos@hotmail.com> - MIT licence - last built on 2017-08-03
+// monochord-core - created by Lajos Meszaros <m_lajos@hotmail.com> - MIT licence - last built on 2017-08-04
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
