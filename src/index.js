@@ -20,6 +20,7 @@ const isHumanReadableAscii = test(/^[\x20-\x7E]*$/)
 // There is one scale per file.
 
 // Lines beginning with an exclamation mark are regarded as comments and are to be ignored.
+const splitToLines = split(/\r?\n/g)
 const isComment = startsWith('!')
 const removeComments = reject(isComment)
 
@@ -65,10 +66,9 @@ const isFoundation = compose(
 // Files for which Scala gives Error in file format are incorrectly formatted.
 // They should give a read error and be rejected.
 
-const splitToLines = split(/\r?\n/g)
-
 export {
   isHumanReadableAscii,
+  splitToLines,
   isComment,
   removeComments,
   isCent,
@@ -77,6 +77,5 @@ export {
   ignoreAllAfterPitch,
   ignoreLeadingWhitespace,
   getValue,
-  isFoundation,
-  splitToLines
+  isFoundation
 }

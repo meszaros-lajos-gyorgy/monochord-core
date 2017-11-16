@@ -4,6 +4,7 @@ import assert from 'assert'
 
 import {
   isHumanReadableAscii,
+  splitToLines,
   isComment,
   removeComments,
   isCent,
@@ -11,7 +12,6 @@ import {
   isValidPitch,
   ignoreAllAfterPitch,
   ignoreLeadingWhitespace,
-  splitToLines,
   getValue,
   isFoundation
 } from '../src/index'
@@ -40,6 +40,16 @@ describe('isHumanReadableAscii', () => {
     assert.equal(isHumanReadableAscii(String.fromCharCode(
       128, 129, 130
     )), false)
+  })
+})
+
+describe('splitToLines', () => {
+  it('splits a string upon newline characters', () => {
+    assert.deepEqual(splitToLines('a\nb\nc'), ['a', 'b', 'c'])
+  })
+  it('accepts both windows and unix type newlines', () => {
+    assert.deepEqual(splitToLines('a\nb'), ['a', 'b'])
+    assert.deepEqual(splitToLines('a\r\nb'), ['a', 'b'])
   })
 })
 
@@ -213,15 +223,5 @@ describe('isFoundation', () => {
   it('returns false, when given ratio simplifies to 1/1, but individual numbers are bigger, than 1', () => {
     // TODO: is this the correct behavior?
     assert.equal(isFoundation('3/3'), false)
-  })
-})
-
-describe('splitToLines', () => {
-  it('splits a string upon newline characters', () => {
-    assert.deepEqual(splitToLines('a\nb\nc'), ['a', 'b', 'c'])
-  })
-  it('accepts both windows and unix type newlines', () => {
-    assert.deepEqual(splitToLines('a\nb'), ['a', 'b'])
-    assert.deepEqual(splitToLines('a\r\nb'), ['a', 'b'])
   })
 })
