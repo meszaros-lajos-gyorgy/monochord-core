@@ -42,12 +42,6 @@ const isRatio = test(/^[\t ]*\d+(\/\d+)?([ \t]+.*)?$/)
 // Negative ratios are meaningless and should give a read error.
 // For a description of cents, go here(http://www.huygens-fokker.org/docs/measures.html#Ellis).
 
-// The first note of 1/1 or 0.0 cents is implicit and not in the files.
-
-// Files for which Scala gives Error in file format are incorrectly formatted.
-// They should give a read error and be rejected.
-
-const splitToLines = split(/\r?\n/g)
 const getValue = ifElse(
   either(isCent, isRatio),
   compose(
@@ -56,17 +50,24 @@ const getValue = ifElse(
   ),
   always('')
 )
+
+// The first note of 1/1 or 0.0 cents is implicit and not in the files.
 const isFoundation = compose(
   either(equals('1/1'), test(/^0\.0?$/)),
   getValue
 )
+
+// Files for which Scala gives Error in file format are incorrectly formatted.
+// They should give a read error and be rejected.
+
+const splitToLines = split(/\r?\n/g)
 
 export {
   isHumanReadableAscii,
   isComment,
   isRatio,
   isCent,
-  splitToLines,
   getValue,
-  isFoundation
+  isFoundation,
+  splitToLines
 }
