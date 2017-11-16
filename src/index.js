@@ -4,7 +4,13 @@
 import {
   test,
   startsWith,
-  split
+  split,
+  compose,
+  ifElse,
+  replace,
+  either,
+  always,
+  equals
 } from 'ramda'
 
 // The files are human readable ASCII or 8-bit character text-files.
@@ -42,11 +48,25 @@ const isRatio = test(/^[\t ]*\d+(\/\d+)?([ \t]+.*)?$/)
 // They should give a read error and be rejected.
 
 const splitToLines = split(/\r?\n/g)
+const getValue = ifElse(
+  either(isCent, isRatio),
+  compose(
+    replace(/^([^ \t]+).*$/, '$1'),
+    replace(/^[ \t]*/, '')
+  ),
+  always('')
+)
+const isFoundation = compose(
+  either(equals('1/1'), test(/^0\.0?$/)),
+  getValue
+)
 
 export {
   isHumanReadableAscii,
   isComment,
   isRatio,
   isCent,
-  splitToLines
+  splitToLines,
+  getValue,
+  isFoundation
 }

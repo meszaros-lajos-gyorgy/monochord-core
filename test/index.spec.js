@@ -7,7 +7,9 @@ import {
   isComment,
   isRatio,
   isCent,
-  splitToLines
+  splitToLines,
+  getValue,
+  isFoundation
 } from '../src/index'
 
 describe('isHumanReadableAscii', () => {
@@ -87,6 +89,9 @@ describe('isRatio', () => {
     assert.equal(isRatio('6.5/3'), false)
     assert.equal(isRatio('6.5/3.8'), false)
   })
+  it('returns false, when there is some content after the ratio, but it\'s not separated with a space or tab', () => {
+    assert.equal(isRatio('21/18! comment'), false)
+  })
 })
 
 describe('isCent', () => {
@@ -128,6 +133,9 @@ describe('isCent', () => {
     assert.equal(isCent('26.2.4'), false)
     assert.equal(isCent('26..4'), false)
   })
+  it('returns false, when there is some content after the cent, but it\'s not separated with a space or tab', () => {
+    assert.equal(isCent('30.3! comment'), false)
+  })
 })
 
 describe('splitToLines', () => {
@@ -137,5 +145,38 @@ describe('splitToLines', () => {
   it('accepts both windows and unix type newlines', () => {
     assert.deepEqual(splitToLines('a\nb'), ['a', 'b'])
     assert.deepEqual(splitToLines('a\r\nb'), ['a', 'b'])
+  })
+})
+
+describe('getValue', () => {
+  it('strips off leading spaces and tabs', () => {
+    assert.equal(getValue('  100.3'), '100.3')
+    assert.equal(getValue('\t100.3'), '100.3')
+  })
+  it('removes everything after the first space or tab, which is not at the beginning of the string', () => {
+    assert.equal(getValue('17/4 E#'), '17/4')
+    assert.equal(getValue('30.2\t12'), '30.2')
+    assert.equal(getValue('-5. ! hello'), '-5.')
+  })
+  it('returns an empty string, when given string does not contain a cent or a ratio', () => {
+    assert.equal(getValue('! comment'), '')
+  })
+})
+
+describe('isFoundation', () => {
+  it('returns true, when string contains value, which is either 1/1 ratio or 0.0 cent', () => {
+    assert.equal(isFoundation('1/1 ! comment'), true)
+    assert.equal(isFoundation('0.\tC'), true)
+  })
+  it('returns false, when string contains no value', () => {
+    assert.equal(isFoundation('! comment'), false)
+    assert.equal(isFoundation(''), false)
+  })
+  it('returns false, when value is non-zero cent or ratio other, than 1/1', () => {
+    assert.equal(isFoundation('300.4'), false)
+    assert.equal(isFoundation('3/2'), false)
+  })
+  it('returns false, when given ratio simplifies to 1/1, but individual numbers are bigger, than 1', () => {
+    assert.equal(isFoundation('3/3'), false)
   })
 })
