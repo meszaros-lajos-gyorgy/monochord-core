@@ -77,6 +77,15 @@ describe('isRatio', () => {
     assert.equal(isRatio('12//4'), false)
     assert.equal(isRatio('12/3/4'), false)
   })
+  it('returns false, when given number is in a scientific notation', () => {
+    assert.equal(isRatio('125e5'), false)
+  })
+  it('returns false, when given string contains one or more float values', () => {
+    assert.equal(isRatio('3/2.4'), false)
+    assert.equal(isRatio('3.2'), false)
+    assert.equal(isRatio('6.5/3'), false)
+    assert.equal(isRatio('6.5/3.8'), false)
+  })
 })
 
 describe('isCent', () => {
@@ -98,6 +107,13 @@ describe('isCent', () => {
     assert.equal(isCent('100.0 cents'), true)
     assert.equal(isCent('100.0\tC#'), true)
     assert.equal(isCent('100.0    C#'), true)
+  })
+
+  it('returns false, when given number is in a scientific notation', () => {
+    assert.equal(isCent('125e5'), false)
+  })
+  it('returns false, when given string contains a ratio', () => {
+    assert.equal(isCent('3/2'), false)
   })
   it('returns false, when given string does not start with a number', () => {
     assert.equal(isCent('! hello'), false)
