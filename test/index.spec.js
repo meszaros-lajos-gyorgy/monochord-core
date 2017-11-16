@@ -6,7 +6,8 @@ import {
   isHumanReadableAscii,
   isComment,
   isRatio,
-  isCent
+  isCent,
+  splitToLines
 } from '../src/index'
 
 describe('isHumanReadableAscii', () => {
@@ -126,5 +127,15 @@ describe('isCent', () => {
   it('returns false, when given number has more, than 1 dot in it', () => {
     assert.equal(isCent('26.2.4'), false)
     assert.equal(isCent('26..4'), false)
+  })
+})
+
+describe('splitToLines', () => {
+  it('splits a string upon newline characters', () => {
+    assert.deepEqual(splitToLines('a\nb\nc'), ['a', 'b', 'c'])
+  })
+  it('accepts both windows and unix type newlines', () => {
+    assert.deepEqual(splitToLines('a\nb'), ['a', 'b'])
+    assert.deepEqual(splitToLines('a\r\nb'), ['a', 'b'])
   })
 })

@@ -3,7 +3,8 @@
 
 import {
   test,
-  startsWith
+  startsWith,
+  split
 } from 'ramda'
 
 // The files are human readable ASCII or 8-bit character text-files.
@@ -40,9 +41,12 @@ const isRatio = test(/^[\t ]*\d+(\/\d+)?([ \t]+.*)?$/)
 // Files for which Scala gives Error in file format are incorrectly formatted.
 // They should give a read error and be rejected.
 
+const splitToLines = split(/\r?\n/g)
+
 export {
   isHumanReadableAscii,
   isComment,
   isRatio,
-  isCent
+  isCent,
+  splitToLines
 }
