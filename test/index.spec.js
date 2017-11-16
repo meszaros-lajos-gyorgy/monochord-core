@@ -5,6 +5,7 @@ import assert from 'assert'
 import {
   isHumanReadableAscii,
   isComment,
+  removeComments,
   isCent,
   isRatio,
   isValidPitch,
@@ -49,6 +50,12 @@ describe('isComment', () => {
   it('returns false, when the given string does not start with an exclamation mark', () => {
     assert.equal(isComment('    ! This has some whitespaces at the beginning'), false)
     assert.equal(isComment('12.45'), false)
+  })
+})
+
+describe('removeComments', () => {
+  it('removes comments from an array of strings', () => {
+    assert.deepEqual(removeComments(['! comment', '2', '! another comment']), ['2'])
   })
 })
 

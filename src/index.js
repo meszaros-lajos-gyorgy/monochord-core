@@ -10,7 +10,8 @@ import {
   replace,
   either,
   always,
-  equals
+  equals,
+  reject
 } from 'ramda'
 
 // The files are human readable ASCII or 8-bit character text-files.
@@ -20,6 +21,7 @@ const isHumanReadableAscii = test(/^[\x20-\x7E]*$/)
 
 // Lines beginning with an exclamation mark are regarded as comments and are to be ignored.
 const isComment = startsWith('!')
+const removeComments = reject(isComment)
 
 // The first (non comment) line contains a short description of the scale, but long lines are possible and should not give a read error.
 // The description is only one line.
@@ -68,6 +70,7 @@ const splitToLines = split(/\r?\n/g)
 export {
   isHumanReadableAscii,
   isComment,
+  removeComments,
   isCent,
   isRatio,
   isValidPitch,
