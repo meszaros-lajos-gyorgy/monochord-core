@@ -4,7 +4,9 @@ import assert from 'assert'
 
 import {
   isHumanReadableAscii,
-  isComment
+  isComment,
+  isRatio,
+  isCent
 } from '../src/index'
 
 describe('isHumanReadableAscii', () => {
@@ -41,5 +43,72 @@ describe('isComment', () => {
   it('returns false, when the given string does not start with an exclamation mark', () => {
     assert.equal(isComment('    ! This has some whitespaces at the beginning'), false)
     assert.equal(isComment('12.45'), false)
+  })
+})
+
+describe('isRatio', () => {
+  it('returns true, when given string contains one positive integer, or two separated by a slash', () => {
+    assert.equal(isRatio('81/64'), true)
+    assert.equal(isRatio('5'), true)
+  })
+  it('ignores leading spages and tabs', () => {
+    assert.equal(isRatio(' 10/20'), true)
+    assert.equal(isRatio('\t10/20'), true)
+    assert.equal(isRatio('\t  \t10'), true)
+  })
+  it('ignores stuff written after the ratio, when there is a space or tab after it', () => {
+    assert.equal(isRatio('5/4 E\\'), true)
+    assert.equal(isRatio('5/4\tE\\'), true)
+    assert.equal(isRatio('5   E\\'), true)
+  })
+
+  it('returns false for negative integers or ratios', () => {
+    assert.equal(isRatio('-4'), false)
+    assert.equal(isRatio('-4/3'), false)
+    assert.equal(isRatio('4/-3'), false)
+    assert.equal(isRatio('-4/-3'), false)
+  })
+  it('returns false, when given string does not start with a number', () => {
+    assert.equal(isRatio('! hello'), false)
+    assert.equal(isRatio('  _12'), false)
+    assert.equal(isRatio('\t*12'), false)
+  })
+  it('returns false, when given ratio contains more, than 1 slashes', () => {
+    assert.equal(isRatio('12//4'), false)
+    assert.equal(isRatio('12/3/4'), false)
+  })
+})
+
+describe('isCent', () => {
+  it('returns true, when given string contains a float written in decimal notation', () => {
+    assert.equal(isCent('408.0'), true)
+  })
+  it('returns true for negative values too', () => {
+    assert.equal(isCent('-5.0'), true)
+  })
+  it('returns true, when the decimal part is skipped, but the point is kept', () => {
+    assert.equal(isCent('408.'), true)
+  })
+  it('ignores leading spages and tabs', () => {
+    assert.equal(isCent(' 100.0'), true)
+    assert.equal(isCent('\t100.0'), true)
+    assert.equal(isCent('\t  \t100.0'), true)
+  })
+  it('ignores stuff written after the cent, when there is a space or tab after it', () => {
+    assert.equal(isCent('100.0 cents'), true)
+    assert.equal(isCent('100.0\tC#'), true)
+    assert.equal(isCent('100.0    C#'), true)
+  })
+  it('returns false, when given string does not start with a number', () => {
+    assert.equal(isCent('! hello'), false)
+    assert.equal(isCent('  _12'), false)
+    assert.equal(isCent('\t*12'), false)
+  })
+  it('returns false, when given number doesn\'t have any dots in it', () => {
+    assert.equal(isCent('26'), false)
+  })
+  it('returns false, when given number has more, than 1 dot in it', () => {
+    assert.equal(isCent('26.2.4'), false)
+    assert.equal(isCent('26..4'), false)
   })
 })
