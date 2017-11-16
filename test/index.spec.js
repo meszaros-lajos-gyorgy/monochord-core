@@ -5,8 +5,11 @@ import assert from 'assert'
 import {
   isHumanReadableAscii,
   isComment,
-  isRatio,
   isCent,
+  isRatio,
+  isValidPitch,
+  ignoreAllAfterPitch,
+  ignoreLeadingWhitespace,
   splitToLines,
   getValue,
   isFoundation
@@ -46,6 +49,50 @@ describe('isComment', () => {
   it('returns false, when the given string does not start with an exclamation mark', () => {
     assert.equal(isComment('    ! This has some whitespaces at the beginning'), false)
     assert.equal(isComment('12.45'), false)
+  })
+})
+
+describe('isCent', () => {
+  it('returns true, when given string contains a float written in decimal notation', () => {
+    assert.equal(isCent('408.0'), true)
+  })
+  it('returns true for negative values too', () => {
+    assert.equal(isCent('-5.0'), true)
+  })
+  it('returns true, when the decimal part is skipped, but the point is kept', () => {
+    assert.equal(isCent('408.'), true)
+  })
+  it('ignores leading spages and tabs', () => {
+    assert.equal(isCent(' 100.0'), true)
+    assert.equal(isCent('\t100.0'), true)
+    assert.equal(isCent('\t  \t100.0'), true)
+  })
+  it('ignores stuff written after the cent, when there is a space or tab after it', () => {
+    assert.equal(isCent('100.0 cents'), true)
+    assert.equal(isCent('100.0\tC#'), true)
+    assert.equal(isCent('100.0    C#'), true)
+  })
+
+  it('returns false, when given number is in a scientific notation', () => {
+    assert.equal(isCent('125e5'), false)
+  })
+  it('returns false, when given string contains a ratio', () => {
+    assert.equal(isCent('3/2'), false)
+  })
+  it('returns false, when given string does not start with a number', () => {
+    assert.equal(isCent('! hello'), false)
+    assert.equal(isCent('  _12'), false)
+    assert.equal(isCent('\t*12'), false)
+  })
+  it('returns false, when given number doesn\'t have any dots in it', () => {
+    assert.equal(isCent('26'), false)
+  })
+  it('returns false, when given number has more, than 1 dot in it', () => {
+    assert.equal(isCent('26.2.4'), false)
+    assert.equal(isCent('26..4'), false)
+  })
+  it('returns false, when there is some content after the cent, but it\'s not separated with a space or tab', () => {
+    assert.equal(isCent('30.3! comment'), false)
   })
 })
 
@@ -94,47 +141,37 @@ describe('isRatio', () => {
   })
 })
 
-describe('isCent', () => {
-  it('returns true, when given string contains a float written in decimal notation', () => {
-    assert.equal(isCent('408.0'), true)
+describe('isValidPitch', () => {
+  it('returns true, when given value is a cent', () => {
+    const cent = '3.2'
+    assert.equal(isCent(cent), true)
+    assert.equal(isValidPitch(cent), true)
   })
-  it('returns true for negative values too', () => {
-    assert.equal(isCent('-5.0'), true)
+  it('returns true, when given value is a ratio', () => {
+    const ratio = '6/5'
+    assert.equal(isRatio(ratio), true)
+    assert.equal(isValidPitch(ratio), true)
   })
-  it('returns true, when the decimal part is skipped, but the point is kept', () => {
-    assert.equal(isCent('408.'), true)
+  it('returns false, when given value is not a cent or a ratio', () => {
+    const value = '! comment'
+    assert.equal(isCent(value), false)
+    assert.equal(isRatio(value), false)
+    assert.equal(isValidPitch(value), false)
   })
-  it('ignores leading spages and tabs', () => {
-    assert.equal(isCent(' 100.0'), true)
-    assert.equal(isCent('\t100.0'), true)
-    assert.equal(isCent('\t  \t100.0'), true)
-  })
-  it('ignores stuff written after the cent, when there is a space or tab after it', () => {
-    assert.equal(isCent('100.0 cents'), true)
-    assert.equal(isCent('100.0\tC#'), true)
-    assert.equal(isCent('100.0    C#'), true)
-  })
+})
 
-  it('returns false, when given number is in a scientific notation', () => {
-    assert.equal(isCent('125e5'), false)
+describe('ignoreAllAfterPitch', () => {
+  it('removes everything after the first space or tab, which is not at the beginning of the string', () => {
+    assert.equal(getValue('17/4 E#'), '17/4')
+    assert.equal(getValue('30.2\t12'), '30.2')
+    assert.equal(getValue('-5. ! hello'), '-5.')
   })
-  it('returns false, when given string contains a ratio', () => {
-    assert.equal(isCent('3/2'), false)
-  })
-  it('returns false, when given string does not start with a number', () => {
-    assert.equal(isCent('! hello'), false)
-    assert.equal(isCent('  _12'), false)
-    assert.equal(isCent('\t*12'), false)
-  })
-  it('returns false, when given number doesn\'t have any dots in it', () => {
-    assert.equal(isCent('26'), false)
-  })
-  it('returns false, when given number has more, than 1 dot in it', () => {
-    assert.equal(isCent('26.2.4'), false)
-    assert.equal(isCent('26..4'), false)
-  })
-  it('returns false, when there is some content after the cent, but it\'s not separated with a space or tab', () => {
-    assert.equal(isCent('30.3! comment'), false)
+})
+
+describe('ignoreLeadingWhitespace', () => {
+  it('strips off leading spaces and tabs', () => {
+    assert.equal(getValue('  100.3'), '100.3')
+    assert.equal(getValue('\t100.3'), '100.3')
   })
 })
 

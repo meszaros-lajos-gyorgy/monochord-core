@@ -38,15 +38,18 @@ const isRatio = test(/^[\t ]*\d+(\/\d+)?([ \t]+.*)?$/)
 // Integer values with no period or slash should be regarded as such, for example "2" should be taken as "2/1".
 // Numerators and denominators should be supported to at least (2^31)-1 = 2147483647.
 // Anything after a valid pitch value should be ignored.
+const isValidPitch = either(isCent, isRatio)
+const ignoreAllAfterPitch = replace(/^([^ \t]+).*$/, '$1')
 // Space or horizontal tab characters are allowed and should be ignored.
+const ignoreLeadingWhitespace = replace(/^[ \t]*/, '')
 // Negative ratios are meaningless and should give a read error.
 // For a description of cents, go here(http://www.huygens-fokker.org/docs/measures.html#Ellis).
 
 const getValue = ifElse(
-  either(isCent, isRatio),
+  isValidPitch,
   compose(
-    replace(/^([^ \t]+).*$/, '$1'),
-    replace(/^[ \t]*/, '')
+    ignoreAllAfterPitch,
+    ignoreLeadingWhitespace
   ),
   always('')
 )
@@ -65,8 +68,11 @@ const splitToLines = split(/\r?\n/g)
 export {
   isHumanReadableAscii,
   isComment,
-  isRatio,
   isCent,
+  isRatio,
+  isValidPitch,
+  ignoreAllAfterPitch,
+  ignoreLeadingWhitespace,
   getValue,
   isFoundation,
   splitToLines
