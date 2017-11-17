@@ -11,7 +11,16 @@ import {
   either,
   always,
   equals,
-  reject
+  reject,
+  all,
+  nth,
+  both,
+  allPass,
+  converge,
+  subtract,
+  __,
+  length,
+  slice
 } from 'ramda'
 
 // The files are human readable ASCII or 8-bit character text-files.
@@ -28,10 +37,12 @@ const removeComments = reject(isComment)
 // The description is only one line.
 // If there is no description, there should be an empty line.
 
-// The second line contains the number of notes. This number indicates the number of lines with pitch values that follow.
+// The second line contains the number of notes.
+// This number indicates the number of lines with pitch values that follow.
 // In principle there is no upper limit to this, but it is allowed to reject files exceeding a certain size.
 // The lower limit is 0, which is possible since degree 0 of 1/1 is implicit.
 // Spaces before or after the number are allowed.
+const isValidNumberOfNotes = test(/^[ ]*\d+[ ]*$/)
 
 // After that come the pitch values, each on a separate line, either as a ratio or as a value in cents.
 // If the value contains a period, it is a cents value, otherwise a ratio.
@@ -66,6 +77,27 @@ const isFoundation = compose(
 // Files for which Scala gives Error in file format are incorrectly formatted.
 // They should give a read error and be rejected.
 
+const isValidScalaFormat = compose(
+  both(
+    all(isHumanReadableAscii),
+    compose(
+      allPass([
+        compose(isValidNumberOfNotes, nth(1)), // the 2nd line is a positive integer
+        converge(equals, [ // 2nd line == number of notes
+          compose(subtract(__, 2), length), // the number of lines after the 2nd line
+          compose(parseInt, nth(1)) // the numeric value of the 2nd line
+        ]),
+        compose( // every note is valid
+          all(isValidPitch),
+          slice(2, Infinity) // remove 1st and 2nd lines to leave only the notes
+        )
+      ]),
+      removeComments
+    )
+  ),
+  splitToLines
+)
+
 export {
   isHumanReadableAscii,
   splitToLines,
@@ -77,5 +109,6 @@ export {
   ignoreAllAfterPitch,
   ignoreLeadingWhitespace,
   getValue,
-  isFoundation
+  isFoundation,
+  isValidScalaFormat
 }
