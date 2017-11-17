@@ -14,13 +14,13 @@ import {
   reject,
   all,
   nth,
-  both,
   allPass,
   converge,
   subtract,
   __,
   length,
-  slice
+  slice,
+  gte
 } from 'ramda'
 
 // The files are human readable ASCII or 8-bit character text-files.
@@ -78,7 +78,8 @@ const isFoundation = compose(
 // They should give a read error and be rejected.
 
 const isValidScalaScale = compose(
-  both(
+  allPass([
+    compose(gte(__, 2), length),
     all(isHumanReadableAscii),
     compose(
       allPass([
@@ -94,7 +95,7 @@ const isValidScalaScale = compose(
       ]),
       removeComments
     )
-  ),
+  ]),
   splitToLines
 )
 
