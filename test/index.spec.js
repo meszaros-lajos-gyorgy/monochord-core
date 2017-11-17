@@ -13,7 +13,8 @@ import {
   ignoreAllAfterPitch,
   ignoreLeadingWhitespace,
   getValue,
-  isFoundation
+  isFoundation,
+  hasMoreElementsThan
 } from '../src/index'
 
 describe('isHumanReadableAscii', () => {
@@ -223,5 +224,17 @@ describe('isFoundation', () => {
   it('returns false, when given ratio simplifies to 1/1, but individual numbers are bigger, than 1', () => {
     // TODO: is this the correct behavior?
     assert.equal(isFoundation('3/3'), false)
+  })
+})
+
+describe('hasMoreElementsThan', () => {
+  it('returns true, when given number is less, than the length of the given array', () => {
+    assert.equal(hasMoreElementsThan(1, [1, 2, 3]), true)
+  })
+  it('returns false, when given number matches the length of the given array', () => {
+    assert.equal(hasMoreElementsThan(3, [1, 2, 3]), false)
+  })
+  it('returns false, when given number is less, than the length of the given array', () => {
+    assert.equal(hasMoreElementsThan(7, [1, 2, 3]), false)
   })
 })

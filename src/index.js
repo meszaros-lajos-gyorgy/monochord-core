@@ -20,7 +20,8 @@ import {
   __,
   length,
   slice,
-  gte
+  gt,
+  curry
 } from 'ramda'
 
 // The files are human readable ASCII or 8-bit character text-files.
@@ -77,9 +78,11 @@ const isFoundation = compose(
 // Files for which Scala gives Error in file format are incorrectly formatted.
 // They should give a read error and be rejected.
 
+const hasMoreElementsThan = curry((n, array) => compose(gt(__, n), length)(array))
+
 const isValidScale = compose(
   allPass([
-    compose(gte(__, 2), length),
+    hasMoreElementsThan(1),
     all(isHumanReadableAscii),
     compose(
       allPass([
@@ -111,5 +114,6 @@ export {
   ignoreLeadingWhitespace,
   getValue,
   isFoundation,
+  hasMoreElementsThan,
   isValidScale
 }
