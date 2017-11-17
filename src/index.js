@@ -77,7 +77,7 @@ const isFoundation = compose(
 // Files for which Scala gives Error in file format are incorrectly formatted.
 // They should give a read error and be rejected.
 
-const isValidScalaScale = compose(
+const isValidScale = compose(
   allPass([
     compose(gte(__, 2), length),
     all(isHumanReadableAscii),
@@ -111,5 +111,5 @@ export {
   ignoreLeadingWhitespace,
   getValue,
   isFoundation,
-  isValidScalaScale
+  isValidScale
 }
