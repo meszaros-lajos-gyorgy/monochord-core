@@ -15,6 +15,7 @@ import {
   all,
   head,
   tail,
+  drop,
   allPass,
   converge,
   __,
@@ -92,7 +93,7 @@ const isValidScale = compose(
         ]),
         compose(all(isValidPitch), tail) // every pitch is valid
       ]),
-      tail, // we don't care about the description
+      drop(1), // we don't care about the description
       removeComments
     )
   ]),
