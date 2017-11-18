@@ -181,16 +181,16 @@ describe('isValidPitch', () => {
 
 describe('ignoreAllAfterPitch', () => {
   it('removes everything after the first space or tab, which is not at the beginning of the string', () => {
-    assert.equal(getValue('17/4 E#'), '17/4')
-    assert.equal(getValue('30.2\t12'), '30.2')
-    assert.equal(getValue('-5. ! hello'), '-5.')
+    assert.equal(ignoreAllAfterPitch('17/4 E#'), '17/4')
+    assert.equal(ignoreAllAfterPitch('30.2\t12'), '30.2')
+    assert.equal(ignoreAllAfterPitch('-5. ! hello'), '-5.')
   })
 })
 
 describe('ignoreLeadingWhitespace', () => {
   it('strips off leading spaces and tabs', () => {
-    assert.equal(getValue('  100.3'), '100.3')
-    assert.equal(getValue('\t100.3'), '100.3')
+    assert.equal(ignoreLeadingWhitespace('  100.3'), '100.3')
+    assert.equal(ignoreLeadingWhitespace('\t100.3'), '100.3')
   })
 })
 
@@ -224,6 +224,7 @@ describe('isFoundation', () => {
   })
   it('returns false, when given ratio simplifies to 1/1, but individual numbers are bigger, than 1', () => {
     // TODO: is this the correct behavior?
+    // "1/1 or 0.0 cents is implicit"
     assert.equal(isFoundation('3/3'), false)
   })
 })
@@ -311,7 +312,30 @@ the number of notes is not on the 2nd non-comment line
 `
     assert.equal(isValidScale(scl), false)
   })
+  it('returns false, when given scale starts with a foundation pitch (1/1 or 0.0 cents)', () => {
+    const scl =
+`Tuning name
+2
+1/1
+700.`
+    assert.equal(isValidScale(scl), false)
+  })
 
+  // ---------
+
+  it('returns true, when given scale contains a foundation pitch (1/1 or 0.0 cents) anywhere, but the first note', () => {
+    // TODO: is this the correct behavior?
+    // "The first note of 1/1 or 0.0 cents is implicit and not in the files."
+    const scl =
+`Tuning name
+5
+900.
+400.
+0.
+-200.
+-400.`
+    assert.equal(isValidScale(scl), true)
+  })
   it('returns true, when given scale contains 0 notes', () => {
     const scl1 =
 `Tuning with 0 notes

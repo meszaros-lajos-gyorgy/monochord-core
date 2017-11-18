@@ -21,7 +21,9 @@ import {
   __,
   length,
   gte,
-  curry
+  curry,
+  not,
+  both
 } from 'ramda'
 
 // The files are human readable ASCII or 8-bit character text-files.
@@ -91,7 +93,10 @@ const isValidScale = compose(
           compose(length, tail),
           compose(parseInt, head)
         ]),
-        compose(all(isValidPitch), tail) // every pitch is valid
+        compose(both(
+          compose(not, isFoundation, head),
+          all(isValidPitch)
+        ), tail) // every pitch is valid
       ]),
       drop(1), // we don't care about the description
       removeComments
