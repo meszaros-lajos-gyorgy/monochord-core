@@ -13,12 +13,12 @@ import {
   equals,
   reject,
   all,
-  nth,
+  head,
+  tail,
   allPass,
   converge,
   __,
   length,
-  drop,
   gt,
   curry
 } from 'ramda'
@@ -85,16 +85,14 @@ const isValidScale = compose(
     all(isHumanReadableAscii),
     compose(
       allPass([
-        compose(isValidNumberOfNotes, nth(1)), // the 2nd line is a positive integer
-        converge(equals, [ // 2nd line == number of notes
-          compose(length, drop(2)), // the number of lines after the 2nd line
-          compose(parseInt, nth(1)) // the numeric value of the 2nd line
+        compose(isValidNumberOfNotes, head), // the 1nd line is a positive integer
+        converge(equals, [ // 1st line == number of pitches
+          compose(length, tail),
+          compose(parseInt, head)
         ]),
-        compose( // every note is valid
-          all(isValidPitch),
-          drop(2)
-        )
+        compose(all(isValidPitch), tail) // every pitch is valid
       ]),
+      tail, // we don't care about the description
       removeComments
     )
   ]),
