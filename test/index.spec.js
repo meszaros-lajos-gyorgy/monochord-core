@@ -262,7 +262,7 @@ This only has a single non-comment line
     const scl =
 `This is the description,
 which spreads to multiple lines, so
-the number of pitches is not on the 2nd non-comment line
+the number of notes is not on the 2nd non-comment line
 0`
     assert.equal(isValidScale(scl), false)
   })
@@ -275,6 +275,14 @@ the number of pitches is not on the 2nd non-comment line
 2 ! This also has a comment`
     assert.equal(isValidScale(scl1), false)
     assert.equal(isValidScale(scl2), false)
+  })
+  it('returns false, when 2nd non comment line contains tabs', () => {
+    // TODO: is this the correct behavior?
+    // "Spaces before or after the number are allowed."
+    const scl =
+`Tuning name
+\t0`
+    assert.equal(isValidScale(scl), false)
   })
   it('returns false, when non-comment lines starting from the 3rd line are not all valid pitches', () => {
     const scl =
@@ -302,5 +310,38 @@ the number of pitches is not on the 2nd non-comment line
 600.
 `
     assert.equal(isValidScale(scl), false)
+  })
+
+  it('returns true, when given scale contains 0 notes', () => {
+    const scl1 =
+`Tuning with 0 notes
+0`
+    const scl2 =
+`! demo.scl
+!
+Tuning with 0 notes
+! This is valid, since 1/1 or 0.0 is implicit
+0`
+    assert.equal(isValidScale(scl1), true)
+    assert.equal(isValidScale(scl2), true)
+  })
+  it('returns true, when description is an empty line', () => {
+    const scl1 =
+`
+0`
+    const scl2 =
+`! demo.scl
+!
+
+! No description here
+0`
+    assert.equal(isValidScale(scl1), true)
+    assert.equal(isValidScale(scl2), true)
+  })
+  it('returns true, when number of notes has spaces around it', () => {
+    const scl =
+`Dummy tuning
+      0   `
+    assert.equal(isValidScale(scl), true)
   })
 })
