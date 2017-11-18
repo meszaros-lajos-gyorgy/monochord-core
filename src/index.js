@@ -81,10 +81,10 @@ const hasAtLeastNElements = curry((n, array) => compose(gte(__, n), length)(arra
 
 const isValidScale = compose(
   allPass([
-    hasAtLeastNElements(2),
     all(isHumanReadableAscii),
     compose(
       allPass([
+        hasAtLeastNElements(1), // the code should have at least 1 non-comment lines
         compose(isValidNumberOfNotes, head), // the 1nd line is a positive integer
         converge(equals, [ // 1st line == number of pitches
           compose(length, tail),

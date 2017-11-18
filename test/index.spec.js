@@ -14,7 +14,8 @@ import {
   ignoreLeadingWhitespace,
   getValue,
   isFoundation,
-  hasAtLeastNElements
+  hasAtLeastNElements,
+  isValidScale
 } from '../src/index'
 
 describe('isHumanReadableAscii', () => {
@@ -236,5 +237,43 @@ describe('hasAtLeastNElements', () => {
   })
   it('returns false, when given number is less, than the length of the given array', () => {
     assert.equal(hasAtLeastNElements(7, [1, 2, 3]), false)
+  })
+})
+
+describe('isValidScale', () => {
+  it('returns false, when given text has less, than 2 non-comment lines', () => {
+    const scl1 =
+`This only has a single non-comment line`
+    const scl2 =
+` ! comments don't count
+This only has a single non-comment line
+! another comment
+! and another`
+    assert.equal(isValidScale(scl1), false)
+    assert.equal(isValidScale(scl2), false)
+  })
+  it('returns false, when given text contains non human readable ASCII characters', () => {
+    const scl =
+`¯\_(ツ)_/¯
+0`
+    assert.equal(isValidScale(scl), false)
+  })
+  it('returns false, when description spreads to multiple lines', () => {
+    const scl =
+`This is the description,
+which spreads to multiple lines, so
+the number of pitches is not on the 2nd non-comment line
+0`
+    assert.equal(isValidScale(scl), false)
+  })
+  it('returns false, when 2nd non-comment line is not purely a zero or positive integer', () => {
+    const scl1 =
+`Tuning name
+2.9`
+    const scl2 =
+`Tuning name
+2 ! This also has a comment`
+    assert.equal(isValidScale(scl1), false)
+    assert.equal(isValidScale(scl2), false)
   })
 })
