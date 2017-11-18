@@ -276,4 +276,31 @@ the number of pitches is not on the 2nd non-comment line
     assert.equal(isValidScale(scl1), false)
     assert.equal(isValidScale(scl2), false)
   })
+  it('returns false, when non-comment lines starting from the 3rd line are not all valid pitches', () => {
+    const scl =
+`Tuning name
+2
+3/2
+2...`
+    assert.equal(isValidScale(scl), false)
+  })
+  it('returns false, when number of non-comment lines after the 2nd don\'t match with the number written on the 2nd', () => {
+    const scl =
+`Tuning name
+2
+4/3
+5/4
+6/5
+7/6`
+    assert.equal(isValidScale(scl), false)
+  })
+  it('returns false, when given scale is okay, but ends with a newline', () => {
+    const scl =
+`Tuning name
+2
+300.
+600.
+`
+    assert.equal(isValidScale(scl), false)
+  })
 })
