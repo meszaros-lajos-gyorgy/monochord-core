@@ -16,10 +16,9 @@ import {
   nth,
   allPass,
   converge,
-  subtract,
   __,
   length,
-  slice,
+  drop,
   gt,
   curry
 } from 'ramda'
@@ -88,12 +87,12 @@ const isValidScale = compose(
       allPass([
         compose(isValidNumberOfNotes, nth(1)), // the 2nd line is a positive integer
         converge(equals, [ // 2nd line == number of notes
-          compose(subtract(__, 2), length), // the number of lines after the 2nd line
+          compose(length, drop(2)), // the number of lines after the 2nd line
           compose(parseInt, nth(1)) // the numeric value of the 2nd line
         ]),
         compose( // every note is valid
           all(isValidPitch),
-          slice(2, Infinity) // remove 1st and 2nd lines to leave only the notes
+          drop(2)
         )
       ]),
       removeComments
