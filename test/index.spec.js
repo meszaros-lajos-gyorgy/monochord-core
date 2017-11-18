@@ -14,7 +14,7 @@ import {
   ignoreLeadingWhitespace,
   getValue,
   isFoundation,
-  hasMoreElementsThan
+  hasAtLeastNElements
 } from '../src/index'
 
 describe('isHumanReadableAscii', () => {
@@ -227,14 +227,14 @@ describe('isFoundation', () => {
   })
 })
 
-describe('hasMoreElementsThan', () => {
+describe('hasAtLeastNElements', () => {
   it('returns true, when given number is less, than the length of the given array', () => {
-    assert.equal(hasMoreElementsThan(1, [1, 2, 3]), true)
+    assert.equal(hasAtLeastNElements(1, [1, 2, 3]), true)
   })
-  it('returns false, when given number matches the length of the given array', () => {
-    assert.equal(hasMoreElementsThan(3, [1, 2, 3]), false)
+  it('returns true, when given number matches the length of the given array', () => {
+    assert.equal(hasAtLeastNElements(3, [1, 2, 3]), true)
   })
   it('returns false, when given number is less, than the length of the given array', () => {
-    assert.equal(hasMoreElementsThan(7, [1, 2, 3]), false)
+    assert.equal(hasAtLeastNElements(7, [1, 2, 3]), false)
   })
 })

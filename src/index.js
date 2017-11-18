@@ -19,7 +19,7 @@ import {
   converge,
   __,
   length,
-  gt,
+  gte,
   curry
 } from 'ramda'
 
@@ -77,11 +77,11 @@ const isFoundation = compose(
 // Files for which Scala gives Error in file format are incorrectly formatted.
 // They should give a read error and be rejected.
 
-const hasMoreElementsThan = curry((n, array) => compose(gt(__, n), length)(array))
+const hasAtLeastNElements = curry((n, array) => compose(gte(__, n), length)(array))
 
 const isValidScale = compose(
   allPass([
-    hasMoreElementsThan(1),
+    hasAtLeastNElements(2),
     all(isHumanReadableAscii),
     compose(
       allPass([
@@ -111,6 +111,6 @@ export {
   ignoreLeadingWhitespace,
   getValue,
   isFoundation,
-  hasMoreElementsThan,
+  hasAtLeastNElements,
   isValidScale
 }
