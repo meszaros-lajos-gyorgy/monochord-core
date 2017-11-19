@@ -27,7 +27,7 @@ import {
 } from 'ramda'
 
 // The files are human readable ASCII or 8-bit character text-files.
-const isHumanReadableAscii = test(/^[\x20-\x7E]*$/)
+const isHumanReadableAscii = test(/^[\x20-\x7E\t]*$/)
 
 // There is one scale per file.
 

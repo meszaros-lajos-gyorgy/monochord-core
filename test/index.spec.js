@@ -29,10 +29,14 @@ describe('isHumanReadableAscii', () => {
   it('returns true, if the given string contains common special characters', () => {
     assert.equal(isHumanReadableAscii('.: ,;!?-_\'"+-=%*/\\()[]<>@&#'), true)
   })
+  it('returns true, if the given string contains tabs', () => {
+    // TODO: is this a correct behavior?
+    assert.equal(isHumanReadableAscii('12\tF#'), true)
+  })
   it('returns false, when given string contains control characters', () => {
     // https://en.wikipedia.org/wiki/Control_character#In_ASCII
     assert.equal(isHumanReadableAscii(String.fromCharCode(
-      0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+      0, 1, 2, 3, 4, 5, 6, 7, 8,
       10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
       20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
       30, 31, 127
@@ -182,7 +186,7 @@ describe('isValidPitch', () => {
 describe('ignoreAllAfterPitch', () => {
   it('removes everything after the first space or tab, which is not at the beginning of the string', () => {
     assert.equal(ignoreAllAfterPitch('17/4 E#'), '17/4')
-    assert.equal(ignoreAllAfterPitch('30.2\t12'), '30.2')
+    assert.equal(ignoreAllAfterPitch('30.256\t12'), '30.256')
     assert.equal(ignoreAllAfterPitch('-5. ! hello'), '-5.')
   })
 })
@@ -366,6 +370,24 @@ Tuning with 0 notes
     const scl =
 `Dummy tuning
       0   `
+    assert.equal(isValidScale(scl), true)
+  })
+  it('returns true, when given scale has equal number of notes written after the 2nd line', () => {
+    const scl =
+`Dummy tuning
+3
+ 6/5
+ 600.245
+ 1000.`
+    assert.equal(isValidScale(scl), true)
+  })
+  it('returns true, when given notes have anything written after them, if separated by at least a space or a tab', () => {
+    const scl =
+`Dummy tuning
+3
+6/5 E\\
+600.245\tF#
+1000.     ! a comment`
     assert.equal(isValidScale(scl), true)
   })
 })
