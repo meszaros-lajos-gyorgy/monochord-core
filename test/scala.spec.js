@@ -16,7 +16,7 @@ import {
   isFoundation,
   hasAtLeastNElements,
   isValidScale
-} from '../src/index'
+} from '../src/scala'
 
 describe('isHumanReadableAscii', () => {
   it('returns true, if the given string contains letters', () => {
