@@ -5,7 +5,9 @@ import {
   add,
   __,
   compose,
-  subtract
+  subtract,
+  multiply,
+  divide
 } from 'ramda'
 
 import {
@@ -18,10 +20,10 @@ import {
   maxBendingDistanceInSemitones
 } from './constants'
 
-const logX = curryN(2, memoize((base, n) => Math.log(n) / Math.log(base)))
+const logX = curryN(2, memoize((base, n) => divide(Math.log(n), Math.log(base))))
 
-const moveNUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, n, frequency) => frequency * Math.pow(ratioOfSymmetry, n / divisionsPerRatio)))
-const getDistanceInUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, frequency2, frequency1) => divisionsPerRatio * logX(ratioOfSymmetry, frequency2 / frequency1)))
+const moveNUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, n, frequency) => multiply(frequency, Math.pow(ratioOfSymmetry, divide(n, divisionsPerRatio)))))
+const getDistanceInUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, frequency2, frequency1) => multiply(divisionsPerRatio, logX(ratioOfSymmetry, divide(frequency2, frequency1)))))
 
 const moveNSemitones = moveNUnits(octaveRatio, semitonesPerOctave)
 const getDistanceInSemitones = getDistanceInUnits(octaveRatio, semitonesPerOctave)
