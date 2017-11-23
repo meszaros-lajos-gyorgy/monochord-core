@@ -2,13 +2,19 @@ import {
   memoize,
   clamp,
   curryN,
-  add,
   __,
-  compose,
+  compose
+} from 'ramda'
+
+import {
+  add,
   subtract,
   multiply,
-  divide
-} from 'ramda'
+  divide,
+  logX,
+  floor,
+  pow
+} from '../math/index'
 
 import {
   keyIdMin,
@@ -20,9 +26,7 @@ import {
   maxBendingDistanceInSemitones
 } from './constants'
 
-const logX = curryN(2, memoize((base, n) => divide(Math.log(n), Math.log(base))))
-
-const moveNUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, n, frequency) => multiply(frequency, Math.pow(ratioOfSymmetry, divide(n, divisionsPerRatio)))))
+const moveNUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, n, frequency) => multiply(frequency, pow(ratioOfSymmetry, divide(n, divisionsPerRatio)))))
 const getDistanceInUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, frequency2, frequency1) => multiply(divisionsPerRatio, logX(ratioOfSymmetry, divide(frequency2, frequency1)))))
 
 const moveNSemitones = moveNUnits(octaveRatio, semitonesPerOctave)
@@ -40,13 +44,12 @@ const getNoteFrequency = memoize(compose(
 ))
 
 const getNoteId = memoize(compose(
-  Math.floor,
+  floor,
   add(__, referenceNote.id),
   getDistanceInSemitones(__, referenceNote.frequency)
 ))
 
 export {
-  logX,
   moveNUnits,
   getDistanceInUnits,
   moveNSemitones,
