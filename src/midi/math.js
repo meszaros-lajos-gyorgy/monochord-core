@@ -26,8 +26,17 @@ import {
   maxBendingDistanceInSemitones
 } from './constants'
 
-const moveNUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, n, frequency) => multiply(frequency, pow(ratioOfSymmetry, divide(n, divisionsPerRatio)))))
-const getDistanceInUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, frequency2, frequency1) => multiply(divisionsPerRatio, logX(ratioOfSymmetry, divide(frequency2, frequency1)))))
+const moveNUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, n, frequency) => compose(
+  multiply(frequency),
+  pow(ratioOfSymmetry),
+  divide(n)
+)(divisionsPerRatio)))
+
+const getDistanceInUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, frequency2, frequency1) => compose(
+  multiply(divisionsPerRatio),
+  logX(ratioOfSymmetry),
+  divide(frequency2)
+)(frequency1)))
 
 const moveNSemitones = moveNUnits(octaveRatio, semitonesPerOctave)
 const getDistanceInSemitones = getDistanceInUnits(octaveRatio, semitonesPerOctave)
