@@ -35,17 +35,47 @@ describe('isHumanReadableAscii', () => {
   })
   it('returns false, when given string contains control characters', () => {
     // https://en.wikipedia.org/wiki/Control_character#In_ASCII
-    assert.equal(isHumanReadableAscii(String.fromCharCode(
-      0, 1, 2, 3, 4, 5, 6, 7, 8,
-      10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-      20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-      30, 31, 127
-    )), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(0)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(1)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(2)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(3)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(4)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(5)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(6)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(7)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(8)), false)
+    // skipping character 9, since that is TAB
+
+    assert.equal(isHumanReadableAscii(String.fromCharCode(10)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(11)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(12)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(13)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(14)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(15)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(16)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(17)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(18)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(19)), false)
+
+    assert.equal(isHumanReadableAscii(String.fromCharCode(20)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(21)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(22)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(23)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(24)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(25)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(26)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(27)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(28)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(29)), false)
+
+    assert.equal(isHumanReadableAscii(String.fromCharCode(30)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(31)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(127)), false)
   })
   it('returns false, when given string contains characters from extended ascii table', () => {
-    assert.equal(isHumanReadableAscii(String.fromCharCode(
-      128, 129, 130
-    )), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(128)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(129)), false)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(130)), false)
   })
 })
 
