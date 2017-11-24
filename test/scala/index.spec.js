@@ -7,6 +7,7 @@ import {
   splitToLines,
   isComment,
   removeComments,
+  isValidNumberOfNotes,
   isCent,
   isRatio,
   isValidPitch,
@@ -76,6 +77,9 @@ describe('isHumanReadableAscii', () => {
     assert.equal(isHumanReadableAscii(String.fromCharCode(129)), false)
     assert.equal(isHumanReadableAscii(String.fromCharCode(130)), false)
   })
+  it('returns false, when it gets a string with multibyte characters', () => {
+    assert.equal(isHumanReadableAscii('¯\_(ツ)_/¯'), false)
+  })
 })
 
 describe('splitToLines', () => {
@@ -101,6 +105,32 @@ describe('isComment', () => {
 describe('removeComments', () => {
   it('removes comments from an array of strings', () => {
     assert.deepEqual(removeComments(['! comment', '2', '! another comment']), ['2'])
+  })
+})
+
+describe('isValidNumberOfNotes', () => {
+  it('returns true, when given string contains a positive integer or zero', () => {
+    assert.equal(isValidNumberOfNotes('0'), true)
+    assert.equal(isValidNumberOfNotes('7'), true)
+  })
+  it('returns true, when number in the string is preceeded or succeeded by spaces', () => {
+    assert.equal(isValidNumberOfNotes('  32     '), true)
+  })
+
+  it('returns false, when given string contains a negative integer', () => {
+    assert.equal(isValidNumberOfNotes('-4'), false)
+  })
+  it('returns false, when given string is not an integer', () => {
+    assert.equal(isValidNumberOfNotes('2.9'), false)
+    assert.equal(isValidNumberOfNotes('X'), false)
+  })
+  it('returns false, when given number has any text after it', () => {
+    assert.equal(isValidNumberOfNotes('8 ! comment'), false)
+  })
+  it('returns false, when given line has tabs', () => {
+    // TODO: is this the correct behavior?
+    // "Spaces before or after the number are allowed."
+    assert.equal(isValidNumberOfNotes('\t8'), false)
   })
 })
 
@@ -300,7 +330,7 @@ the number of notes is not on the 2nd non-comment line
 0`
     assert.equal(isValidScale(scl), false)
   })
-  it('returns false, when 2nd non-comment line is not purely a zero or positive integer', () => {
+  it('returns false, when 2nd non-comment line is not a valid "number of notes" value', () => {
     const scl1 =
 `Tuning name
 2.9`
@@ -309,14 +339,6 @@ the number of notes is not on the 2nd non-comment line
 2 ! This also has a comment`
     assert.equal(isValidScale(scl1), false)
     assert.equal(isValidScale(scl2), false)
-  })
-  it('returns false, when 2nd non comment line contains tabs', () => {
-    // TODO: is this the correct behavior?
-    // "Spaces before or after the number are allowed."
-    const scl =
-`Tuning name
-\t0`
-    assert.equal(isValidScale(scl), false)
   })
   it('returns false, when non-comment lines starting from the 3rd line are not all valid pitches', () => {
     const scl =

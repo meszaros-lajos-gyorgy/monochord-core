@@ -110,6 +110,7 @@ export {
   splitToLines,
   isComment,
   removeComments,
+  isValidNumberOfNotes,
   isCent,
   isRatio,
   isValidPitch,
