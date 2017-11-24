@@ -31,7 +31,7 @@ describe('isHumanReadableAscii', () => {
   })
   it('returns true, if the given string contains tabs', () => {
     // TODO: is this a correct behavior?
-    assert.equal(isHumanReadableAscii('12\tF#'), true)
+    assert.equal(isHumanReadableAscii(String.fromCharCode(9)), true)
   })
   it('returns false, when given string contains control characters', () => {
     // https://en.wikipedia.org/wiki/Control_character#In_ASCII
@@ -44,7 +44,6 @@ describe('isHumanReadableAscii', () => {
     assert.equal(isHumanReadableAscii(String.fromCharCode(6)), false)
     assert.equal(isHumanReadableAscii(String.fromCharCode(7)), false)
     assert.equal(isHumanReadableAscii(String.fromCharCode(8)), false)
-    // skipping character 9, since that is TAB
 
     assert.equal(isHumanReadableAscii(String.fromCharCode(10)), false)
     assert.equal(isHumanReadableAscii(String.fromCharCode(11)), false)
