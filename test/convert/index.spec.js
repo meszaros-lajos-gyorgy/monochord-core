@@ -4,7 +4,9 @@ import assert from 'assert'
 
 import {
   fractionToCents,
-  centsToFraction
+  centsToFraction,
+  ratioToFraction,
+  fractionToRatio
 } from '../../src/convert/index'
 
 describe('fractionToCents', () => {
@@ -19,4 +21,14 @@ describe('centsToFraction', () => {
     assert.equal(centsToFraction(0), 1)
     assert.equal(centsToFraction(1200), 2)
   })
+})
+
+describe('ratioToFraction', () => {
+  it('converts a ratio to a fraction', () => {
+    assert.equal(ratioToFraction(3, 2), 1.5)
+  })
+})
+
+describe('fractionToRatio', () => {
+
 })
