@@ -3,6 +3,10 @@
 import assert from 'assert'
 
 import {
+  leastFactor,
+  getPrimeFactors,
+  greatestCommonDivisor,
+  getRepeatingDecimal,
   fractionToCents,
   centsToFraction,
   ratioToFraction,
@@ -30,5 +34,11 @@ describe('ratioToFraction', () => {
 })
 
 describe('fractionToRatio', () => {
-
+  it('converts a fraction back to a ratio made out of the smallest possible integers', () => {
+    assert.deepEqual(fractionToRatio(1.5), [3, 2])
+  })
+  it('assigns 1 as denominator to an integer', () => {
+    assert.deepEqual(fractionToRatio(4), [4, 1])
+    assert.deepEqual(fractionToRatio(7), [7, 1])
+  })
 })
