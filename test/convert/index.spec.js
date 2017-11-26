@@ -13,6 +13,33 @@ import {
   fractionToRatio
 } from '../../src/convert/index'
 
+describe('leastFactor', () => {
+  it('finds a given integers lowest divisor', () => {
+    assert.equal(leastFactor(10), 2)
+    assert.equal(leastFactor(81), 3)
+  })
+})
+describe('getPrimeFactors', () => {
+  it('breaks a number up into it\'s prime factors', () => {
+    assert.deepEqual(getPrimeFactors(20), [2, 2, 5])
+  })
+})
+describe('greatestCommonDivisor', () => {
+  it('finds the largest number, which divides all given numbers', () => {
+    assert.equal(greatestCommonDivisor(35, 55, 95), 5)
+    assert.equal(greatestCommonDivisor(10, 20), 10)
+  })
+})
+describe('getRepeatingDecimal', () => {
+  it('finds the repetition inside a fraction\'s decimals', () => {
+    assert.equal(getRepeatingDecimal(10/3), '3')
+  })
+  it('aligns the repetition based on how the decimals end', () => {
+    assert.equal(getRepeatingDecimal(0.931931931), '931')
+    assert.equal(getRepeatingDecimal(0.9319319319), '319')
+  })
+})
+
 describe('fractionToCents', () => {
   it('converts a fraction to cents', () => {
     assert.equal(fractionToCents(1), 0)
