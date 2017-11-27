@@ -18,10 +18,22 @@ describe('leastFactor', () => {
     assert.equal(leastFactor(10), 2)
     assert.equal(leastFactor(81), 3)
   })
+  it('returns NaN, when given number is not a valid integer', () => {
+    assert.equal(isNaN(leastFactor('eee')), true)
+    assert.equal(isNaN(leastFactor(Infinity)), true)
+    assert.equal(isNaN(leastFactor(false)), true)
+    assert.equal(isNaN(leastFactor(6.8)), true)
+  })
 })
 describe('getPrimeFactors', () => {
   it('breaks a number up into it\'s prime factors', () => {
     assert.deepEqual(getPrimeFactors(20), [2, 2, 5])
+  })
+  it('returns NaN, when given number is not a valid integer', () => {
+    assert.deepEqual(getPrimeFactors('eee'), [])
+    assert.deepEqual(getPrimeFactors(Infinity), [])
+    assert.deepEqual(getPrimeFactors(false), [])
+    assert.deepEqual(getPrimeFactors(6.8), [])
   })
 })
 describe('greatestCommonDivisor', () => {

@@ -16,12 +16,24 @@ import {
 } from '../midi/constants'
 
 function leastFactor (n) {
-  if (isNaN(n) || !isFinite(n)) return NaN
-  if (n === 0) return 0
-  if (n % 1 || n * n < 2) return 1
-  if (n % 2 === 0) return 2
-  if (n % 3 === 0) return 3
-  if (n % 5 === 0) return 5
+  if (!Number.isInteger(n)) {
+    return NaN
+  }
+  if (n === 0) {
+    return 0
+  }
+  if (n % 1 || n * n < 2) {
+    return 1
+  }
+  if (n % 2 === 0) {
+    return 2
+  }
+  if (n % 3 === 0) {
+    return 3
+  }
+  if (n % 5 === 0) {
+    return 5
+  }
   var m = Math.sqrt(n)
   for (var i = 7; i <= m; i += 30) {
     if (n % i === 0) return i
@@ -37,7 +49,7 @@ function leastFactor (n) {
 }
 
 function getPrimeFactors (n) {
-  if (isNaN(n) || !isFinite(n) || n % 1 || n === 0) {
+  if (!Number.isInteger(n) || n % 1 || n === 0) {
     return []
   }
   if (n < 0) {
