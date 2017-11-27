@@ -3,7 +3,14 @@
 import {
   compose,
   memoize,
-  __
+  __,
+  negate,
+  adjust,
+  concat,
+  of,
+  ifElse,
+  equals,
+  converge
 } from 'ramda'
 import {
   logX,
@@ -15,53 +22,77 @@ import {
   octaveRatio
 } from '../midi/constants'
 
-function leastFactor (n) {
+const leastFactor = n => {
+  let ret = n
+
   if (!Number.isInteger(n)) {
-    return NaN
+    ret = NaN
+  } else if (n === 0) {
+    ret = 0
+  } else if (n * n < 2) {
+    ret = 1
+  } else if (n % 2 === 0) {
+    ret = 2
+  } else if (n % 3 === 0) {
+    ret = 3
+  } else if (n % 5 === 0) {
+    ret = 5
+  } else {
+    const m = Math.sqrt(n)
+    for (let i = 7; i <= m; i += 30) {
+      if (n % i === 0) {
+        ret = i
+        break
+      } else if (n % (i + 4) === 0) {
+        ret = i + 4
+        break
+      } else if (n % (i + 6) === 0) {
+        ret = i + 6
+        break
+      } else if (n % (i + 10) === 0) {
+        ret = i + 10
+        break
+      } else if (n % (i + 12) === 0) {
+        ret = i + 12
+        break
+      } else if (n % (i + 16) === 0) {
+        ret = i + 16
+        break
+      } else if (n % (i + 22) === 0) {
+        ret = i + 22
+        break
+      } else if (n % (i + 24) === 0) {
+        ret = i + 24
+        break
+      }
+    }
   }
-  if (n === 0) {
-    return 0
-  }
-  if (n % 1 || n * n < 2) {
-    return 1
-  }
-  if (n % 2 === 0) {
-    return 2
-  }
-  if (n % 3 === 0) {
-    return 3
-  }
-  if (n % 5 === 0) {
-    return 5
-  }
-  var m = Math.sqrt(n)
-  for (var i = 7; i <= m; i += 30) {
-    if (n % i === 0) return i
-    if (n % (i + 4) === 0) return i + 4
-    if (n % (i + 6) === 0) return i + 6
-    if (n % (i + 10) === 0) return i + 10
-    if (n % (i + 12) === 0) return i + 12
-    if (n % (i + 16) === 0) return i + 16
-    if (n % (i + 22) === 0) return i + 22
-    if (n % (i + 24) === 0) return i + 24
-  }
-  return n
+
+  return ret
 }
 
-function getPrimeFactors (n) {
-  if (!Number.isInteger(n) || n % 1 || n === 0) {
-    return []
+const getPrimeFactors = n => {
+  let ret = []
+
+  if (Number.isInteger(n) && n !== 0) {
+    if (n < 0) {
+      ret = adjust(negate, 0, getPrimeFactors(-n))
+    } else {
+      ret = compose(
+        ifElse(
+          equals(n),
+          of,
+          converge(concat, [
+            of,
+            compose(getPrimeFactors, divide(n))
+          ])
+        ),
+        leastFactor
+      )(n)
+    }
   }
-  if (n < 0) {
-    var factors = getPrimeFactors(-n)
-    factors[0] *= -1
-    return factors
-  }
-  var minFactor = leastFactor(n)
-  if (n === minFactor) {
-    return [n]
-  }
-  return [minFactor].concat(getPrimeFactors(n / minFactor))
+
+  return ret
 }
 
 function greatestCommonDivisor (/* num1, num2, ... */) {

@@ -28,6 +28,10 @@ describe('leastFactor', () => {
 describe('getPrimeFactors', () => {
   it('breaks a number up into it\'s prime factors', () => {
     assert.deepEqual(getPrimeFactors(20), [2, 2, 5])
+    assert.deepEqual(getPrimeFactors(7), [7])
+  })
+  it('changes the first factor to negative, when given number is negative', () => {
+    assert.deepEqual(getPrimeFactors(-20), [-2, 2, 5])
   })
   it('returns NaN, when given number is not a valid integer', () => {
     assert.deepEqual(getPrimeFactors('eee'), [])
