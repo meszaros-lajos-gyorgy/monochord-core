@@ -12,16 +12,21 @@ import {
   equals,
   converge,
   map,
-  sort,
   reduce,
-  all,
-  contains,
   append,
   findIndex,
-  remove,
   head,
   tail,
-  curry
+  curry,
+  union,
+  inc,
+  identity,
+  flatten,
+  apply,
+  repeat,
+  zipWith,
+  min,
+  last
 } from 'ramda'
 
 import {
@@ -107,31 +112,31 @@ const getPrimeFactors = n => {
   return ret
 }
 
-const withoutOnce = curry((element, array) => remove(findIndex(equals(element), array), 1, array))
+const toZeroExponentPairs = map(compose(append(0), of)) // [2, 3, 5] => [[2, 0], [3, 0], [5, 0]]
 
-function greatestCommonDivisor () {
-  const factorsOfNumbers = compose(
-    sort((a, b) => a.length - b.length), // ascending
-    map(getPrimeFactors),
-    Array.from
-  )(arguments)
+// [[2, 0], [3, 0], [5, 0]] + [2, 2, 2, 3] => [[2, 3], [3, 1], [5, 0]]
+const countFactors = (acc, value) => converge(adjust(adjust(inc, 1)), [findIndex(compose(equals(value), head)), identity])(acc)
 
-  let numbers = tail(factorsOfNumbers)
+const getLowerExponent = (a, b) => [head(a), min(last(a), last(b))] // [2, 3] + [2, 2] => [2, 2]
+
+const intersectionWithRepeats = curry((a, b) => {
+  const base = compose(toZeroExponentPairs, union)(a, b)
+  const factoredA = reduce(countFactors, base, a)
+  const factoredB = reduce(countFactors, base, b)
 
   return compose(
-    reduce(multiply, 1),
-    reduce((factors, factor) => {
-      if (all(contains(factor), numbers)) {
-        // TODO: the line below changes the values on "numbers". Need another way to do this
-        numbers = map(withoutOnce(factor), numbers)
+    flatten,
+    map(apply(repeat)),
+    zipWith(getLowerExponent)
+  )(factoredA, factoredB)
+})
 
-        return append(factor, factors)
-      } else {
-        return factors
-      }
-    }, []),
-    head
-  )(factorsOfNumbers)
+function greatestCommonDivisor () {
+  return compose(
+    reduce(multiply, 1),
+    converge(reduce(intersectionWithRepeats), [head, tail]),
+    map(getPrimeFactors)
+  )(Array.from(arguments))
 }
 
 // http://stackoverflow.com/a/10803250/1806628
