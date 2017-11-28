@@ -5,7 +5,7 @@ import assert from 'assert'
 import {
   leastFactor,
   getPrimeFactors,
-  greatestCommonDivisor,
+  findGreatestCommonDivisor,
   getRepeatingDecimal,
   fractionToCents,
   centsToFraction,
@@ -40,11 +40,11 @@ describe('getPrimeFactors', () => {
     assert.deepEqual(getPrimeFactors(6.8), [])
   })
 })
-describe('greatestCommonDivisor', () => {
+describe('findGreatestCommonDivisor', () => {
   it('finds the largest number, which divides all given numbers', () => {
-    assert.equal(greatestCommonDivisor(35, 55, 95), 5)
-    assert.equal(greatestCommonDivisor(10, 20), 10)
-    assert.equal(greatestCommonDivisor(200, 48, 80), 8)
+    assert.equal(findGreatestCommonDivisor([35, 55, 95]), 5)
+    assert.equal(findGreatestCommonDivisor([10, 20]), 10)
+    assert.equal(findGreatestCommonDivisor([200, 48, 80]), 8)
   })
 })
 describe('getRepeatingDecimal', () => {

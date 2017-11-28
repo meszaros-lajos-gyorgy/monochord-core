@@ -131,13 +131,11 @@ const intersectionWithRepeats = curry((a, b) => {
   )(factoredA, factoredB)
 })
 
-function greatestCommonDivisor () {
-  return compose(
-    reduce(multiply, 1),
-    converge(reduce(intersectionWithRepeats), [head, tail]),
-    map(getPrimeFactors)
-  )(Array.from(arguments))
-}
+const findGreatestCommonDivisor = compose(
+  reduce(multiply, 1),
+  converge(reduce(intersectionWithRepeats), [head, tail]),
+  map(getPrimeFactors)
+)
 
 // http://stackoverflow.com/a/10803250/1806628
 function getRepeatingDecimal (fraction) {
@@ -176,7 +174,7 @@ const fractionToRatio = fraction => {
     : Math.pow(10, fraction.toString().split('.')[1].length)
   )
 
-  multiplier /= greatestCommonDivisor(fraction * multiplier, multiplier)
+  multiplier /= findGreatestCommonDivisor([fraction * multiplier, multiplier])
 
   return [fraction * multiplier, multiplier]
 }
@@ -184,7 +182,7 @@ const fractionToRatio = fraction => {
 export {
   leastFactor,
   getPrimeFactors,
-  greatestCommonDivisor,
+  findGreatestCommonDivisor,
   getRepeatingDecimal,
   fractionToCents,
   centsToFraction,
