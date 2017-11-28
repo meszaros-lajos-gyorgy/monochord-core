@@ -24,9 +24,9 @@ import {
   flatten,
   apply,
   repeat,
+  zip,
   zipWith,
-  min,
-  last
+  min
 } from 'ramda'
 
 import {
@@ -112,22 +112,22 @@ const getPrimeFactors = n => {
   return ret
 }
 
-const toZeroExponentPairs = map(compose(append(0), of)) // [2, 3, 5] => [[2, 0], [3, 0], [5, 0]]
-
-// [[2, 0], [3, 0], [5, 0]] + [2, 2, 2, 3] => [[2, 3], [3, 1], [5, 0]]
-const countFactors = (acc, value) => converge(adjust(adjust(inc, 1)), [findIndex(compose(equals(value), head)), identity])(acc)
-
-const getLowerExponent = (a, b) => [head(a), min(last(a), last(b))] // [2, 3] + [2, 2] => [2, 2]
+const toCounterPairs = map(compose(append(0), of))
+const addToCounterPairs = (counters, value) => converge(adjust(adjust(inc, 1)), [findIndex(compose(equals(value), head)), identity])(counters)
+const concatCounters = compose(adjust(head, 0), zip)
 
 const intersectionWithRepeats = curry((a, b) => {
-  const base = compose(toZeroExponentPairs, union)(a, b)
-  const factoredA = reduce(countFactors, base, a)
-  const factoredB = reduce(countFactors, base, b)
+  const counter = compose(toCounterPairs, union)(a, b)
+  const factoredA = reduce(addToCounterPairs, counter, a)
+  const factoredB = reduce(addToCounterPairs, counter, b)
 
   return compose(
     flatten,
-    map(apply(repeat)),
-    zipWith(getLowerExponent)
+    map(compose(
+      apply(repeat),
+      adjust(apply(min), 1)
+    )),
+    zipWith(concatCounters)
   )(factoredA, factoredB)
 })
 
@@ -182,6 +182,10 @@ const fractionToRatio = fraction => {
 export {
   leastFactor,
   getPrimeFactors,
+  toCounterPairs,
+  addToCounterPairs,
+  concatCounters,
+  intersectionWithRepeats,
   findGreatestCommonDivisor,
   getRepeatingDecimal,
   fractionToCents,

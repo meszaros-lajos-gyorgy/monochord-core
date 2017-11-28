@@ -5,6 +5,10 @@ import assert from 'assert'
 import {
   leastFactor,
   getPrimeFactors,
+  toCounterPairs,
+  addToCounterPairs,
+  concatCounters,
+  intersectionWithRepeats,
   findGreatestCommonDivisor,
   getRepeatingDecimal,
   fractionToCents,
@@ -40,6 +44,20 @@ describe('getPrimeFactors', () => {
     assert.deepEqual(getPrimeFactors(6.8), [])
   })
 })
+
+describe('toCounterPairs', () => {
+  // TODO: add some tests
+})
+describe('addToCounterPairs', () => {
+  // TODO: add some tests
+})
+describe('concatCounters', () => {
+  // TODO: add some tests
+})
+describe('intersectionWithRepeats', () => {
+  // TODO: add some tests
+})
+
 describe('findGreatestCommonDivisor', () => {
   it('finds the largest number, which divides all given numbers', () => {
     assert.equal(findGreatestCommonDivisor([35, 55, 95]), 5)
