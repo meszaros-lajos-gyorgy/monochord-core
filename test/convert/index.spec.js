@@ -44,6 +44,7 @@ describe('greatestCommonDivisor', () => {
   it('finds the largest number, which divides all given numbers', () => {
     assert.equal(greatestCommonDivisor(35, 55, 95), 5)
     assert.equal(greatestCommonDivisor(10, 20), 10)
+    assert.equal(greatestCommonDivisor(200, 48, 80), 8)
   })
 })
 describe('getRepeatingDecimal', () => {

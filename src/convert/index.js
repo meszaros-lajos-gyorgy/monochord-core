@@ -10,8 +10,20 @@ import {
   of,
   ifElse,
   equals,
-  converge
+  converge,
+  map,
+  sort,
+  reduce,
+  all,
+  contains,
+  append,
+  findIndex,
+  remove,
+  head,
+  tail,
+  curry
 } from 'ramda'
+
 import {
   logX,
   multiply,
@@ -95,41 +107,31 @@ const getPrimeFactors = n => {
   return ret
 }
 
-function greatestCommonDivisor (/* num1, num2, ... */) {
-  var numbers = Array.prototype.slice.call(arguments)
-  var numbersSize = numbers.length
-  var factors = []
-  var i = numbersSize
-  var gcd = 1
-  var j, firstNumber, factor, notContaining
+const withoutOnce = curry((element, array) => remove(findIndex(equals(element), array), 1, array))
 
-  while (i--) {
-    numbers[i] = getPrimeFactors(numbers[i])
-  }
-  numbers.sort((a, b) => a.length - b.length)
+function greatestCommonDivisor () {
+  const factorsOfNumbers = compose(
+    sort((a, b) => a.length - b.length), // ascending
+    map(getPrimeFactors),
+    Array.from
+  )(arguments)
 
-  numbersSize--
-  firstNumber = numbers.shift()
-  i = firstNumber.length
-  while (i--) {
-    factor = firstNumber[i]
-    notContaining = numbers.some(function (number) {
-      return number.indexOf(factor) === -1
-    })
-    if (!notContaining) {
-      j = numbersSize
-      while (j--) {
-        numbers[j].splice(numbers[j].indexOf(factor), 1)
+  let numbers = tail(factorsOfNumbers)
+
+  return compose(
+    reduce(multiply, 1),
+    reduce((factors, factor) => {
+      if (all(contains(factor), numbers)) {
+        // TODO: the line below changes the values on "numbers". Need another way to do this
+        numbers = map(withoutOnce(factor), numbers)
+
+        return append(factor, factors)
+      } else {
+        return factors
       }
-      factors.push(factor)
-    }
-  }
-
-  i = factors.length
-  while (i--) {
-    gcd *= factors[i]
-  }
-  return gcd
+    }, []),
+    head
+  )(factorsOfNumbers)
 }
 
 // http://stackoverflow.com/a/10803250/1806628
