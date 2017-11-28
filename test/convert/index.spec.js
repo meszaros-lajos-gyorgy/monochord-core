@@ -46,16 +46,24 @@ describe('getPrimeFactors', () => {
 })
 
 describe('toCounterPairs', () => {
-  // TODO: add some tests
+  it('wraps every value into an array and adds a zero after it', () => {
+    assert.deepEqual(toCounterPairs([2, 3, 5]), [[2, 0], [3, 0], [5, 0]])
+  })
 })
 describe('addToCounterPairs', () => {
-  // TODO: add some tests
+  it('increases the counter for the corresponding element', () => {
+    assert.deepEqual(addToCounterPairs([[2, 0], [3, 0]], 2), [[2, 1], [3, 0]])
+  })
 })
 describe('concatCounters', () => {
-  // TODO: add some tests
+  it('joins the counters of two counter pairs together', () => {
+    assert.deepEqual(concatCounters([2, 3], [2, 0]), [2, [3, 0]])
+  })
 })
 describe('intersectionWithRepeats', () => {
-  // TODO: add some tests
+  it('finds every common element between 2 arrays', () => {
+    assert.deepEqual(intersectionWithRepeats([2, 2, 3, 2], [5, 2, 2, 2]), [2, 2, 2])
+  })
 })
 
 describe('findGreatestCommonDivisor', () => {
