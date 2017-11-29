@@ -8,8 +8,11 @@ import {
   toCounterPairs,
   addToCounterPairs,
   concatCounters,
+  setOperationWithRepeats,
   intersectionWithRepeats,
+  unionWithRepeats,
   findGreatestCommonDivisor,
+  findLeastCommonMultiple,
   getRepeatingDecimal,
   fractionToCents,
   centsToFraction,
@@ -60,17 +63,30 @@ describe('concatCounters', () => {
     assert.deepEqual(concatCounters([2, 3], [2, 0]), [2, [3, 0]])
   })
 })
+describe('setOperationWithRepeats', () => {
+  // TODO: add tests
+})
 describe('intersectionWithRepeats', () => {
   it('finds every common element between 2 arrays', () => {
     assert.deepEqual(intersectionWithRepeats([2, 2, 3, 2], [5, 2, 2, 2]), [2, 2, 2])
   })
 })
-
+describe('unionWithRepeats', () => {
+  it('finds every common element between 2 arrays, plus the differring ones', () => {
+    assert.deepEqual(unionWithRepeats([2, 2, 3, 2], [5, 2, 2, 2]), [2, 2, 2, 3, 5])
+  })
+})
 describe('findGreatestCommonDivisor', () => {
   it('finds the largest number, which divides all given numbers', () => {
     assert.equal(findGreatestCommonDivisor([35, 55, 95]), 5)
     assert.equal(findGreatestCommonDivisor([10, 20]), 10)
     assert.equal(findGreatestCommonDivisor([200, 48, 80]), 8)
+  })
+})
+describe('findLeastCommonMultiple', () => {
+  it('finds the lowest number, which is the multiple of all given numbers', () => {
+    assert.equal(findLeastCommonMultiple([6, 8]), 24)
+    assert.equal(findLeastCommonMultiple([65, 10, 5]), 130)
   })
 })
 describe('getRepeatingDecimal', () => {

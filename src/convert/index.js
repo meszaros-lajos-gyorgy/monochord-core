@@ -26,7 +26,8 @@ import {
   repeat,
   zip,
   zipWith,
-  min
+  min,
+  max
 } from 'ramda'
 
 import {
@@ -116,7 +117,7 @@ const toCounterPairs = map(compose(append(0), of))
 const addToCounterPairs = (counters, value) => converge(adjust(adjust(inc, 1)), [findIndex(compose(equals(value), head)), identity])(counters)
 const concatCounters = compose(adjust(head, 0), zip)
 
-const intersectionWithRepeats = curry((a, b) => {
+const setOperationWithRepeats = curry((fn, a, b) => {
   const counter = compose(toCounterPairs, union)(a, b)
   const factoredA = reduce(addToCounterPairs, counter, a)
   const factoredB = reduce(addToCounterPairs, counter, b)
@@ -125,15 +126,24 @@ const intersectionWithRepeats = curry((a, b) => {
     flatten,
     map(compose(
       apply(repeat),
-      adjust(apply(min), 1)
+      adjust(apply(fn), 1)
     )),
     zipWith(concatCounters)
   )(factoredA, factoredB)
 })
 
+const intersectionWithRepeats = setOperationWithRepeats(min)
+const unionWithRepeats = setOperationWithRepeats(max)
+
 const findGreatestCommonDivisor = compose(
   reduce(multiply, 1),
   converge(reduce(intersectionWithRepeats), [head, tail]),
+  map(getPrimeFactors)
+)
+
+const findLeastCommonMultiple = compose(
+  reduce(multiply, 1),
+  converge(reduce(unionWithRepeats), [head, tail]),
   map(getPrimeFactors)
 )
 
@@ -185,8 +195,11 @@ export {
   toCounterPairs,
   addToCounterPairs,
   concatCounters,
+  setOperationWithRepeats,
   intersectionWithRepeats,
+  unionWithRepeats,
   findGreatestCommonDivisor,
+  findLeastCommonMultiple,
   getRepeatingDecimal,
   fractionToCents,
   centsToFraction,
