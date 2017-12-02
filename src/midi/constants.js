@@ -159,7 +159,9 @@ const maxBendingDistanceInSemitones = 12
 // semitones = 1..12
 // channel = 1..16
 
-export {
+// -----------------
+
+module.exports = {
   whiteOnlyMap,
   commands,
   cc,

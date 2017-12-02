@@ -1,7 +1,7 @@
 // http://www.huygens-fokker.org/scala/scl_format.html
 // http://www.huygens-fokker.org/scala/help.htm#mappings
 
-import {
+const {
   test,
   startsWith,
   split,
@@ -24,7 +24,9 @@ import {
   curry,
   not,
   both
-} from 'ramda'
+} = require('ramda')
+
+// -----------------
 
 // The files are human readable ASCII or 8-bit character text-files.
 const isHumanReadableAscii = test(/^[\x20-\x7E\t]*$/)
@@ -105,7 +107,9 @@ const isValidScale = compose(
   splitToLines
 )
 
-export {
+// -----------------
+
+module.exports = {
   isHumanReadableAscii,
   splitToLines,
   isComment,

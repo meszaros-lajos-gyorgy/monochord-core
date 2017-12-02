@@ -1,21 +1,23 @@
-import {
+const {
   curry,
   keys,
   map,
   forEach,
   assoc,
   __
-} from 'ramda'
+} = require('ramda')
 
-import {
+const {
   iteratorToArray,
   subtractValuesFrom
-} from '../helpers'
+} = require('../helpers')
 
-import {
+const {
   defaultInputData,
   defaultOutputData
-} from './constants'
+} = require('./constants')
+
+// -----------------
 
 const getNameFromPort = port => `${port.name} (version ${port.version}) ${port.manufacturer}`
 
@@ -50,7 +52,9 @@ const updatePort = curry((port, devices, onMidiMessage) => {
   return name
 })
 
-export {
+// -----------------
+
+module.exports = {
   getNameFromPort,
   updatePorts,
   updatePort

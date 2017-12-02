@@ -1,10 +1,12 @@
-import {
+const {
   __,
   reject,
   contains,
   unless,
   of
-} from 'ramda'
+} = require('ramda')
+
+// -----------------
 
 const iteratorToArray = iterator => {
   const values = []
@@ -20,7 +22,9 @@ const subtractValuesFrom = (toRemove, from) => reject(contains(__, toRemove), fr
 
 const wrapInArrayIfNeeded = unless(Array.isArray, of)
 
-export {
+// -----------------
+
+module.exports = {
   iteratorToArray,
   subtractValuesFrom,
   wrapInArrayIfNeeded

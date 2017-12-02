@@ -1,6 +1,6 @@
 // http://www.sengpielaudio.com/calculator-centsratio.htm
 
-import {
+const {
   compose,
   memoize,
   __,
@@ -28,17 +28,20 @@ import {
   zipWith,
   min,
   max
-} from 'ramda'
+} = require('ramda')
 
-import {
+const {
   logX,
   multiply,
   divide,
   pow
-} from '../math/index'
-import {
+} = require('../math/index')
+
+const {
   octaveRatio
-} from '../midi/constants'
+} = require('../midi/constants')
+
+// -----------------
 
 const leastFactor = n => {
   let ret = n
@@ -189,7 +192,9 @@ const fractionToRatio = fraction => {
   return [fraction * multiplier, multiplier]
 }
 
-export {
+// -----------------
+
+module.exports = {
   leastFactor,
   getPrimeFactors,
   toCounterPairs,
