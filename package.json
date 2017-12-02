@@ -3,7 +3,7 @@
   "name": "monochord-core",
   "version": "0.0.0-development",
   "description": "A low-level microtonal synth API",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "unit": "mocha test/**/*.spec.js --compilers js:babel-core/register",
     "unit:watch": "npm run unit -- --watch",
