@@ -1,13 +1,13 @@
-const commands = require('./commands')
-const constants = require('./constants')
-const helpers = require('./helpers')
-const math = require('./math')
+import * as commands from './commands'
+import * as constants from './constants'
+import * as helpers from './helpers'
+import * as math from './math'
 
 // -----------------
 
 // -----------------
 
-module.exports = {
+export {
   commands,
   constants,
   helpers,

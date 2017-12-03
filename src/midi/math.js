@@ -1,12 +1,12 @@
-const {
+import {
   memoize,
   clamp,
   curryN,
   __,
   compose
-} = require('ramda')
+} from 'ramda'
 
-const {
+import {
   add,
   subtract,
   multiply,
@@ -14,9 +14,9 @@ const {
   logX,
   floor,
   pow
-} = require('../math/index')
+} from '../math/index'
 
-const {
+import {
   keyIdMin,
   keyIdMax,
   referenceNote,
@@ -24,7 +24,7 @@ const {
   semitonesPerOctave,
   pitchBendMax,
   maxBendingDistanceInSemitones
-} = require('./constants')
+} from './constants'
 
 // -----------------
 
@@ -62,7 +62,7 @@ const getNoteId = memoize(compose(
 
 // -----------------
 
-module.exports = {
+export {
   moveNUnits,
   getDistanceInUnits,
   moveNSemitones,

@@ -1,12 +1,12 @@
-const {
+import {
   add,
   subtract,
   multiply,
   divide,
   curryN,
   memoize
-} = require('ramda')
-// const Big = require('big.js')
+} from 'ramda'
+// import Big from 'big.js'
 
 // -----------------
 
@@ -17,7 +17,7 @@ const logX = curryN(2, memoize((base, n) => divide(log(n), log(base))))
 
 // -----------------
 
-module.exports = {
+export {
   add,
   subtract,
   multiply,

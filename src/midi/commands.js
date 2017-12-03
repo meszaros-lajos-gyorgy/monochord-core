@@ -1,14 +1,14 @@
-const {
+import {
   concat,
   curry,
   curryN
-} = require('ramda')
+} from 'ramda'
 
-const {
+import {
   commands,
   cc,
   pitchBendMin
-} = require('./constants')
+} from './constants'
 
 // -----------------
 
@@ -44,7 +44,7 @@ const noteOff = curryN(2, (channel, note, velocity = 127) => {
 
 // -----------------
 
-module.exports = {
+export {
   setPitchBendLimit,
   pitchBendAmountToDataBytes,
   bendPitch,

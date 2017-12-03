@@ -161,7 +161,7 @@ const maxBendingDistanceInSemitones = 12
 
 // -----------------
 
-module.exports = {
+export {
   whiteOnlyMap,
   commands,
   cc,

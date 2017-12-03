@@ -1,7 +1,7 @@
 // http://www.huygens-fokker.org/scala/scl_format.html
 // http://www.huygens-fokker.org/scala/help.htm#mappings
 
-const {
+import {
   test,
   startsWith,
   split,
@@ -24,7 +24,7 @@ const {
   curry,
   not,
   both
-} = require('ramda')
+} from 'ramda'
 
 // -----------------
 
@@ -109,7 +109,7 @@ const isValidScale = compose(
 
 // -----------------
 
-module.exports = {
+export {
   isHumanReadableAscii,
   splitToLines,
   isComment,

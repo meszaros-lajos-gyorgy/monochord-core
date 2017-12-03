@@ -1,13 +1,13 @@
-const convert = require('./convert/index')
-const math = require('./math/index')
-const midi = require('./midi/index')
-const scala = require('./scala/index')
+import * as convert from './convert/index'
+import * as math from './math/index'
+import * as midi from './midi/index'
+import * as scala from './scala/index'
 
 // -----------------
 
 // -----------------
 
-module.exports = {
+export {
   convert,
   math,
   midi,
