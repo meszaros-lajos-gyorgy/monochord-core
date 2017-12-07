@@ -4,7 +4,10 @@ import {
   multiply,
   divide,
   curryN,
-  memoize
+  memoize,
+  equals,
+  inc,
+  dec
 } from 'ramda'
 // import Big from 'big.js'
 
@@ -25,5 +28,8 @@ export {
   log,
   floor,
   pow,
-  logX
+  logX,
+  equals,
+  inc,
+  dec
 }

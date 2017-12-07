@@ -10,7 +10,10 @@ import {
   log,
   floor,
   pow,
-  logX
+  logX,
+  equals,
+  inc,
+  dec
 } from '../../src/math/index'
 
 describe('add', () => {
@@ -68,4 +71,25 @@ describe('pow', () => {
 
 describe('logX', () => {
 
+})
+
+describe('equals', () => {
+  it('compares two values and returns true, when they are the same', () => {
+    assert.equal(equals(12, 12), true)
+  })
+  it('returns false, when given two number is not the same', () => {
+    assert.equal(equals(12, 34), false)
+  })
+})
+
+describe('inc', () => {
+  it('raises the given number by 1', () => {
+    assert.equal(inc(12), 13)
+  })
+})
+
+describe('dec', () => {
+  it('lowers the given number by 1', () => {
+    assert.equal(dec(12), 11)
+  })
 })
