@@ -23,7 +23,9 @@ import {
   gte,
   curry,
   not,
-  both
+  both,
+  anyPass,
+  last
 } from 'ramda'
 
 // -----------------
@@ -47,18 +49,18 @@ const removeComments = reject(isComment)
 // In principle there is no upper limit to this, but it is allowed to reject files exceeding a certain size.
 // The lower limit is 0, which is possible since degree 0 of 1/1 is implicit.
 // Spaces before or after the number are allowed.
-const isValidNumberOfNotes = test(/^[ ]*\d+[ ]*$/)
+const isValidNumberOfNotes = test(/^[ \t]*\d+[ \t]*$/)
 
 // After that come the pitch values, each on a separate line, either as a ratio or as a value in cents.
 // If the value contains a period, it is a cents value, otherwise a ratio.
-const isCent = test(/^[\t ]*-?\d+\.\d*([ \t]+.*)?$/)
+const isCent = test(/^[\t ]*-?\d+\.\d*([^.\de].*)?$/)
 // Ratios are written with a slash, and only one.
-const isRatio = test(/^[\t ]*\d+(\/\d+)?([ \t]+.*)?$/)
+const isRatio = test(/^[\t ]*\d+(\/\d+)?([^/\de.].*)?$/)
 // Integer values with no period or slash should be regarded as such, for example "2" should be taken as "2/1".
 // Numerators and denominators should be supported to at least (2^31)-1 = 2147483647.
 // Anything after a valid pitch value should be ignored.
 const isValidPitch = either(isCent, isRatio)
-const ignoreAllAfterPitch = replace(/^([^ \t]+).*$/, '$1')
+const ignoreAllAfterPitch = replace(/^(-?\d+\.\d*|\d+(\/\d+)?).*$/, '$1')
 // Space or horizontal tab characters are allowed and should be ignored.
 const ignoreLeadingWhitespace = replace(/^[ \t]*/, '')
 // Negative ratios are meaningless and should give a read error.
@@ -75,7 +77,19 @@ const getValue = ifElse(
 
 // The first note of 1/1 or 0.0 cents is implicit and not in the files.
 const isFoundation = compose(
-  either(equals('1/1'), test(/^0\.0?$/)),
+  anyPass([
+    equals('1'),
+    equals('1/1'),
+    test(/^0\.0*$/),
+    compose(
+      allPass([
+        converge(equals, [head, last]),
+        compose(equals(2), length),
+        all(test(/^\d+$/))
+      ]),
+      split('/')
+    )
+  ]),
   getValue
 )
 

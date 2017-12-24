@@ -31,48 +31,22 @@ describe('isHumanReadableAscii', () => {
     assert.equal(isHumanReadableAscii('.: ,;!?-_\'"+-=%*/\\()[]<>@&#'), true)
   })
   it('returns true, if the given string contains tabs', () => {
-    // TODO: is this a correct behavior?
     assert.equal(isHumanReadableAscii(String.fromCharCode(9)), true)
   })
   it('returns false, when given string contains control characters', () => {
     // https://en.wikipedia.org/wiki/Control_character#In_ASCII
-    assert.equal(isHumanReadableAscii(String.fromCharCode(0)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(1)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(2)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(3)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(4)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(5)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(6)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(7)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(8)), false)
 
-    assert.equal(isHumanReadableAscii(String.fromCharCode(10)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(11)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(12)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(13)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(14)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(15)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(16)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(17)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(18)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(19)), false)
-
-    assert.equal(isHumanReadableAscii(String.fromCharCode(20)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(21)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(22)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(23)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(24)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(25)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(26)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(27)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(28)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(29)), false)
-
-    assert.equal(isHumanReadableAscii(String.fromCharCode(30)), false)
-    assert.equal(isHumanReadableAscii(String.fromCharCode(31)), false)
+    for(let i = 0; i <= 8; i++){
+      assert.equal(isHumanReadableAscii(String.fromCharCode(i)), false)
+    }
+    
+    for(let i = 10; i <= 31; i++){
+      assert.equal(isHumanReadableAscii(String.fromCharCode(i)), false)
+    }
+    
     assert.equal(isHumanReadableAscii(String.fromCharCode(127)), false)
   })
-  it('returns false, when given string contains characters from extended ascii table', () => {
+  it('returns true, when given string contains characters from extended ascii table', () => {
     assert.equal(isHumanReadableAscii(String.fromCharCode(128)), false)
     assert.equal(isHumanReadableAscii(String.fromCharCode(129)), false)
     assert.equal(isHumanReadableAscii(String.fromCharCode(130)), false)
@@ -127,10 +101,8 @@ describe('isValidNumberOfNotes', () => {
   it('returns false, when given number has any text after it', () => {
     assert.equal(isValidNumberOfNotes('8 ! comment'), false)
   })
-  it('returns false, when given line has tabs', () => {
-    // TODO: is this the correct behavior?
-    // "Spaces before or after the number are allowed."
-    assert.equal(isValidNumberOfNotes('\t8'), false)
+  it('returns true, when given line has tabs', () => {
+    assert.equal(isValidNumberOfNotes('\t8'), true)
   })
 })
 
@@ -149,10 +121,11 @@ describe('isCent', () => {
     assert.equal(isCent('\t100.0'), true)
     assert.equal(isCent('\t  \t100.0'), true)
   })
-  it('ignores stuff written after the cent, when there is a space or tab after it', () => {
+  it('ignores stuff written after the cent', () => {
     assert.equal(isCent('100.0 cents'), true)
     assert.equal(isCent('100.0\tC#'), true)
-    assert.equal(isCent('100.0    C#'), true)
+    assert.equal(isCent('100.0C#'), true)
+    assert.equal(isCent('100.cents'), true)
   })
 
   it('returns false, when given number is in a scientific notation', () => {
@@ -173,9 +146,6 @@ describe('isCent', () => {
     assert.equal(isCent('26.2.4'), false)
     assert.equal(isCent('26..4'), false)
   })
-  it('returns false, when there is some content after the cent, but it\'s not separated with a space or tab', () => {
-    assert.equal(isCent('30.3! comment'), false)
-  })
 })
 
 describe('isRatio', () => {
@@ -188,10 +158,10 @@ describe('isRatio', () => {
     assert.equal(isRatio('\t10/20'), true)
     assert.equal(isRatio('\t  \t10'), true)
   })
-  it('ignores stuff written after the ratio, when there is a space or tab after it', () => {
+  it('ignores stuff written after the ratio', () => {
     assert.equal(isRatio('5/4 E\\'), true)
     assert.equal(isRatio('5/4\tE\\'), true)
-    assert.equal(isRatio('5   E\\'), true)
+    assert.equal(isRatio('5E\\'), true)
   })
 
   it('returns false for negative integers or ratios', () => {
@@ -218,9 +188,6 @@ describe('isRatio', () => {
     assert.equal(isRatio('6.5/3'), false)
     assert.equal(isRatio('6.5/3.8'), false)
   })
-  it('returns false, when there is some content after the ratio, but it\'s not separated with a space or tab', () => {
-    assert.equal(isRatio('21/18! comment'), false)
-  })
 })
 
 describe('isValidPitch', () => {
@@ -243,10 +210,12 @@ describe('isValidPitch', () => {
 })
 
 describe('ignoreAllAfterPitch', () => {
-  it('removes everything after the first space or tab, which is not at the beginning of the string', () => {
-    assert.equal(ignoreAllAfterPitch('17/4 E#'), '17/4')
+  it('removes everything after a pitch', () => {
+    assert.equal(ignoreAllAfterPitch('17/4    E#'), '17/4')
     assert.equal(ignoreAllAfterPitch('30.256\t12'), '30.256')
-    assert.equal(ignoreAllAfterPitch('-5. ! hello'), '-5.')
+    assert.equal(ignoreAllAfterPitch('-5.! hello'), '-5.')
+    assert.equal(ignoreAllAfterPitch('80.16th degree of the scale'), '80.16')
+    assert.equal(ignoreAllAfterPitch('300   .72 cents'), '300')
   })
 })
 
@@ -262,10 +231,12 @@ describe('getValue', () => {
     assert.equal(getValue('  100.3'), '100.3')
     assert.equal(getValue('\t100.3'), '100.3')
   })
-  it('removes everything after the first space or tab, which is not at the beginning of the string', () => {
+  it('removes everything after a pitch', () => {
     assert.equal(getValue('17/4 E#'), '17/4')
     assert.equal(getValue('30.2\t12'), '30.2')
-    assert.equal(getValue('-5. ! hello'), '-5.')
+    assert.equal(getValue('-5.! hello'), '-5.')
+    assert.equal(getValue('80.16th degree of the scale'), '80.16')
+    assert.equal(getValue('300   .72 cents'), '300')
   })
   it('returns an empty string, when given string does not contain a cent or a ratio', () => {
     assert.equal(getValue('! comment'), '')
@@ -277,6 +248,10 @@ describe('isFoundation', () => {
     assert.equal(isFoundation('1/1 ! comment'), true)
     assert.equal(isFoundation('0.\tC'), true)
   })
+  it('returns true, when given ratio equals to 1/1, but written in different ways', () => {
+    assert.equal(isFoundation('3/3'), true)
+    assert.equal(isFoundation('1'), true)
+  })
   it('returns false, when string contains no value', () => {
     assert.equal(isFoundation('! comment'), false)
     assert.equal(isFoundation(''), false)
@@ -284,11 +259,6 @@ describe('isFoundation', () => {
   it('returns false, when value is non-zero cent or ratio other, than 1/1', () => {
     assert.equal(isFoundation('300.4'), false)
     assert.equal(isFoundation('3/2'), false)
-  })
-  it('returns false, when given ratio simplifies to 1/1, but individual numbers are bigger, than 1', () => {
-    // TODO: is this the correct behavior?
-    // "1/1 or 0.0 cents is implicit"
-    assert.equal(isFoundation('3/3'), false)
   })
 })
 
@@ -379,8 +349,6 @@ the number of notes is not on the 2nd non-comment line
   // ---------
 
   it('returns true, when given scale contains a foundation pitch (1/1 or 0.0 cents) anywhere, but the first note', () => {
-    // TODO: is this the correct behavior?
-    // "The first note of 1/1 or 0.0 cents is implicit and not in the files."
     const scl =
 `Tuning name
 5
