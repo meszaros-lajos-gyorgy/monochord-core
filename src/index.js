@@ -7,7 +7,7 @@ import * as scala from './scala/index'
 
 // -----------------
 
-export {
+export default {
   convert,
   math,
   midi,
