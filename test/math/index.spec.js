@@ -12,12 +12,15 @@ import {
 
 import {
   add,
-  inc
-
-  /*
   subtract,
   multiply,
   divide,
+  modulo,
+  inc,
+  dec,
+  negate
+
+  /*
   modulo,
   log,
   floor,
@@ -26,7 +29,6 @@ import {
   logN,
   equals,
   lt,
-  dec,
   negate
   */
 } from '../../src/math/index'

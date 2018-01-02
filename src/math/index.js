@@ -12,7 +12,6 @@ import {
 
 // -----------------
 
-// const add = wrapBinary((a, b) => a.plus(b))
 const add = wrapBinary((a, b) => {
   try {
     return Either.Right(a.plus(b))
@@ -21,29 +20,55 @@ const add = wrapBinary((a, b) => {
   }
 })
 
+const subtract = wrapBinary((a, b) => {
+  try {
+    return Either.Right(a.minus(b))
+  } catch (e) {
+    return Either.Left(Errors.INVALID_NUMBER)
+  }
+})
+
+const multiply = wrapBinary((a, b) => {
+  try {
+    return Either.Right(a.times(b))
+  } catch (e) {
+    return Either.Left(Errors.INVALID_NUMBER)
+  }
+})
+
+const divide = wrapBinary((a, b) => {
+  try {
+    return Either.Right(a.div(b))
+  } catch (e) {
+    let err
+    switch (e) {
+      case 'Division by zero':
+        err = Errors.DIVISION_BY_ZERO
+        break
+      case 'Invalid decimal places':
+        err = Errors.INVALID_DECIMAL_PLACES
+        break
+      case 'Invalid rounding mode':
+        err = Errors.INVALID_ROUNDING_MODE
+        break
+    }
+    return Either.Left(err)
+  }
+})
+
+const modulo = wrapBinary((a, b) => {
+  try {
+    return Either.Right(a.mod(b))
+  } catch (e) {
+    return Either.Left(Errors.DIVISION_BY_ZERO)
+  }
+})
+
 const inc = add(1)
+const dec = add(-1)
+const negate = multiply(-1)
 
 /*
-const add = curryN(2, memoize((a, b) => {
-  return Big(a).plus(b)
-}))
-
-const subtract = curryN(2, memoize((a, b) => {
-  return Big(a).minus(b)
-}))
-
-const multiply = curryN(2, memoize((a, b) => {
-  return Big(a).times(b)
-}))
-
-const divide = curryN(2, memoize((a, b) => {
-  return Big(a).div(b)
-}))
-
-const modulo = curryN(2, memoize((a, b) => {
-  return Big(a).mod(b)
-}))
-
 const log = memoize(n => {
   return Math.log(n)
 })
@@ -72,24 +97,21 @@ const equals = curryN(2, memoize((a, b) => {
 const lt = curryN(2, memoize((a, b) => {
   return Big(a).lt(b)
 }))
-
-const inc = add('1')
-const dec = add('-1')
-
-const negate = multiply(-1)
 */
 
 // -----------------
 
 export {
   add,
-  inc
-
-  /*
   subtract,
   multiply,
   divide,
   modulo,
+  inc,
+  dec,
+  negate
+
+  /*
   log,
   floor,
   pow,
@@ -97,7 +119,5 @@ export {
   logN,
   equals,
   lt,
-  dec,
-  negate
   */
 }
