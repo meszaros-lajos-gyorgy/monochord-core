@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "scripts": {
     "unit": "mocha test/**/*.spec.js --require babel-core/register",
-    "unit:watch": "npm run unit -- --watch",
+    "unit:watch": "npm run unit -- --watch --watch-extensions js",
     "lint": "standard --verbose --fix src/**/*.js",
     "stage-after-lint": "git add src",
     "test": "npm-run-all lint unit",
