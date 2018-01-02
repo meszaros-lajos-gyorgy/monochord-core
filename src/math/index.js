@@ -5,15 +5,6 @@ import {
 
 // -----------------
 
-/*
-const RoundModes = {
-  ROUND_DOWN: 0,
-  ROUND_HALF_UP: 1,
-  ROUND_HALF_EVEN: 2,
-  ROUND_UP: 3
-}
-*/
-
 const inc = memoizeCalculation(num => number(num).map(val => val.plus(1)))
 
 /*

@@ -3,6 +3,14 @@
 import assert from 'assert'
 
 import {
+  number
+} from '../../src/math/number'
+
+import {
+  Errors
+} from '../../src/math/constants'
+
+import {
   inc
   /*
   add,
@@ -17,29 +25,31 @@ import {
   logN,
   equals,
   lt,
-  inc,
   dec,
   negate
   */
 } from '../../src/math/index'
 
-/*
 describe('inc', () => {
   it('increases a number with 1', () => {
-    const a = number(Number.MAX_SAFE_INTEGER)
-    // const a = number(10)
+    const value1 = inc(number('10'))
+    assert.equal(value1.isRight, true)
+    assert.equal(value1.value.toString(), '11')
 
-    const b = inc(a)
-    const c = inc(number(Number.MAX_SAFE_INTEGER))
+    const value2 = inc(number(Number.MAX_SAFE_INTEGER))
+    assert.equal(value2.isRight, true)
+    assert.equal(value2.value.toString(), '9007199254740992')
+  })
+  it('returns a Left with invalid number error, when given parameter is an invalid number', () => {
+    const value1 = inc('apple')
+    assert.equal(value1.isLeft, true)
+    assert.equal(value1.value, Errors.INVALID_NUMBER)
 
-    console.log(a.toString())
-    console.log(b === c) // should be false
-    console.log(b.toString() === c.toString()) // should be true
-    
-    assert.equal(true, true)
+    const value2 = inc(number('apple'))
+    assert.equal(value2.isLeft, true)
+    assert.equal(value2.value, Errors.INVALID_NUMBER)
   })
 })
-*/
 
 /*
 describe('add', () => {
