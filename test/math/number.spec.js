@@ -15,7 +15,8 @@ import {
 import {
   cloneNumber,
   memoizeCalculation,
-  number
+  number,
+  wrapUnary
 } from '../../src/math/number'
 
 /*
@@ -62,3 +63,11 @@ describe('number', () => {
     assert.equal(value.value, Errors.INVALID_NUMBER)
   })
 })
+
+/*
+describe('wrapUnary', () => {
+  it('', () => {
+
+  })
+})
+*/

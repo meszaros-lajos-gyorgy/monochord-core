@@ -1,11 +1,10 @@
 import {
-  number,
-  memoizeCalculation
+  wrapUnary
 } from './number'
 
 // -----------------
 
-const inc = memoizeCalculation(num => number(num).map(val => val.plus(1)))
+const inc = wrapUnary(a => a.plus(1))
 
 /*
 const add = curryN(2, memoize((a, b) => {

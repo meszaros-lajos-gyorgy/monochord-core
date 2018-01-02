@@ -49,8 +49,12 @@ const number = ifElse(
   }
 )
 
+const wrapUnary = fn => memoizeCalculation(a => number(a).map(fn))
+// const wrapBinary = fn => ???
+
 export {
   cloneNumber,
   memoizeCalculation,
-  number
+  number,
+  wrapUnary
 }
