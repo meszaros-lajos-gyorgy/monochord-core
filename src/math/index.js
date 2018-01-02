@@ -1,14 +1,7 @@
 import {
-  is,
-  unless,
-  toString
-} from 'ramda'
-
-import {
-  Either
-} from 'ramda-fantasy'
-
-import Big from 'big.js'
+  number,
+  memoizeCalculation
+} from './number'
 
 // -----------------
 
@@ -20,37 +13,6 @@ const RoundModes = {
   ROUND_UP: 3
 }
 */
-
-const Errors = Object.freeze({
-  INVALID_NUMBER: 0x01
-})
-
-const cloneNumber = src => src.map(num => new Big(num))
-
-const memoizeCalculation = fn => {
-  const cache = {}
-
-  return function () {
-    const key = toString(arguments)
-
-    if (!cache.hasOwnProperty(key)) {
-      cache[key] = fn.apply(this, arguments)
-    }
-
-    return cloneNumber(cache[key])
-  }
-}
-
-const number = unless(
-  is(Either),
-  src => {
-    try {
-      return Either.Right(new Big(src))
-    } catch (e) {
-      return Either.Left(Errors.INVALID_NUMBER)
-    }
-  }
-)
 
 const inc = memoizeCalculation(num => number(num).map(val => val.plus(1)))
 
@@ -113,10 +75,6 @@ const negate = multiply(-1)
 // -----------------
 
 export {
-  Errors,
-  cloneNumber,
-  memoizeCalculation,
-  number,
   inc
   /*
   add
