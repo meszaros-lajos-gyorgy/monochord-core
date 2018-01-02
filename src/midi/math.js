@@ -1,3 +1,4 @@
+/*
 import {
   memoize,
   clamp,
@@ -11,7 +12,7 @@ import {
   subtract,
   multiply,
   divide,
-  logX,
+  logN,
   floor,
   pow
 } from '../math/index'
@@ -36,7 +37,7 @@ const moveNUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, n, fre
 
 const getDistanceInUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, frequency2, frequency1) => compose(
   multiply(divisionsPerRatio),
-  logX(ratioOfSymmetry),
+  logN(ratioOfSymmetry),
   divide(frequency2)
 )(frequency1)))
 
@@ -72,3 +73,4 @@ export {
   getNoteFrequency,
   getNoteId
 }
+*/
