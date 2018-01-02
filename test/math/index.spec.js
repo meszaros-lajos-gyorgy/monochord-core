@@ -3,25 +3,24 @@
 import assert from 'assert'
 
 import {
-  number
-} from '../../src/math/number'
-
-import {
   Errors
 } from '../../src/math/constants'
 
 import {
+  number,
+
   add,
   subtract,
   multiply,
   divide,
   modulo,
+  floor,
+  sqrt,
   inc,
   dec,
   negate
 
   /*
-  modulo,
   log,
   floor,
   pow,
@@ -29,7 +28,6 @@ import {
   logN,
   equals,
   lt,
-  negate
   */
 } from '../../src/math/index'
 
@@ -147,12 +145,6 @@ describe('equals', () => {
 
 describe('lt', () => {
 
-})
-
-describe('inc', () => {
-  it('raises the given number by 1', () => {
-    assert.equal(inc('12'), '13')
-  })
 })
 
 describe('dec', () => {

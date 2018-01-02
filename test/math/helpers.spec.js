@@ -18,7 +18,7 @@ import {
   number,
   wrapUnary,
   wrapBinary
-} from '../../src/math/number'
+} from '../../src/math/helpers'
 
 /*
 describe('cloneNumber', () => {
