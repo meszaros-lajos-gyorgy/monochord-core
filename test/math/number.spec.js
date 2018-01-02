@@ -16,7 +16,8 @@ import {
   cloneNumber,
   memoizeCalculation,
   number,
-  wrapUnary
+  wrapUnary,
+  wrapBinary
 } from '../../src/math/number'
 
 /*
@@ -66,6 +67,12 @@ describe('number', () => {
 
 /*
 describe('wrapUnary', () => {
+  it('', () => {
+
+  })
+})
+
+describe('wrapBinary', () => {
   it('', () => {
 
   })

@@ -1,10 +1,27 @@
 import {
-  wrapUnary
+  wrapBinary
 } from './number'
+
+import {
+  Errors
+} from './constants'
+
+import {
+  Either
+} from 'ramda-fantasy'
 
 // -----------------
 
-const inc = wrapUnary(a => a.plus(1))
+// const add = wrapBinary((a, b) => a.plus(b))
+const add = wrapBinary((a, b) => {
+  try {
+    return Either.Right(a.plus(b))
+  } catch (e) {
+    return Either.Left(Errors.INVALID_NUMBER)
+  }
+})
+
+const inc = add(1)
 
 /*
 const add = curryN(2, memoize((a, b) => {
@@ -65,9 +82,10 @@ const negate = multiply(-1)
 // -----------------
 
 export {
+  add,
   inc
+
   /*
-  add
   subtract,
   multiply,
   divide,
@@ -79,7 +97,6 @@ export {
   logN,
   equals,
   lt,
-  inc,
   dec,
   negate
   */

@@ -11,9 +11,10 @@ import {
 } from '../../src/math/constants'
 
 import {
-  inc
-  /*
   add,
+  inc
+
+  /*
   subtract,
   multiply,
   divide,

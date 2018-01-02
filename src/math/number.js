@@ -5,7 +5,8 @@ import {
   toString,
   both,
   propIs,
-  complement
+  complement,
+  curryN
 } from 'ramda'
 
 import {
@@ -24,7 +25,7 @@ const memoizeCalculation = fn => {
   const cache = {}
 
   return function () {
-    const key = toString(arguments)
+    const key = toString(Array.from(arguments))
 
     if (!cache.hasOwnProperty(key)) {
       cache[key] = fn.apply(this, arguments)
@@ -49,12 +50,31 @@ const number = ifElse(
   }
 )
 
-const wrapUnary = fn => memoizeCalculation(a => number(a).map(fn))
-// const wrapBinary = fn => ???
+const wrapUnary = fn => memoizeCalculation(a => {
+  const numA = number(a)
+  if (numA.isLeft) {
+    return numA
+  } else {
+    return fn(numA.value)
+  }
+})
+const wrapBinary = fn => curryN(2, memoizeCalculation((a, b) => {
+  const numA = number(a)
+  const numB = number(b)
+
+  if (numA.isLeft) {
+    return numA
+  } else if (numB.isLeft) {
+    return numB
+  } else {
+    return fn(numA.value, numB.value)
+  }
+}))
 
 export {
   cloneNumber,
   memoizeCalculation,
   number,
-  wrapUnary
+  wrapUnary,
+  wrapBinary
 }
