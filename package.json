@@ -5,7 +5,7 @@
   "description": "A low-level microtonal synth API",
   "main": "src/index.js",
   "scripts": {
-    "unit": "mocha test/**/*.spec.js --compilers js:babel-core/register",
+    "unit": "mocha test/**/*.spec.js --require babel-core/register",
     "unit:watch": "npm run unit -- --watch",
     "lint": "standard --verbose --fix src/**/*.js",
     "stage-after-lint": "git add src",
