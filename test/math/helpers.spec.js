@@ -6,7 +6,7 @@ import {
   Either
 } from 'ramda-fantasy'
 
-import Big from 'big.js'
+import Decimal from 'decimal.js'
 
 import {
   Errors
@@ -34,13 +34,13 @@ describe('memoizeCalculation', () => {
 })
 */
 
-// TODO: the tests should not depend on actual Big and Either implementations
+// TODO: the tests should not depend on actual Decimal and Either implementations
 describe('number', () => {
-  it('returns an instance of Big wrapped in an Either', () => {
+  it('returns an instance of Decimal wrapped in an Either', () => {
     const value = number(10)
 
     assert.equal(value instanceof Either, true)
-    assert.equal(value.value instanceof Big, true)
+    assert.equal(value.value instanceof Decimal, true)
   })
   it('returns a Left with invalid number error, when given parameter is an invalid number', () => {
     const value = number('apple')
@@ -54,11 +54,11 @@ describe('number', () => {
     const value = Either.Left('x')
     assert.deepEqual(number(value), value)
   })
-  it('returns the input unchanged, if it is a Right, holding a Big instance', () => {
-    const value = Either.Right(new Big(20))
+  it('returns the input unchanged, if it is a Right, holding a Decimal instance', () => {
+    const value = Either.Right(new Decimal(20))
     assert.deepEqual(number(value), value)
   })
-  it('returns a Left with invalid number error, when given parameter is a Right, which doesn\'t hold a Big instance', () => {
+  it('returns a Left with invalid number error, when given parameter is a Right, which doesn\'t hold a Decimal instance', () => {
     const value = number(Either.Right('x'))
     assert.equal(value.isLeft, true)
     assert.equal(value.value, Errors.INVALID_NUMBER)

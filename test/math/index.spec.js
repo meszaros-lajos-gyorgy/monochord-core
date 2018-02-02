@@ -22,9 +22,7 @@ import {
 
   /*
   log,
-  floor,
   pow,
-  sqrt,
   logN,
   equals,
   lt,

@@ -13,13 +13,13 @@ import {
   Either
 } from 'ramda-fantasy'
 
-import Big from 'big.js'
+import Decimal from 'decimal.js'
 
 import {
   Errors
 } from './constants'
 
-const cloneNumber = src => src.map(num => new Big(num))
+const cloneNumber = src => src.map(num => new Decimal(num))
 
 const memoizeCalculation = fn => {
   const cache = {}
@@ -38,12 +38,12 @@ const memoizeCalculation = fn => {
 const number = ifElse(
   is(Either),
   when(
-    both(Either.isRight, complement(propIs)(Big, 'value')),
+    both(Either.isRight, complement(propIs)(Decimal, 'value')),
     src => Either.Left(Errors.INVALID_NUMBER)
   ),
   src => {
     try {
-      return Either.Right(new Big(src))
+      return Either.Right(new Decimal(src))
     } catch (e) {
       return Either.Left(Errors.INVALID_NUMBER)
     }
