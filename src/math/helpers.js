@@ -8,7 +8,8 @@ import {
   complement,
   curryN,
   not,
-  apply
+  apply,
+  unless
 } from 'ramda'
 
 import {
@@ -33,7 +34,10 @@ const memoizeCalculation = fn => {
       cache[key] = fn.apply(this, arguments)
     }
 
-    return cloneNumber(cache[key])
+    return unless(
+      propIs(Boolean, 'value'),
+      cloneNumber
+    )(cache[key])
   }
 }
 
@@ -54,6 +58,7 @@ const number = ifElse(
 
 const wrapUnary = fn => memoizeCalculation(a => {
   const numA = number(a)
+
   if (numA.isLeft) {
     return numA
   } else {

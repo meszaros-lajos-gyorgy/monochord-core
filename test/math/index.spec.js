@@ -18,7 +18,7 @@ import {
   ceil,
   inc,
   dec,
-  negate
+  negate,
 
   /*
   log,
@@ -34,10 +34,10 @@ import {
   isZero,
   isNegative,
   isPositive,
+  */
 
   isInteger,
   isFraction
-  */
 } from '../../src/math/index'
 
 describe('add', () => {
@@ -317,3 +317,39 @@ describe('lt', () => {
 
 })
 */
+
+describe('isInteger', () => {
+  it('returns true, when given number is an integer', () => {
+    const value = isInteger(12)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, true)
+  })
+  it('returns false, when given number is not an integer', () => {
+    const value = isInteger(12.5543)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
+  })
+  it('returns a Left with invalid number error, when given parameter is an invalid number', () => {
+    const value = isInteger('apple')
+    assert.equal(value.isLeft, true)
+    assert.equal(value.value, Errors.INVALID_NUMBER)
+  })
+})
+
+describe('isFraction', () => {
+  it('returns false, when given number is an integer', () => {
+    const value = isFraction(12)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
+  })
+  it('returns true, when given number is not an integer', () => {
+    const value = isFraction(12.5543)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, true)
+  })
+  it('returns a Left with invalid number error, when given parameter is an invalid number', () => {
+    const value = isFraction('apple')
+    assert.equal(value.isLeft, true)
+    assert.equal(value.value, Errors.INVALID_NUMBER)
+  })
+})
