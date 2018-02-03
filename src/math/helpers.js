@@ -6,7 +6,9 @@ import {
   both,
   propIs,
   complement,
-  curryN
+  curryN,
+  not,
+  apply
 } from 'ramda'
 
 import {
@@ -71,10 +73,17 @@ const wrapBinary = fn => curryN(2, memoizeCalculation((a, b) => {
   }
 }))
 
+const invert = fn => (...args) => when(
+  Either.isRight,
+  either => either.map(not),
+  apply(fn, args)
+)
+
 export {
   cloneNumber,
   memoizeCalculation,
   number,
   wrapUnary,
-  wrapBinary
+  wrapBinary,
+  invert
 }

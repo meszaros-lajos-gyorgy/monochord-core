@@ -1,7 +1,8 @@
 import {
   wrapBinary,
   wrapUnary,
-  number
+  number,
+  invert
 } from './helpers'
 
 import {
@@ -54,27 +55,6 @@ const ceil = wrapUnary(tryCatch(
   always(Either.Left(Errors.INVALID_NUMBER))
 ))
 
-/*
-const sqrt = wrapUnary(tryCatch(
-  a => a.sqrt(),
-  e => {
-    let err
-    switch (e) {
-      case 'No square root':
-        err = Errors.NEGATIVE_ROOT
-        break
-      case 'Invalid decimal places':
-        err = Errors.INVALID_DECIMAL_PLACES
-        break
-      case 'Invalid rounding mode':
-        err = Errors.INVALID_ROUNDING_MODE
-        break
-    }
-    return Either.Left(err)
-  }
-))
-*/
-
 const inc = add(1)
 const dec = add(-1)
 const negate = multiply(-1)
@@ -111,10 +91,13 @@ const gte
 const isZero
 const isNegative
 const isPositive
-
-const isInteger
-const isFraction
 */
+
+const isInteger = wrapUnary(tryCatch(
+  a => Either.Right(a.isInteger()),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
+const isFraction = invert(isInteger)
 
 // -----------------
 
@@ -130,7 +113,7 @@ export {
   ceil,
   inc,
   dec,
-  negate
+  negate,
 
   /*
   log,
@@ -146,8 +129,8 @@ export {
   isZero,
   isNegative,
   isPositive,
+  */
 
   isInteger,
   isFraction
-  */
 }

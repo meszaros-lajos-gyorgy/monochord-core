@@ -17,7 +17,8 @@ import {
   memoizeCalculation,
   number,
   wrapUnary,
-  wrapBinary
+  wrapBinary,
+  invert
 } from '../../src/math/helpers'
 
 /*
@@ -78,3 +79,23 @@ describe('wrapBinary', () => {
   })
 })
 */
+
+describe('invert', () => {
+  it('takes a function as input and gives back a function', () => {
+    const fn = () => Either.Right(true)
+    const fn2 = invert(fn)
+    assert.equal(typeof fn2, 'function')
+  })
+  it('gives back a function, which wraps the original function in a way, that when it\'s called, it will return the inverse of the returned value', () => {
+    const fn = () => Either.Right(true)
+    const fn2 = invert(fn)
+    assert.equal(fn().value, true)
+    assert.equal(fn2().value, false)
+  })
+  it('returns back a function\'s result untouched, if it\'s a Left', () => {
+    const fn = () => Either.Left(true)
+    const fn2 = invert(fn)
+    assert.equal(fn().value, true)
+    assert.equal(fn2().value, true)
+  })
+})
