@@ -5,8 +5,7 @@ import {
 } from './helpers'
 
 import {
-  Errors,
-  RoundModes
+  Errors
 } from './constants'
 
 import {
@@ -37,21 +36,7 @@ const multiply = wrapBinary(tryCatch(
 
 const divide = wrapBinary(tryCatch(
   (a, b) => Either.Right(a.div(b)),
-  e => {
-    let err
-    switch (e) {
-      case 'Division by zero':
-        err = Errors.DIVISION_BY_ZERO
-        break
-      case 'Invalid decimal places':
-        err = Errors.INVALID_DECIMAL_PLACES
-        break
-      case 'Invalid rounding mode':
-        err = Errors.INVALID_ROUNDING_MODE
-        break
-    }
-    return Either.Left(err)
-  }
+  always(Either.Left(Errors.INVALID_NUMBER))
 ))
 
 const modulo = wrapBinary(tryCatch(
@@ -60,21 +45,16 @@ const modulo = wrapBinary(tryCatch(
 ))
 
 const floor = wrapUnary(tryCatch(
-  a => Either.Right(a.round(0, RoundModes.ROUND_DOWN)),
-  e => {
-    let err
-    switch (e) {
-      case 'Invalid decimal places':
-        err = Errors.INVALID_DECIMAL_PLACES
-        break
-      case 'Invalid rounding mode':
-        err = Errors.INVALID_ROUNDING_MODE
-        break
-    }
-    return Either.Left(err)
-  }
+  a => Either.Right(a.floor()),
+  always(Either.Left(Errors.INVALID_NUMBER))
 ))
 
+const ceil = wrapUnary(tryCatch(
+  a => Either.Right(a.ceil()),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
+
+/*
 const sqrt = wrapUnary(tryCatch(
   a => a.sqrt(),
   e => {
@@ -93,6 +73,7 @@ const sqrt = wrapUnary(tryCatch(
     return Either.Left(err)
   }
 ))
+*/
 
 const inc = add(1)
 const dec = add(-1)
@@ -108,6 +89,9 @@ const pow = curryN(2, memoize((n, exp) => {
   return Math.pow(n, exp)
 }))
 
+// root
+// sqrt = 2nd root
+
 const logN = curryN(2, memoize((base, n) => {
   return divide(log(n), log(base))
 }))
@@ -119,6 +103,17 @@ const equals = curryN(2, memoize((a, b) => {
 const lt = curryN(2, memoize((a, b) => {
   return Big(a).lt(b)
 }))
+
+const gt
+const lte
+const gte
+
+const isZero
+const isNegative
+const isPositive
+
+const isInteger
+const isFraction
 */
 
 // -----------------
@@ -132,7 +127,7 @@ export {
   divide,
   modulo,
   floor,
-  sqrt,
+  ceil,
   inc,
   dec,
   negate
@@ -141,7 +136,18 @@ export {
   log,
   pow,
   logN,
+
   equals,
   lt,
+  gt,
+  lte,
+  gte,
+
+  isZero,
+  isNegative,
+  isPositive,
+
+  isInteger,
+  isFraction
   */
 }
