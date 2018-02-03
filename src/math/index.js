@@ -15,7 +15,11 @@ import {
 
 import {
   always,
-  tryCatch
+  tryCatch,
+  converge,
+  nthArg,
+  compose,
+  __
 } from 'ramda'
 
 // -----------------
@@ -59,22 +63,31 @@ const inc = add(1)
 const dec = add(-1)
 const negate = multiply(-1)
 
+const pow = wrapBinary(tryCatch(
+  (a, b) => Either.Right(a.pow(b)),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
+
+const root = converge(
+  pow,
+  [
+    nthArg(0),
+    compose(divide(1), nthArg(1))
+  ]
+)
+
+const sqrt = root(__, 2)
+
 /*
 const log = memoize(n => {
   return Math.log(n)
 })
 
-const pow = curryN(2, memoize((n, exp) => {
-  // return Big(n).pow(exp)
-  return Math.pow(n, exp)
-}))
-
-// root
-// sqrt = 2nd root
-
 const logN = curryN(2, memoize((base, n) => {
   return divide(log(n), log(base))
 }))
+
+// random?
 
 const equals = curryN(2, memoize((a, b) => {
   return Big(a).eq(b)
@@ -97,6 +110,7 @@ const isInteger = wrapUnary(tryCatch(
   a => Either.Right(a.isInteger()),
   always(Either.Left(Errors.INVALID_NUMBER))
 ))
+
 const isFraction = invert(isInteger)
 
 // -----------------
@@ -115,9 +129,12 @@ export {
   dec,
   negate,
 
+  pow,
+  root,
+  sqrt,
+
   /*
   log,
-  pow,
   logN,
 
   equals,

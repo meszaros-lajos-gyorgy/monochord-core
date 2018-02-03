@@ -20,9 +20,12 @@ import {
   dec,
   negate,
 
+  pow,
+  root,
+  sqrt,
+
   /*
   log,
-  pow,
   logN,
 
   equals,
@@ -54,7 +57,7 @@ describe('add', () => {
     assert.equal(value3.isRight, true)
     assert.equal(value3.value.toString(), '0.3')
   })
-  it('returns a Left with invalid number error, when any of the given parameters are an invalid number', () => {
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
     const value1 = add('apple', 12)
     assert.equal(value1.isLeft, true)
     assert.equal(value1.value, Errors.INVALID_NUMBER)
@@ -84,7 +87,7 @@ describe('subtract', () => {
     assert.equal(value3.isRight, true)
     assert.equal(value3.value.toString(), '0.2')
   })
-  it('returns a Left with invalid number error, when any of the given parameters are an invalid number', () => {
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
     const value1 = subtract('apple', 12)
     assert.equal(value1.isLeft, true)
     assert.equal(value1.value, Errors.INVALID_NUMBER)
@@ -114,7 +117,7 @@ describe('multiply', () => {
     assert.equal(value3.isRight, true)
     assert.equal(value3.value.toString(), '1.8')
   })
-  it('returns a Left with invalid number error, when any of the given parameters are an invalid number', () => {
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
     const value1 = multiply('apple', 12)
     assert.equal(value1.isLeft, true)
     assert.equal(value1.value, Errors.INVALID_NUMBER)
@@ -144,7 +147,7 @@ describe('divide', () => {
     assert.equal(value3.isRight, true)
     assert.equal(value3.value.toString(), '0.2')
   })
-  it('returns a Left with invalid number error, when any of the given parameters are an invalid number', () => {
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
     const value1 = divide('apple', 12)
     assert.equal(value1.isLeft, true)
     assert.equal(value1.value, Errors.INVALID_NUMBER)
@@ -175,7 +178,7 @@ describe('modulo', () => {
     assert.equal(value2.isRight, true)
     assert.equal(value2.value.toString(), '0.1')
   })
-  it('returns a Left with invalid number error, when any of the given parameters are an invalid number', () => {
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
     const value1 = modulo('apple', 12)
     assert.equal(value1.isLeft, true)
     assert.equal(value1.value, Errors.INVALID_NUMBER)
@@ -281,20 +284,66 @@ describe('negate', () => {
   })
 })
 
-// -----------------
+describe('pow', () => {
+  it('raises the first argument to the second\'s power', () => {
+    const value = pow(3, 4)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value.toString(), '81')
+  })
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
+    const value1 = pow('apple', 12)
+    assert.equal(value1.isLeft, true)
+    assert.equal(value1.value, Errors.INVALID_NUMBER)
+
+    const value2 = pow(12, false)
+    assert.equal(value2.isLeft, true)
+    assert.equal(value2.value, Errors.INVALID_NUMBER)
+  })
+  it('can be curried', () => {
+    const a = pow(3)(4)
+    const b = pow(3, 4)
+    assert.equal(a.value.toString(), b.value.toString())
+  })
+})
+
+describe('root', () => {
+  it('takes the first argument\'s nth root', () => {
+    const value = root(81, 4)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value.toString(), '3')
+  })
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
+    const value1 = root('apple', 12)
+    assert.equal(value1.isLeft, true)
+    assert.equal(value1.value, Errors.INVALID_NUMBER)
+
+    const value2 = root(12, false)
+    assert.equal(value2.isLeft, true)
+    assert.equal(value2.value, Errors.INVALID_NUMBER)
+  })
+  it('can be curried', () => {
+    const a = root(3)(4)
+    const b = root(3, 4)
+    assert.equal(a.value.toString(), b.value.toString())
+  })
+})
+
+describe('sqrt', () => {
+  it('takes the square root of a number', () => {
+    const value = sqrt(81)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value.toString(), '9')
+  })
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
+    const value = sqrt('apple')
+    assert.equal(value.isLeft, true)
+    assert.equal(value.value, Errors.INVALID_NUMBER)
+  })
+})
 
 /*
 describe('log', () => {
 
-})
-
-describe('pow', () => {
-  it('raises the first argument to the second argument\'s power', () => {
-    assert.equal(pow(3, 4), 81)
-  })
-  it('can be curried', () => {
-    assert.equal(pow(3)(4), pow(3, 4))
-  })
 })
 
 describe('logN', () => {

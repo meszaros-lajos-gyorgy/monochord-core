@@ -21,21 +21,79 @@ import {
   invert
 } from '../../src/math/helpers'
 
-/*
 describe('cloneNumber', () => {
-  it('', () => {
-
+  it('clones the number inside a Right', () => {
+    const numA = Either.Right(Decimal(12))
+    const numB = cloneNumber(numA)
+    assert.notEqual(numA.value, numB.value)
+  })
+  it('leaves the input intact, if given input is a Left', () => {
+    const input = Either.Left('this is an error')
+    const output = cloneNumber(input)
+    assert.equal(input, output)
   })
 })
 
 describe('memoizeCalculation', () => {
-  it('', () => {
+  it('takes a function as input and gives back a function', () => {
+    const fn = () => Either.Right(true)
+    const fn2 = memoizeCalculation(fn)
+    assert.equal(typeof fn2, 'function')
+  })
+  it('gives back a function, which wraps the original function in a way, that when it\'s called, it will store the result for the inputs and only execute the original function once', () => {
+    let cntr = 0
+    const fn = (a, b) => {
+      cntr++
+      return Either.Right(a + b)
+    }
+    const fn2 = memoizeCalculation(fn)
 
+    fn2(1, 2)
+    fn2(1, 2)
+    fn2(1, 2)
+    assert.equal(cntr, 1)
+
+    fn(1, 2)
+    fn(1, 2)
+    fn(1, 2)
+    assert.equal(cntr, 4)
+  })
+  it('returns back a cloned version of the passed function\'s result, when it\'s a number', () => {
+    let value
+    const fn = (a, b) => {
+      value = Either.Right(a + b)
+      return value
+    }
+    const fn2 = memoizeCalculation(fn)
+    const memoizedValue = fn2(1, 2)
+
+    assert.equal(memoizedValue.value.toString(), value.value.toString())
+    assert.notEqual(memoizedValue.value, value)
+  })
+  it('stores a different cache for same arguments in different orders', () => {
+    let cntr = 0
+    const fn = (a, b) => {
+      cntr++
+      return Either.Right(a + b)
+    }
+    const fn2 = memoizeCalculation(fn)
+
+    fn2(1, 2)
+    fn2(2, 1)
+    fn2(1, 2)
+    fn2(2, 1)
+    fn2(1, 2)
+    fn2(2, 1)
+    assert.equal(cntr, 2)
+  })
+  it('returns back a function\'s result untouched, if it\'s a Left', () => {
+    const fn = () => Either.Left(true)
+    const fn2 = memoizeCalculation(fn)
+    assert.equal(fn().value, true)
+    assert.equal(fn2().value, true)
   })
 })
-*/
 
-// TODO: the tests should not depend on actual Decimal and Either implementations
 describe('number', () => {
   it('returns an instance of Decimal wrapped in an Either', () => {
     const value = number(10)
