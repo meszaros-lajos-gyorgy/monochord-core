@@ -24,9 +24,7 @@ import {
   root,
   sqrt,
 
-  /*
   log,
-  logN,
 
   equals,
   lt,
@@ -37,7 +35,6 @@ import {
   isZero,
   isNegative,
   isPositive,
-  */
 
   isInteger,
   isFraction
@@ -334,23 +331,37 @@ describe('sqrt', () => {
     assert.equal(value.isRight, true)
     assert.equal(value.value.toString(), '9')
   })
-  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
+  it('returns a Left with invalid number error, when the given parameter is an invalid number', () => {
     const value = sqrt('apple')
     assert.equal(value.isLeft, true)
     assert.equal(value.value, Errors.INVALID_NUMBER)
   })
 })
 
-/*
 describe('log', () => {
+  it('returns the first argument\'s nth base logarithm', () => {
+    const value = log(256, 2)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value.toString(),'8')
+  })
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
+    const value1 = log('apple', 12)
+    assert.equal(value1.isLeft, true)
+    assert.equal(value1.value, Errors.INVALID_NUMBER)
 
-})
-
-describe('logN', () => {
-
+    const value2 = log(12, false)
+    assert.equal(value2.isLeft, true)
+    assert.equal(value2.value, Errors.INVALID_NUMBER)
+  })
+  it('can be curried', () => {
+    const a = log(3)(4)
+    const b = log(3, 4)
+    assert.equal(a.value.toString(), b.value.toString())
+  })
 })
 
 describe('equals', () => {
+  /*
   it('compares two values and returns true, when they are the same', () => {
     assert.equal(equals('12', '12'), true)
   })
@@ -360,12 +371,88 @@ describe('equals', () => {
   it('can be curried', () => {
     assert.equal(equals('12')('12'), equals('12', '12'))
   })
+  */
 })
 
 describe('lt', () => {
 
 })
-*/
+
+describe('gt', () => {
+
+})
+
+describe('lte', () => {
+
+})
+
+describe('gte', () => {
+
+})
+
+describe('isZero', () => {
+  it('returns true, when given number is zero', () => {
+    const value = isZero(0)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, true)
+  })
+  it('returns false, when given number is not zero', () => {
+    const value = isZero(63)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
+  })
+  it('returns a Left with invalid number error, when the given parameter is an invalid number', () => {
+    const value = isZero('apple')
+    assert.equal(value.isLeft, true)
+    assert.equal(value.value, Errors.INVALID_NUMBER)
+  })
+})
+
+describe('isPositive', () => {
+  it('returns true, when given number is greater, than zero', () => {
+    const value = isPositive(100)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, true)
+  })
+  it('returns false, when given number is less, than zero', () => {
+    const value = isPositive(-4)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
+  })
+  it('returns true, when given number is zero', () => {
+    const value = isPositive(0)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, true)
+  })
+  it('returns a Left with invalid number error, when the given parameter is an invalid number', () => {
+    const value = isPositive('apple')
+    assert.equal(value.isLeft, true)
+    assert.equal(value.value, Errors.INVALID_NUMBER)
+  })
+})
+
+describe('isNegative', () => {
+  it('returns false, when given number is greater, than zero', () => {
+    const value = isNegative(100)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
+  })
+  it('returns true, when given number is less, than zero', () => {
+    const value = isNegative(-4)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, true)
+  })
+  it('returns false, when given number is zero', () => {
+    const value = isNegative(0)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
+  })
+  it('returns a Left with invalid number error, when the given parameter is an invalid number', () => {
+    const value = isNegative('apple')
+    assert.equal(value.isLeft, true)
+    assert.equal(value.value, Errors.INVALID_NUMBER)
+  })
+})
 
 describe('isInteger', () => {
   it('returns true, when given number is an integer', () => {

@@ -18,8 +18,7 @@ import {
   tryCatch,
   converge,
   nthArg,
-  compose,
-  __
+  compose
 } from 'ramda'
 
 // -----------------
@@ -76,35 +75,55 @@ const root = converge(
   ]
 )
 
-const sqrt = root(__, 2)
+const sqrt = wrapUnary(tryCatch(
+  a => Either.Right(a.sqrt()),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
 
-/*
-const log = memoize(n => {
-  return Math.log(n)
-})
+const log = wrapBinary(tryCatch(
+  (a, b) => Either.Right(a.log(b)),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
 
-const logN = curryN(2, memoize((base, n) => {
-  return divide(log(n), log(base))
-}))
+const equals = wrapBinary(tryCatch(
+  (a, b) => Either.Right(a.equals(b)),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
 
-// random?
+const lt = wrapBinary(tryCatch(
+  (a, b) => Either.Right(a.lt(b)),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
 
-const equals = curryN(2, memoize((a, b) => {
-  return Big(a).eq(b)
-}))
+const gt = wrapBinary(tryCatch(
+  (a, b) => Either.Right(a.gt(b)),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
 
-const lt = curryN(2, memoize((a, b) => {
-  return Big(a).lt(b)
-}))
+const lte = wrapBinary(tryCatch(
+  (a, b) => Either.Right(a.lte(b)),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
 
-const gt
-const lte
-const gte
+const gte = wrapBinary(tryCatch(
+  (a, b) => Either.Right(a.gte(b)),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
 
-const isZero
-const isNegative
-const isPositive
-*/
+const isZero = wrapUnary(tryCatch(
+  a => Either.Right(a.isZero()),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
+
+const isNegative = wrapUnary(tryCatch(
+  a => Either.Right(a.isNegative()),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
+
+const isPositive = wrapUnary(tryCatch(
+  a => Either.Right(a.isPositive()),
+  always(Either.Left(Errors.INVALID_NUMBER))
+))
 
 const isInteger = wrapUnary(tryCatch(
   a => Either.Right(a.isInteger()),
@@ -133,9 +152,7 @@ export {
   root,
   sqrt,
 
-  /*
   log,
-  logN,
 
   equals,
   lt,
@@ -146,7 +163,6 @@ export {
   isZero,
   isNegative,
   isPositive,
-  */
 
   isInteger,
   isFraction
