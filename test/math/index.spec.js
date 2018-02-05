@@ -361,33 +361,123 @@ describe('log', () => {
 })
 
 describe('equals', () => {
-  /*
   it('compares two values and returns true, when they are the same', () => {
-    assert.equal(equals('12', '12'), true)
+    const value1 = equals(12, 12)
+    assert.equal(value1.isRight, true)
+    assert.equal(value1.value, true)
+
+    const value2 = equals(12, '12')
+    assert.equal(value2.isRight, true)
+    assert.equal(value2.value, true)
   })
   it('returns false, when given two number is not the same', () => {
-    assert.equal(equals('12', '34'), false)
+    const value = equals(12, 34)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
   })
   it('can be curried', () => {
-    assert.equal(equals('12')('12'), equals('12', '12'))
+    const a = equals(12)(12)
+    const b = equals(12, 12)
+    assert.equal(a.value, b.value)
   })
-  */
 })
 
 describe('lt', () => {
+  it('compares two values and returns true, when the first number is smaller', () => {
+    const value1 = lt(12, 13)
+    assert.equal(value1.isRight, true)
+    assert.equal(value1.value, true)
 
+    const value2 = lt(12, '15')
+    assert.equal(value2.isRight, true)
+    assert.equal(value2.value, true)
+  })
+  it('returns false, when the first number is larger', () => {
+    const value = lt(120, 34)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
+  })
+  it('can be curried', () => {
+    const a = lt(12)(12)
+    const b = lt(12, 12)
+    assert.equal(a.value, b.value)
+  })
 })
 
 describe('gt', () => {
+  it('compares two values and returns true, when the first number is larger', () => {
+    const value1 = gt(13, 12)
+    assert.equal(value1.isRight, true)
+    assert.equal(value1.value, true)
 
+    const value2 = gt('15', 12)
+    assert.equal(value2.isRight, true)
+    assert.equal(value2.value, true)
+  })
+  it('returns false, when the first number is smaller', () => {
+    const value = gt(34, 120)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
+  })
+  it('can be curried', () => {
+    const a = gt(12)(12)
+    const b = gt(12, 12)
+    assert.equal(a.value, b.value)
+  })
 })
 
 describe('lte', () => {
+  it('compares two values and returns true, when the first number is smaller', () => {
+    const value1 = lte(12, 13)
+    assert.equal(value1.isRight, true)
+    assert.equal(value1.value, true)
 
+    const value2 = lte(12, '15')
+    assert.equal(value2.isRight, true)
+    assert.equal(value2.value, true)
+  })
+  it('returns true, when the first number equals the second', () => {
+    const value = lte(12, 12)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, true)
+  })
+  it('returns false, when the first number is larger', () => {
+    const value = lte(120, 34)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
+  })
+  it('can be curried', () => {
+    const a = lte(12)(12)
+    const b = lte(12, 12)
+    assert.equal(a.value, b.value)
+  })
 })
 
 describe('gte', () => {
+  it('compares two values and returns true, when the first number is larger', () => {
+    const value1 = gte(13, 12)
+    assert.equal(value1.isRight, true)
+    assert.equal(value1.value, true)
 
+    const value2 = gte('15', 12)
+    assert.equal(value2.isRight, true)
+    assert.equal(value2.value, true)
+  })
+  it('returns true, when the first number equals the second', () => {
+    const value = gte(12, 12)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, true)
+  })
+  it('returns false, when the first number is smaller', () => {
+    const value = gte(34, 120)
+    assert.equal(value.isRight, true)
+    assert.equal(value.value, false)
+  })
+  it('can be curried', () => {
+    const a = gte(12)(12)
+    const b = gte(12, 12)
+    assert.equal(a.value, b.value)
+  })
 })
 
 describe('isZero', () => {
