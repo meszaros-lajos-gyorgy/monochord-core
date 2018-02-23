@@ -11,15 +11,15 @@ import {
 } from './constants'
 
 import {
+
+} from './basic'
+
+import {
   Either
 } from 'ramda-fantasy'
 
 import {
-  always,
-  tryCatch,
-  converge,
-  nthArg,
-  compose
+
 } from 'ramda'
 */
 
@@ -27,6 +27,8 @@ import {
 
 // -----------------
 
+/*
 export {
 
 }
+*/

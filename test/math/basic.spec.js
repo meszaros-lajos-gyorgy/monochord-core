@@ -7,8 +7,10 @@ import {
 } from '../../src/math/constants'
 
 import {
-  number,
-  
+  number
+} from '../../src/math/helpers'
+
+import {
   add,
   subtract,
   multiply,
@@ -38,7 +40,7 @@ import {
 
   isInteger,
   isFraction
-} from '../../src/math/index'
+} from '../../src/math/basic'
 
 describe('add', () => {
   it('adds together 2 numbers', () => {

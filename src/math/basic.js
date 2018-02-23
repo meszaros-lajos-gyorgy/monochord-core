@@ -1,7 +1,6 @@
 import {
   wrapBinary,
   wrapUnary,
-  number,
   invert
 } from './helpers'
 
@@ -135,8 +134,6 @@ const isFraction = invert(isInteger)
 // -----------------
 
 export {
-  number,
-
   add,
   subtract,
   multiply,
