@@ -3,6 +3,10 @@
 import assert from 'assert'
 
 import {
+  always
+} from 'ramda'
+
+import {
   Either
 } from 'ramda-fantasy'
 
@@ -18,7 +22,8 @@ import {
   number,
   wrapUnary,
   wrapBinary,
-  invert
+  invert,
+  ifThenElse
 } from '../../src/math/helpers'
 
 describe('cloneNumber', () => {
@@ -156,4 +161,18 @@ describe('invert', () => {
     assert.equal(fn().value, true)
     assert.equal(fn2().value, true)
   })
+})
+
+describe('ifThenElse', () => {
+  const T = () => Either.Right(true)
+  const F = () => Either.Right(false)
+
+  it('takes 3 functions as inputs and returns a function, which executes the 1st function and calles the 2nd on a truthy value and the 3rd otherwise', () => {
+    const truthy = always(number(4))
+    const falsy = always(number(20))
+    const result = ifThenElse(T, truthy, falsy)(1, 2)
+
+    assert.equal(result.value.toString(), truthy().value.toString())
+  })
+  // TODO: add more tests
 })

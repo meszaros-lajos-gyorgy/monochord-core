@@ -1,7 +1,8 @@
 import {
   wrapBinary,
   wrapUnary,
-  invert
+  invert,
+  ifThenElse
 } from './helpers'
 
 import {
@@ -17,7 +18,8 @@ import {
   tryCatch,
   converge,
   nthArg,
-  compose
+  compose,
+  curryN
 } from 'ramda'
 
 // -----------------
@@ -131,6 +133,9 @@ const isInteger = wrapUnary(tryCatch(
 
 const isFraction = invert(isInteger)
 
+const min = curryN(2, ifThenElse(lt, nthArg(0), nthArg(1)))
+const max = curryN(2, ifThenElse(gt, nthArg(0), nthArg(1)))
+
 // -----------------
 
 export {
@@ -162,5 +167,8 @@ export {
   isPositive,
 
   isInteger,
-  isFraction
+  isFraction,
+
+  min,
+  max
 }

@@ -39,7 +39,10 @@ import {
   isPositive,
 
   isInteger,
-  isFraction
+  isFraction,
+
+  min,
+  max
 } from '../../src/math/basic'
 
 describe('add', () => {
@@ -581,3 +584,43 @@ describe('isFraction', () => {
     assert.equal(value.value, Errors.INVALID_NUMBER)
   })
 })
+
+describe('min', () => {
+  it('gives back the smaller of the given 2 parameters', () => {
+    const value1 = min(3, 5)
+    assert.equal(value1.isRight, true)
+    assert.equal(value1.value.toString(), '3')
+
+    const value2 = min(73, 5)
+    assert.equal(value2.isRight, true)
+    assert.equal(value2.value.toString(), '5')
+  })
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
+    const value1 = min('apple', 12)
+    assert.equal(value1.isLeft, true)
+    assert.equal(value1.value, Errors.INVALID_NUMBER)
+    
+    const value2 = min(12, false)
+    assert.equal(value2.isLeft, true)
+    assert.equal(value2.value, Errors.INVALID_NUMBER)
+  })
+  it('can be curried', () => {
+    const a = min(3, 4)
+    const b = min(3)(4)
+    assert.equal(a.value.toString(), b.value.toString())
+  })
+  /*
+  it('keeps the original values intact', () => {
+    const a = number(3)
+    const b = number(4)
+
+    assert.notEqual(min(a, b).value, a.value)
+  })
+  */
+})
+
+/*
+describe('max', () => {
+  
+})
+*/

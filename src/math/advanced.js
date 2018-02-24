@@ -25,10 +25,25 @@ import {
 
 // -----------------
 
+/*
+const findGreatestCommonDivisor = compose(
+  reduce(multiply, 1),
+  converge(reduce(intersectionWithRepeats), [head, tail]),
+  map(getPrimeFactors)
+)
+
+const findLeastCommonMultiple = compose(
+  reduce(multiply, 1),
+  converge(reduce(unionWithRepeats), [head, tail]),
+  map(getPrimeFactors)
+)
+*/
+
 // -----------------
 
 /*
 export {
-
+  findGreatestCommonDivisor,
+  findLeastCommonMultiple
 }
 */

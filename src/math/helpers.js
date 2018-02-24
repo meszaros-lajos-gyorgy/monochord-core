@@ -80,9 +80,17 @@ const wrapBinary = fn => curryN(2, memoizeCalculation((a, b) => {
 
 const invert = fn => (...args) => when(
   Either.isRight,
-  either => either.map(not),
-  apply(fn, args)
-)
+  either => either.map(not)
+)(apply(fn, args))
+
+const ifThenElse = (fn, onTrue, onFalse) => (...args) => {
+  const checkResult = apply(fn, args)
+  if (checkResult.isLeft) {
+    return checkResult
+  } else {
+    return number(apply(checkResult.value ? onTrue : onFalse, args))
+  }
+}
 
 export {
   cloneNumber,
@@ -90,5 +98,6 @@ export {
   number,
   wrapUnary,
   wrapBinary,
-  invert
+  invert,
+  ifThenElse
 }
