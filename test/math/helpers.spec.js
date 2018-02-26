@@ -151,7 +151,7 @@ describe('wrapUnary', () => {
     })
     
     const val = fn(12)
-    assert.equal(Either.isRight(val), true)
+    assert.equal(val.isRight, true)
     assert.equal(val.value.toString(), '13')
   })
   it('requires a function, which returns an Either', () => {
@@ -191,16 +191,92 @@ describe('wrapUnary', () => {
     fn(12)
     fn(12)
     assert.equal(calls, 1)
+    fn(7)
+    fn(7)
+    fn(7)
+    fn(7)
+    assert.equal(calls, 2)
   })
 })
 
-/*
 describe('wrapBinary', () => {
-  it('', () => {
+  it('takes a funcion as input and gives back a function', () => {
+    const fn = wrapBinary(T)
+    assert.equal(typeof fn, 'function')
+  })
+  it('using the recieved function, it returns the leftmost invalid number/Left value, even if one value would be okay', () => {
+    const fn = wrapBinary(T)
+
+    const val1_1 = Either.Left('hello')
+    const val1_2 = Either.Left('ooo')
+    assert.equal(fn(val1_1, val1_2), val1_1)
+
+    const val2_1 = 12
+    const val2_2 = undefined
+    assert.equal(fn(val2_1, val2_2).isLeft, true)
+    assert.equal(fn(val2_1, val2_2).value, Errors.INVALID_NUMBER)
+  })
+  it('has curry on the returned function', () => {
+    const fn = wrapBinary((a, b) => {
+      return Either.Right(a.add(b))
+    })
+
+    assert.equal(fn(12, 5).value.toString(), fn(12)(5).value.toString())
+  })
+  it('applies the original function to the given 2 parameters, if it is a valid number', () => {
+    const fn = wrapBinary((a, b) => {
+      return Either.Right(a.add(b))
+    })
     
+    const val = fn(12, 5)
+    assert.equal(val.isRight, true)
+    assert.equal(val.value.toString(), '17')
+  })
+  it('requires a function, which returns an Either', () => {
+    const fn = wrapBinary(a => {
+      return null
+    })
+    assert.throws(() => {
+      fn(12, 15)
+    })
+  })
+  it('ignores any other given parameters apart from the first 2', () => {
+    let _args
+    const fn = wrapBinary((...args) => {
+      _args = args
+      return Either.Right(true)
+    })
+    fn(1, 2, 3, 4, 5)
+    assert.equal(_args.length, 2)
+    assert.equal(_args[0].toString(), '1')
+    assert.equal(_args[1].toString(), '2')
+  })
+  it('gives back an Either based on the result of the passed function', () => {
+    const fn1 = wrapBinary(T)
+    const fn2 = wrapBinary(() => Either.Left('eee'))
+
+    assert.equal(fn1(10, 20).isRight, true)
+    assert.equal(fn2(10, 20).isLeft, true)
+  })
+  it('memoizes the calculations', () => {
+    let calls = 0
+    const fn = wrapBinary((a, b) => {
+      calls++
+      return Either.Right(a.add(b))
+    })
+    
+    fn(12, 6)
+    fn(12, 6)
+    fn(12, 6)
+    fn(12, 6)
+    assert.equal(calls, 1)
+    fn(8, 5)
+    fn(8, 5)
+    fn(8, 5)
+    fn(8, 5)
+    assert.equal(calls, 2)
   })
 })
-*/
 
 describe('invert', () => {
   it('takes a function as input and gives back a function', () => {
