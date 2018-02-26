@@ -29,11 +29,11 @@ const cloneNumber = src => src.map(num => new Decimal(num))
 const memoizeCalculation = fn => {
   const cache = {}
 
-  return function () {
-    const key = toString(Array.from(arguments))
+  return (...args) => {
+    const key = toString(args)
 
     if (!cache.hasOwnProperty(key)) {
-      cache[key] = fn.apply(this, arguments)
+      cache[key] = apply(fn, args)
     }
 
     return unless(
