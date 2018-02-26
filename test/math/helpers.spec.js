@@ -3,7 +3,8 @@
 import assert from 'assert'
 
 import {
-  always
+  always,
+  apply
 } from 'ramda'
 
 import {
@@ -296,18 +297,36 @@ describe('invert', () => {
 })
 
 describe('ifThenElse', () => {
+  const truthy = always(number(4))
+  const falsy = always(number(20))
+
   it('takes 3 functions as inputs and returns a function, which executes the 1st function and calles the 2nd on a truthy value and the 3rd otherwise', () => {
-    const truthy = always(number(4))
-    const falsy = always(number(20))
-    const result = ifThenElse(T, truthy, falsy)(1, 2)
-
-    assert.equal(result.value.toString(), truthy().value.toString())
+    assert.equal(ifThenElse(T, truthy, falsy)(1, 2).value.toString(), truthy().value.toString())
+    assert.equal(ifThenElse(F, truthy, falsy)(1, 2).value.toString(), falsy().value.toString())
   })
+  it('expects the 1st function to return a truthy or falsy value', () => {
+    assert.equal(ifThenElse(always(Either.Right({})), truthy, falsy)(1, 2).value.toString(), truthy().value.toString())
+    assert.equal(ifThenElse(always(Either.Right('1234')), truthy, falsy)(1, 2).value.toString(), truthy().value.toString())
+    assert.equal(ifThenElse(always(Either.Right([1, 2, 3, 4])), truthy, falsy)(1, 2).value.toString(), truthy().value.toString())
 
-  /*
-  it('', () => {})
-  it('', () => {})
-  it('', () => {})
-  it('', () => {})
-  */
+    assert.equal(ifThenElse(always(Either.Right(null)), truthy, falsy)(1, 2).value.toString(), falsy().value.toString())
+    assert.equal(ifThenElse(always(Either.Right('')), truthy, falsy)(1, 2).value.toString(), falsy().value.toString())
+    assert.equal(ifThenElse(always(Either.Right(NaN)), truthy, falsy)(1, 2).value.toString(), falsy().value.toString())
+  })
+  it('if the 1st function returns a Left, then that value is returned, no further processing is done', () => {
+    const val = Either.Left('hello')
+    assert.equal(ifThenElse(() => val, truthy, falsy)(1, 2), val)
+  })
+  it('allows currying for the main function', () => {
+    const fn1 = ifThenElse(T)(truthy, falsy)
+    const fn2 = ifThenElse(T, truthy)(falsy)
+    const fn3 = ifThenElse(T, truthy, falsy)
+    const fn4 = ifThenElse(T)(truthy)(falsy)
+    const params = [1, 2]
+    assert.equal(apply(fn1, params).value.toString(), apply(fn2, params).value.toString())
+    assert.equal(apply(fn1, params).value.toString(), apply(fn3, params).value.toString())
+    assert.equal(apply(fn1, params).value.toString(), apply(fn4, params).value.toString())
+  })
+  // memoize
+  // does not change the orignal values
 })
