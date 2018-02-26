@@ -26,6 +26,9 @@ import {
   ifThenElse
 } from '../../src/math/helpers'
 
+const T = () => Either.Right(true)
+const F = () => Either.Right(false)
+
 describe('cloneNumber', () => {
   it('clones the number inside a Right', () => {
     const numA = Either.Right(Decimal(12))
@@ -41,9 +44,8 @@ describe('cloneNumber', () => {
 
 describe('memoizeCalculation', () => {
   it('takes a function as input and gives back a function', () => {
-    const fn = () => Either.Right(true)
-    const fn2 = memoizeCalculation(fn)
-    assert.equal(typeof fn2, 'function')
+    const fn = memoizeCalculation(T)
+    assert.equal(typeof fn, 'function')
   })
   it('gives back a function, which wraps the original function in a way, that when it\'s called, it will store the result for the inputs and only execute the original function once', () => {
     let cntr = 0
@@ -94,8 +96,7 @@ describe('memoizeCalculation', () => {
   it('returns back a function\'s result untouched, if it\'s a Left', () => {
     const fn = () => Either.Left(true)
     const fn2 = memoizeCalculation(fn)
-    assert.equal(fn().value, true)
-    assert.equal(fn2().value, true)
+    assert.equal(fn().value, fn2().value)
   })
 })
 
@@ -129,31 +130,86 @@ describe('number', () => {
   })
 })
 
-/*
 describe('wrapUnary', () => {
-  it('', () => {
+  it('takes a funcion as input and gives back a function', () => {
+    const fn = wrapUnary(T)
+    assert.equal(typeof fn, 'function')
+  })
+  it('using the recieved function, it leaves the input intact, if it is a Left or returns a Left, if the input is an invalid number', () => {
+    const fn = wrapUnary(T)
 
+    const val1 = Either.Left('hello')
+    assert.equal(fn(val1), val1)
+
+    const val2 = fn(undefined)
+    assert.equal(val2.isLeft, true)
+    assert.equal(val2.value, Errors.INVALID_NUMBER)
+  })
+  it('applies the original function to the given parameter, if it is a valid number', () => {
+    const fn = wrapUnary(a => {
+      return Either.Right(a.add(1))
+    })
+    
+    const val = fn(12)
+    assert.equal(Either.isRight(val), true)
+    assert.equal(val.value.toString(), '13')
+  })
+  it('requires a function, which returns an Either', () => {
+    const fn = wrapUnary(a => {
+      return null
+    })
+    assert.throws(() => {
+      fn(12)
+    })
+  })
+  it('ignores any other given parameters apart from the 1st', () => {
+    let _args
+    const fn = wrapUnary((...args) => {
+      _args = args
+      return Either.Right(true)
+    })
+    fn(1, 2, 3, 4, 5)
+    assert.equal(_args.length, 1)
+    assert.equal(_args[0].toString(), '1')
+  })
+  it('gives back an Either based on the result of the passed function', () => {
+    const fn1 = wrapUnary(T)
+    const fn2 = wrapUnary(() => Either.Left('eee'))
+
+    assert.equal(fn1(10).isRight, true)
+    assert.equal(fn2(10).isLeft, true)
+  })
+  it('memoizes the calculations', () => {
+    let calls = 0
+    const fn = wrapUnary(a => {
+      calls++
+      return Either.Right(a.add(1))
+    })
+    
+    fn(12)
+    fn(12)
+    fn(12)
+    fn(12)
+    assert.equal(calls, 1)
   })
 })
 
+/*
 describe('wrapBinary', () => {
   it('', () => {
-
+    
   })
 })
 */
 
 describe('invert', () => {
   it('takes a function as input and gives back a function', () => {
-    const fn = () => Either.Right(true)
-    const fn2 = invert(fn)
-    assert.equal(typeof fn2, 'function')
+    const fn = invert(T)
+    assert.equal(typeof fn, 'function')
   })
   it('gives back a function, which wraps the original function in a way, that when it\'s called, it will return the inverse of the returned value', () => {
-    const fn = () => Either.Right(true)
-    const fn2 = invert(fn)
-    assert.equal(fn().value, true)
-    assert.equal(fn2().value, false)
+    const fn = invert(T)
+    assert.equal(fn().value, false)
   })
   it('returns back a function\'s result untouched, if it\'s a Left', () => {
     const fn = () => Either.Left(true)
@@ -164,9 +220,6 @@ describe('invert', () => {
 })
 
 describe('ifThenElse', () => {
-  const T = () => Either.Right(true)
-  const F = () => Either.Right(false)
-
   it('takes 3 functions as inputs and returns a function, which executes the 1st function and calles the 2nd on a truthy value and the 3rd otherwise', () => {
     const truthy = always(number(4))
     const falsy = always(number(20))
@@ -174,7 +227,7 @@ describe('ifThenElse', () => {
 
     assert.equal(result.value.toString(), truthy().value.toString())
   })
-  
+
   /*
   it('', () => {})
   it('', () => {})
