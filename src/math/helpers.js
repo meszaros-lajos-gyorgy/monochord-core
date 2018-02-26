@@ -9,7 +9,9 @@ import {
   curryN,
   not,
   apply,
-  unless
+  unless,
+  map,
+  compose
 } from 'ramda'
 
 import {
@@ -78,19 +80,23 @@ const wrapBinary = fn => curryN(2, memoizeCalculation((a, b) => {
   }
 }))
 
-const invert = fn => (...args) => when(
+const invert = fn => memoizeCalculation((...args) => when(
   Either.isRight,
   either => either.map(not)
-)(apply(fn, args))
+)(apply(fn, args)))
 
-const ifThenElse = (fn, onTrue, onFalse) => (...args) => {
+const ifThenElse = curryN(3, (fn, onTrue, onFalse) => memoizeCalculation((...args) => {
   const checkResult = apply(fn, args)
   if (checkResult.isLeft) {
     return checkResult
   } else {
-    return number(apply(checkResult.value ? onTrue : onFalse, args))
+    return compose(
+      when(Either.isRight, cloneNumber),
+      apply(checkResult.value ? onTrue : onFalse),
+      map(number)
+    )(args)
   }
-}
+}))
 
 export {
   cloneNumber,

@@ -174,5 +174,11 @@ describe('ifThenElse', () => {
 
     assert.equal(result.value.toString(), truthy().value.toString())
   })
-  // TODO: add more tests
+  
+  /*
+  it('', () => {})
+  it('', () => {})
+  it('', () => {})
+  it('', () => {})
+  */
 })

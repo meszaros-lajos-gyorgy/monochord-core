@@ -609,18 +609,42 @@ describe('min', () => {
     const b = min(3)(4)
     assert.equal(a.value.toString(), b.value.toString())
   })
-  /*
   it('keeps the original values intact', () => {
     const a = number(3)
     const b = number(4)
-
+    
     assert.notEqual(min(a, b).value, a.value)
   })
-  */
 })
 
-/*
 describe('max', () => {
-  
+  it('gives back the larger of the given 2 parameters', () => {
+    const value1 = max(3, 5)
+    assert.equal(value1.isRight, true)
+    assert.equal(value1.value.toString(), '5')
+
+    const value2 = max(73, 5)
+    assert.equal(value2.isRight, true)
+    assert.equal(value2.value.toString(), '73')
+  })
+  it('returns a Left with invalid number error, when any of the given parameters is an invalid number', () => {
+    const value1 = max('apple', 12)
+    assert.equal(value1.isLeft, true)
+    assert.equal(value1.value, Errors.INVALID_NUMBER)
+    
+    const value2 = max(12, false)
+    assert.equal(value2.isLeft, true)
+    assert.equal(value2.value, Errors.INVALID_NUMBER)
+  })
+  it('can be curried', () => {
+    const a = max(3, 4)
+    const b = max(3)(4)
+    assert.equal(a.value.toString(), b.value.toString())
+  })
+  it('keeps the original values intact', () => {
+    const a = number(3)
+    const b = number(4)
+    
+    assert.notEqual(max(a, b).value, a.value)
+  })
 })
-*/

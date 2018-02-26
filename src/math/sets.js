@@ -1,3 +1,4 @@
+/*
 import {
   map,
   compose,
@@ -56,3 +57,4 @@ export {
   intersectionWithRepeats,
   unionWithRepeats
 }
+*/
