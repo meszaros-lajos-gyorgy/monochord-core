@@ -11,7 +11,11 @@ import {
   apply,
   unless,
   map,
-  compose
+  compose,
+  any,
+  find,
+  prop,
+  slice
 } from 'ramda'
 
 import {
@@ -58,27 +62,21 @@ const number = ifElse(
   }
 )
 
-const wrapUnary = fn => memoizeCalculation(a => {
-  const numA = number(a)
+const wrapArity = curryN(2, (N, fn) => curryN(N, memoizeCalculation((...args) => compose(
+  ifElse(
+    any(Either.isLeft),
+    find(Either.isLeft),
+    compose(
+      apply(fn),
+      map(prop('value'))
+    )
+  ),
+  slice(0, N),
+  map(number)
+)(args))))
 
-  if (numA.isLeft) {
-    return numA
-  } else {
-    return fn(numA.value)
-  }
-})
-const wrapBinary = fn => curryN(2, memoizeCalculation((a, b) => {
-  const numA = number(a)
-  const numB = number(b)
-
-  if (numA.isLeft) {
-    return numA
-  } else if (numB.isLeft) {
-    return numB
-  } else {
-    return fn(numA.value, numB.value)
-  }
-}))
+const wrapUnary = wrapArity(1)
+const wrapBinary = wrapArity(2)
 
 const invert = fn => memoizeCalculation((...args) => when(
   Either.isRight,
@@ -102,6 +100,7 @@ export {
   cloneNumber,
   memoizeCalculation,
   number,
+  wrapArity,
   wrapUnary,
   wrapBinary,
   invert,
