@@ -12,8 +12,8 @@ import {
 
 import {
   toCounterPairs,
-  /*
   addToCounterPairs,
+  /*
   concatCounters,
   setOperationWithRepeats,
   intersectionWithRepeats,
@@ -50,13 +50,33 @@ describe('toCounterPairs', () => {
   })
 })
 
-/*
 describe('addToCounterPairs', () => {
-  it('returns the ', () => {
-    // [[2, 0], [3, 0], [5, 0]]
+  it('increases the 2nd value for a counter pair, which\'s first value matches the given number', () => {
+    const list = [[number(2), number(0)], [number(3), number(0)], [number(5), number(0)]]
+    const result = addToCounterPairs(list, 3)
+    
+    assert.equal(result.length, 3)
+    assert.deepEqual(result[0], list[0])
+    assert.deepEqual(result[2], list[2])
+    
+    assert.equal(result[1][0], list[1][0])
+    assert.equal(result[1][1].value.toString(), '1')
   })
+  /*
+  TODO:
+  it('returns the given array as is, when it contains one or more Lefts', () => {
+    const list = [number(1), number('cat'), number(3)]
+    assert.deepEqual(addToCounterPairs(list, 3), list)
+  })
+  it('does nothing, if the given number is not in any of the counters\' first parameter', () => {
+    const list = [[number(2), number(0)], [number(3), number(0)], [number(5), number(0)]]
+    const result = addToCounterPairs(list, 4)
+    assert.deepEqual(list, result)
+  })
+  */
 })
 
+/*
 describe('concatCounters', () => {
   it('', () => {
 

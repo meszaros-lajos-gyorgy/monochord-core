@@ -1,15 +1,14 @@
 import {
   compose,
   append,
-  of
-  /*
+  of,
   converge,
   adjust,
-  inc, //
   findIndex,
-  equals,
   head,
   identity,
+  prop
+  /*
   zip,
   union,
   curry,
@@ -34,28 +33,31 @@ import {
   numbers
 } from './helpers'
 
-/*
 import {
-  inc
+  inc,
+  equals
 } from './basic'
-*/
 
 // -----------------
+
+// TODO: add some utility functions to make working with counters easier
 
 const toCounterPairs = numbers.map(compose(
   append(number(0)),
   of
 ))
 
-/*
 const addToCounterPairs = (counters, value) => converge(
   adjust(adjust(inc, 1)),
   [
-    findIndex(compose(equals(value), head)),
+    findIndex(compose(
+      prop('value'),
+      equals(value),
+      head
+    )),
     identity
   ]
 )(counters)
-*/
 
 /*
 const concatCounters = compose(adjust(head, 0), zip)
@@ -82,9 +84,9 @@ const unionWithRepeats = setOperationWithRepeats(max)
 // -----------------
 
 export {
-  toCounterPairs
+  toCounterPairs,
+  addToCounterPairs
   /*
-  addToCounterPairs,
   concatCounters,
   setOperationWithRepeats,
   intersectionWithRepeats,
