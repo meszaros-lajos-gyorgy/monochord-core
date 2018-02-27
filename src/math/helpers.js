@@ -12,10 +12,14 @@ import {
   unless,
   map,
   compose,
-  any,
+  all,
   find,
+  slice,
+  pluck,
+  converge,
+  defaultTo,
   prop,
-  slice
+  of
 } from 'ramda'
 
 import {
@@ -62,15 +66,31 @@ const number = ifElse(
   }
 )
 
-const wrapArity = curryN(2, (N, fn) => curryN(N, memoizeCalculation((...args) => compose(
-  ifElse(
-    any(Either.isLeft),
-    find(Either.isLeft),
-    compose(
-      apply(fn),
-      map(prop('value'))
-    )
+const numbers = {
+  isValid: all(Either.isRight),
+  getValues: pluck('value'),
+  getLeft: find(Either.isLeft)
+}
+
+numbers.apply = curryN(2, (fn, arr) => converge(defaultTo, [
+  compose(
+    apply(fn),
+    numbers.getValues
   ),
+  numbers.getLeft
+])(arr))
+
+numbers.map = curryN(2, (fn, arr) => when(
+  numbers.isValid,
+  map(compose(
+    apply(fn),
+    of,
+    prop('value')
+  ))
+)(arr))
+
+const wrapArity = curryN(2, (N, fn) => curryN(N, memoizeCalculation((...args) => compose(
+  numbers.apply(fn),
   slice(0, N),
   map(number)
 )(args))))
@@ -100,6 +120,7 @@ export {
   cloneNumber,
   memoizeCalculation,
   number,
+  numbers,
   wrapArity,
   wrapUnary,
   wrapBinary,
