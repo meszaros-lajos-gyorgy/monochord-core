@@ -80,13 +80,17 @@ numbers.apply = curryN(2, (fn, arr) => converge(defaultTo, [
   numbers.getLeft
 ])(arr))
 
-numbers.map = curryN(2, (fn, arr) => when(
+numbers.flatMap = curryN(2, (fn, arr) => when(
   numbers.isValid,
   map(compose(
     apply(fn),
     of,
     prop('value')
   ))
+)(arr))
+numbers.map = curryN(2, (fn, arr) => when(
+  numbers.isValid,
+  map(fn)
 )(arr))
 
 const wrapArity = curryN(2, (N, fn) => curryN(N, memoizeCalculation((...args) => compose(

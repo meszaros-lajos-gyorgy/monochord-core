@@ -189,27 +189,44 @@ describe('numbers', () => {
       assert.equal(numbers.apply(T, list).value, numbers.apply(T)(list).value)
     })
   })
+  /*
   describe('map', () => {
+    // TODO
+  })
+  */
+  describe('flatMap', () => {
     it('returns the given array intact, when any of the given elements is a Left', () => {
       const list = [Either.Right(1), Either.Left(2), Either.Right(3)]
-      assert.deepEqual(numbers.map(T, list), list)
+      assert.deepEqual(numbers.flatMap(T, list), list)
     })
     it('applies fn to every value, when every element is a Right', () => {
       const list = [number(1), number(2), number(3)]
       const fn = num => Either.Right(num.add(5))
-      const result = numbers.map(fn, list)
+      const result = numbers.flatMap(fn, list)
 
       assert.equal(result.length, 3)
       assert.equal(result[0].value.toString(), '6')
       assert.equal(result[1].value.toString(), '7')
       assert.equal(result[2].value.toString(), '8')
     })
+    it('can change the element type from Right to Left', () => {
+      const list = [number(1), number(2), number(3)]
+      const fn = num => Either.Left(num)
+      const result = numbers.flatMap(fn, list)
+
+      assert.equal(result.length, 3)
+      assert.equal(result[0].isLeft, true)
+      assert.equal(result[1].isLeft, true)
+      assert.equal(result[2].isLeft, true)
+    })
   })
 })
 
+/*
 describe('wrapArity', () => {
-
+  // TODO
 })
+*/
 
 describe('wrapUnary', () => {
   it('takes a funcion as input and gives back a function', () => {

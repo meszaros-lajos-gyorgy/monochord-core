@@ -1,9 +1,8 @@
-/*
 import {
-  map,
   compose,
   append,
-  of,
+  of
+  /*
   converge,
   adjust,
   inc, //
@@ -21,18 +20,44 @@ import {
   zipWith,
   min, //
   max //
+  */
 } from 'ramda'
+
+/*
+import {
+  Either
+} from 'ramda-fantasy'
+*/
+
+import {
+  number,
+  numbers
+} from './helpers'
+
+/*
+import {
+  inc
+} from './basic'
 */
 
 // -----------------
 
-/*
-const toCounterPairs = map(compose(
+const toCounterPairs = numbers.map(compose(
   append(number(0)),
   of
 ))
 
-const addToCounterPairs = (counters, value) => converge(adjust(adjust(inc, 1)), [findIndex(compose(equals(value), head)), identity])(counters)
+/*
+const addToCounterPairs = (counters, value) => converge(
+  adjust(adjust(inc, 1)),
+  [
+    findIndex(compose(equals(value), head)),
+    identity
+  ]
+)(counters)
+*/
+
+/*
 const concatCounters = compose(adjust(head, 0), zip)
 
 const setOperationWithRepeats = curry((fn, a, b) => {
@@ -57,8 +82,8 @@ const unionWithRepeats = setOperationWithRepeats(max)
 // -----------------
 
 export {
+  toCounterPairs
   /*
-  toCounterPairs,
   addToCounterPairs,
   concatCounters,
   setOperationWithRepeats,
