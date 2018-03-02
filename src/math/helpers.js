@@ -19,7 +19,8 @@ import {
   converge,
   defaultTo,
   prop,
-  of
+  of,
+  flatten
 } from 'ramda'
 
 import {
@@ -66,6 +67,8 @@ const number = ifElse(
   }
 )
 
+// ---------------
+
 const numbers = {
   isValid: all(Either.isRight),
   getValues: pluck('value'),
@@ -88,10 +91,15 @@ numbers.flatMap = curryN(2, (fn, arr) => when(
     prop('value')
   ))
 )(arr))
+
 numbers.map = curryN(2, (fn, arr) => when(
   numbers.isValid,
   map(fn)
 )(arr))
+
+numbers.isValidDeep = compose(numbers.isValid, flatten)
+
+// ---------------
 
 const wrapArity = curryN(2, (N, fn) => curryN(N, memoizeCalculation((...args) => compose(
   numbers.apply(fn),

@@ -220,6 +220,11 @@ describe('numbers', () => {
       assert.equal(result[2].isLeft, true)
     })
   })
+  /*
+  describe('isValidDeep', () => {
+    
+  })
+  */
 })
 
 /*
