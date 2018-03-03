@@ -28,9 +28,10 @@ import {
 } from 'ramda-fantasy'
 */
 
+import * as numbers from './numbers'
+
 import {
-  number,
-  numbers
+  number
 } from './helpers'
 
 import {

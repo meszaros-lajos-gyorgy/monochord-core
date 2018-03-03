@@ -1,0 +1,108 @@
+/* global describe, it */
+
+import assert from 'assert'
+
+import {
+  Either
+} from 'ramda-fantasy'
+
+import * as numbers from '../../src/math/numbers'
+
+import {
+  number
+} from '../../src/math/helpers'
+
+const T = () => Either.Right(true)
+const F = () => Either.Right(false)
+
+describe('isValid', () => {
+  it('returns false, if any of the elements in the given array of Eithers is a Left', () => {
+    const list = [Either.Right(1), Either.Left(2), Either.Right(3)]
+    assert.equal(numbers.isValid(list), false)
+  })
+  it('returns true, if all elements in the given array of Eithers is a Right', () => {
+    const list = [Either.Right(1), Either.Right(2), Either.Right(3)]
+    assert.equal(numbers.isValid(list), true)
+  })
+})
+describe('getValues', () => {
+  it('returns the individual values from the Rights', () => {
+    const list = numbers.getValues([number(1), number(2), number(3)])
+    assert.equal(list[0].toString(), '1')
+    assert.equal(list[1].toString(), '2')
+    assert.equal(list[2].toString(), '3')
+  })
+})
+describe('getLeft', () => {
+  it('returns the first Left from the given array of Eithers', () => {
+    const list = [Either.Right(1), Either.Left(2), Either.Right(3)]
+    assert.equal(numbers.getLeft(list), list[1])
+  })
+  it('returns undefined, if there are no Lefts in the given array of Eithers', () => {
+    const list = [Either.Right(1), Either.Right(2), Either.Right(3)]
+    assert.equal(numbers.getLeft(list), undefined)
+  })
+})
+describe('apply', () => {
+  it('returns the first Left from the given array of Eithers', () => {
+    const list = [Either.Right(1), Either.Left(2), Either.Right(3)]
+    assert.equal(numbers.apply(T, list), list[1])
+  })
+  it('applies the values of the given array, when every element is a Right', () => {
+    const list = [number(1), number(2), number(3)]
+    let _args
+    const fn = (...args) => {
+      _args = args
+    }
+    numbers.apply(fn, list)
+
+    assert.equal(_args.length, 3)
+    assert.equal(_args[0].toString(), '1')
+    assert.equal(_args[1].toString(), '2')
+    assert.equal(_args[2].toString(), '3')
+  })
+  it('returns the result of the function, when every element is a Right', () => {
+    const list = [number(1), number(2), number(3)]
+    assert.equal(numbers.apply(T, list).value, true)
+  })
+  it('can be curried', () => {
+    const list = [number(1), number(2), number(3)]
+    assert.equal(numbers.apply(T, list).value, numbers.apply(T)(list).value)
+  })
+})
+/*
+describe('map', () => {
+  // TODO
+})
+*/
+describe('flatMap', () => {
+  it('returns the given array intact, when any of the given elements is a Left', () => {
+    const list = [Either.Right(1), Either.Left(2), Either.Right(3)]
+    assert.deepEqual(numbers.flatMap(T, list), list)
+  })
+  it('applies fn to every value, when every element is a Right', () => {
+    const list = [number(1), number(2), number(3)]
+    const fn = num => Either.Right(num.add(5))
+    const result = numbers.flatMap(fn, list)
+
+    assert.equal(result.length, 3)
+    assert.equal(result[0].value.toString(), '6')
+    assert.equal(result[1].value.toString(), '7')
+    assert.equal(result[2].value.toString(), '8')
+  })
+  it('can change the element type from Right to Left', () => {
+    const list = [number(1), number(2), number(3)]
+    const fn = num => Either.Left(num)
+    const result = numbers.flatMap(fn, list)
+
+    assert.equal(result.length, 3)
+    assert.equal(result[0].isLeft, true)
+    assert.equal(result[1].isLeft, true)
+    assert.equal(result[2].isLeft, true)
+  })
+})
+/*
+describe('isValidDeep', () => {
+  
+})
+*/

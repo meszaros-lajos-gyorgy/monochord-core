@@ -12,15 +12,7 @@ import {
   unless,
   map,
   compose,
-  all,
-  find,
-  slice,
-  pluck,
-  converge,
-  defaultTo,
-  prop,
-  of,
-  flatten
+  slice
 } from 'ramda'
 
 import {
@@ -32,6 +24,8 @@ import Decimal from 'decimal.js'
 import {
   Errors
 } from './constants'
+
+import * as numbers from './numbers'
 
 const cloneNumber = src => src.map(num => new Decimal(num))
 
@@ -67,40 +61,6 @@ const number = ifElse(
   }
 )
 
-// ---------------
-
-const numbers = {
-  isValid: all(Either.isRight),
-  getValues: pluck('value'),
-  getLeft: find(Either.isLeft)
-}
-
-numbers.apply = curryN(2, (fn, arr) => converge(defaultTo, [
-  compose(
-    apply(fn),
-    numbers.getValues
-  ),
-  numbers.getLeft
-])(arr))
-
-numbers.flatMap = curryN(2, (fn, arr) => when(
-  numbers.isValid,
-  map(compose(
-    apply(fn),
-    of,
-    prop('value')
-  ))
-)(arr))
-
-numbers.map = curryN(2, (fn, arr) => when(
-  numbers.isValid,
-  map(fn)
-)(arr))
-
-numbers.isValidDeep = compose(numbers.isValid, flatten)
-
-// ---------------
-
 const wrapArity = curryN(2, (N, fn) => curryN(N, memoizeCalculation((...args) => compose(
   numbers.apply(fn),
   slice(0, N),
@@ -132,7 +92,6 @@ export {
   cloneNumber,
   memoizeCalculation,
   number,
-  numbers,
   wrapArity,
   wrapUnary,
   wrapBinary,
