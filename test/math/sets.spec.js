@@ -13,8 +13,9 @@ import {
 import {
   toCounterPairs,
   addToCounterPairs,
-  /*
+  concatCounter,
   concatCounters,
+  /*
   setOperationWithRepeats,
   intersectionWithRepeats,
   unionWithRepeats
@@ -62,27 +63,37 @@ describe('addToCounterPairs', () => {
     assert.equal(result[1][0], list[1][0])
     assert.equal(result[1][1].value.toString(), '1')
   })
-  /*
-  TODO:
   it('returns the given array as is, when it contains one or more Lefts', () => {
     const list = [number(1), number('cat'), number(3)]
     assert.deepEqual(addToCounterPairs(list, 3), list)
   })
-  it('does nothing, if the given number is not in any of the counters\' first parameter', () => {
-    const list = [[number(2), number(0)], [number(3), number(0)], [number(5), number(0)]]
-    const result = addToCounterPairs(list, 4)
-    assert.deepEqual(list, result)
+})
+
+describe('concatCounter', () => {
+  it('takes 2 single counter pairs and creates an array, which contains the common number and an array of the counts ', () => {
+    const cntr1 = [number(2), number(0)]
+    const cntr2 = [number(2), number(3)]
+
+    const result = concatCounter(cntr1, cntr2)
+
+    assert.equal(result.length, 2)
+    assert.equal(result[0].value.toString(), '2')
+    assert.equal(Array.isArray(result[1]), true)
+    assert.equal(result[1].length, 2)
+    assert.equal(result[1][0].value.toString(), '0')
+    assert.equal(result[1][1].value.toString(), '3')
   })
-  */
+})
+
+describe('concatCounters', () => {
+  it('returns the given array as is, when it contains one or more Lefts', () => {
+    const list = [[Either.Left(1), Either.Right(2)], [Either.Right(3), Either.Right(4)]]
+    assert.deepEqual(concatCounters(list), list)
+  })
+  // [[2, 0], [3, 2], [5, 0]] + [[2, 3], [3, 1], [5, 1]] -> [[2, [0, 3]], [3, [2, 1]], [5, [0, 1]]]
 })
 
 /*
-describe('concatCounters', () => {
-  it('', () => {
-
-  })
-})
-
 describe('setOperationWithRepeats', () => {
   it('', () => {
 
