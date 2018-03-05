@@ -12,7 +12,6 @@ import {
   zip,
   zipWith,
   nthArg,
-  both,
   ifElse
   /*
   union,
@@ -72,17 +71,18 @@ const concatCounter = compose(
 )
 
 const concatCounters = ifElse(
-  both(
-    compose(
-      numbers.isValidDeep,
-      nthArg(0)
-    ),
+  compose(
+    numbers.isValidDeep,
+    nthArg(0)
+  ),
+  ifElse(
     compose(
       numbers.isValidDeep,
       nthArg(1)
-    )
+    ),
+    zipWith(concatCounter),
+    nthArg(1)
   ),
-  zipWith(concatCounter),
   nthArg(0)
 )
 

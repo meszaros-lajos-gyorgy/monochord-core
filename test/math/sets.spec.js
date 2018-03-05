@@ -86,13 +86,12 @@ describe('concatCounter', () => {
 })
 
 describe('concatCounters', () => {
-  it('returns the first array as is, when containing one or more Lefts', () => {
+  it('returns the leftmost invalid array as is, when any of the given arrays contain one or more Lefts', () => {
     const a = [[Either.Left(1), Either.Right(2)], [Either.Right(3), Either.Right(4)]]
     const b = [[Either.Right(5), Either.Right(6)], [Either.Right(7), Either.Right(8)]]
     
-    // NOTE: see wrapBinary()'s returning the leftmost invalid value for the reason why the first array is returned
     assert.deepEqual(concatCounters(a, b), a)
-    assert.deepEqual(concatCounters(b, a), b)
+    assert.deepEqual(concatCounters(b, a), a)
   })
   it('combines each counter pair from both arrays, so that the resulting array will contain arrays, in which the first element will be the common number, followed by the array of counts', () => {
     const a = [[number(2), number(0)], [number(3), number(2)], [number(5), number(0)]]
