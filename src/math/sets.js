@@ -12,17 +12,16 @@ import {
   zip,
   zipWith,
   nthArg,
-  ifElse
-  /*
-  union,
+  ifElse,
   curry,
-  reduce,
   flatten,
   apply,
   repeat,
-  zipWith,
-  min, //
-  max //
+  toString,
+  map
+  /*
+  union,
+  reduce,
   */
 } from 'ramda'
 
@@ -41,6 +40,10 @@ import {
 import {
   inc,
   equals
+  /*
+  min,
+  max
+  */
 } from './basic'
 
 // -----------------
@@ -86,19 +89,32 @@ const concatCounters = ifElse(
   nthArg(0)
 )
 
+const groupCountsWith = curry((fn, arr) => when(
+  numbers.isValidDeep,
+  map(adjust(apply(fn), 1))
+)(arr))
+
+const expandCounters = when(
+  numbers.isValidDeep,
+  compose(
+    flatten,
+    map(compose(
+      apply(repeat),
+      adjust(compose(toString, prop('value')), 1)
+    ))
+  )
+)
+
 /*
 const setOperationWithRepeats = curry((fn, a, b) => {
-  const counter = compose(toCounterPairs, union)(a, b)
+  const counter = compose(toCounterPairs, union)(a, b) // union!
   const factoredA = reduce(addToCounterPairs, counter, a)
   const factoredB = reduce(addToCounterPairs, counter, b)
 
   return compose(
-    flatten,
-    map(compose(
-      apply(repeat),
-      adjust(apply(fn), 1)
-    )),
-    zipWith(concatCounters)
+    expandCounters,
+    groupCountsWith(fn),
+    concatCounters
   )(factoredA, factoredB)
 })
 
@@ -112,7 +128,9 @@ export {
   toCounterPairs,
   addToCounterPairs,
   concatCounter,
-  concatCounters
+  concatCounters,
+  groupCountsWith,
+  expandCounters
   /*
   setOperationWithRepeats,
   intersectionWithRepeats,

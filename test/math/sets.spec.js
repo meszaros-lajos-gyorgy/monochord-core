@@ -15,6 +15,8 @@ import {
   addToCounterPairs,
   concatCounter,
   concatCounters,
+  groupCountsWith,
+  expandCounters
   /*
   setOperationWithRepeats,
   intersectionWithRepeats,
@@ -131,13 +133,85 @@ describe('concatCounters', () => {
   })
 })
 
-/*
-describe('setOperationWithRepeats', () => {
-  it('', () => {
+describe('groupCountsWith', () => {
+  it('returns the given array as is, when it contains one or more Lefts', () => {
+    const cntr = [[Either.Left(1), Either.Right(2)], [Either.Right(3), Either.Right(4)]]
+    assert.equal(groupCountsWith(() => {}, cntr), cntr)
+  })
+  it('takes a function and an array of counter pairs and calls the function with the counters\' amounts', () => {
+    const cntrs = [[number(2), [number(0), number(3)]], [number(3), [number(2), number(1)]], [number(5), [number(0), number(1)]]]
 
+    const calls = []
+    const fn = (a, b) => {
+      calls.push([a, b])
+    }
+
+    groupCountsWith(fn, cntrs)
+    assert.equal(calls.length, 3)
+    
+    assert.equal(Array.isArray(calls[0]), true)
+    assert.equal(Array.isArray(calls[1]), true)
+    assert.equal(Array.isArray(calls[2]), true)
+    
+    assert.equal(calls[0].length, 2)
+    assert.equal(calls[0][0], cntrs[0][1][0])
+    assert.equal(calls[0][1], cntrs[0][1][1])
+
+    assert.equal(calls[1].length, 2)
+    assert.equal(calls[1][0], cntrs[1][1][0])
+    assert.equal(calls[1][1], cntrs[1][1][1])
+
+    assert.equal(calls[2].length, 2)
+    assert.equal(calls[2][0], cntrs[2][1][0])
+    assert.equal(calls[2][1], cntrs[2][1][1])
+  })
+  it('alters the given counter array by replacing each counter\'s second value with the result of the given function', () => {
+    const cntrs = [[number(2), [number(0), number(3)]], [number(3), [number(2), number(1)]], [number(5), [number(0), number(1)]]]
+    const result = groupCountsWith(() => Either.Right(true), cntrs)
+
+    assert.equal(result.length, 3)
+
+    assert.equal(Array.isArray(result[0]), true)
+    assert.equal(Array.isArray(result[1]), true)
+    assert.equal(Array.isArray(result[2]), true)
+
+    assert.equal(result[0][0], cntrs[0][0])
+    assert.equal(result[1][0], cntrs[1][0])
+    assert.equal(result[2][0], cntrs[2][0])
+
+    assert.equal(result[0][1].value, true)
+    assert.equal(result[1][1].value, true)
+    assert.equal(result[2][1].value, true)
   })
 })
 
+describe('expandCounters', () => {
+  it('returns the given array as is, when it contains one or more Lefts', () => {
+    const cntrs = [[Either.Left(1), Either.Right(2)], [Either.Right(3), Either.Right(4)]]
+    assert.equal(expandCounters(cntrs), cntrs)
+  })
+  it('takes an array of touples and repeats the first number the second\'s time', () => {
+    // TODO: [[2, 3], [3, 0], [5, 1]] -> [2, 2, 2, 5]
+    const cntrs = [[number(2), number(3)], [number(3), number(0)], [number(5), number(1)]]
+    const result = expandCounters(cntrs)
+
+    assert.equal(result.length, 4)
+    assert.equal(result[0].value.toString(), 2)
+    assert.equal(result[1].value.toString(), 2)
+    assert.equal(result[2].value.toString(), 2)
+    assert.equal(result[3].value.toString(), 5)
+  })
+})
+
+/*
+describe('setOperationWithRepeats', () => {
+  it('', () => {
+    
+  })
+})
+*/
+
+/*
 describe('intersectionWithRepeats', () => {
   it('', () => {
 
