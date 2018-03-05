@@ -70,11 +70,13 @@ describe('apply', () => {
     assert.equal(numbers.apply(T, list).value, numbers.apply(T)(list).value)
   })
 })
+
 /*
 describe('map', () => {
   // TODO
 })
 */
+
 describe('flatMap', () => {
   it('returns the given array intact, when any of the given elements is a Left', () => {
     const list = [Either.Right(1), Either.Left(2), Either.Right(3)]
@@ -101,8 +103,46 @@ describe('flatMap', () => {
     assert.equal(result[2].isLeft, true)
   })
 })
+
 /*
 describe('isValidDeep', () => {
-  
+  // TODO
 })
 */
+
+describe('uniq', () => {
+  it('returns the given array intact, if it contains one or more Lefts', () => {
+    const list = [number(1), number(1), Either.Left(1)]
+    assert.equal(numbers.uniq(list), list)
+  })
+  it('removes duplicates of the given array', () => {
+    const list = [number(1), number(1), number(2), number(1)]
+    const result = numbers.uniq(list)
+
+    assert.equal(result.length, 2)
+    assert.equal(result[0].value.toString(), '1')
+    assert.equal(result[1].value.toString(), '2')
+  })
+})
+
+describe('union', () => {
+  it('returns the common numbers without duplicates from the given two arrays', () => {
+    const a = [number(1), number(2), number(3)]
+    const b = [number(2), number(3), number(4)]
+
+    const result = numbers.union(a, b)
+
+    assert.equal(result.length, 4)
+    assert.equal(result[0].value.toString(), '1')
+    assert.equal(result[1].value.toString(), '2')
+    assert.equal(result[2].value.toString(), '3')
+    assert.equal(result[3].value.toString(), '4')
+  })
+  it('returns the leftmost array containing Left, when any of the given arrays contain one or more Lefts', () => {
+    const a = [number(1), number(2)]
+    const b = [Either.Left(1), number(2)]
+
+    assert.equal(numbers.union(a, b), b)
+    assert.equal(numbers.union(b, a), b)
+  })
+})

@@ -11,7 +11,12 @@ import {
   defaultTo,
   prop,
   of,
-  flatten
+  flatten,
+  nthArg,
+  ifElse,
+  concat,
+  uniqBy,
+  toString
 } from 'ramda'
 
 import {
@@ -45,6 +50,24 @@ const flatMap = curryN(2, (fn, arr) => when(
   ))
 )(arr))
 
+const uniq = when(
+  isValid,
+  uniqBy(compose(toString, prop('value')))
+)
+
+const union = ifElse(
+  compose(isValid, nthArg(0)),
+  ifElse(
+    compose(isValid, nthArg(1)),
+    compose(
+      uniq,
+      concat
+    ),
+    nthArg(1)
+  ),
+  nthArg(0)
+)
+
 export {
   isValid,
   isValidDeep,
@@ -52,5 +75,7 @@ export {
   getLeft,
   _apply as apply,
   _map as map,
-  flatMap
+  flatMap,
+  uniq,
+  union
 }

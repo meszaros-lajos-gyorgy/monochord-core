@@ -20,7 +20,6 @@ import {
   toString,
   map
   /*
-  union,
   reduce,
   */
 } from 'ramda'
@@ -107,7 +106,7 @@ const expandCounters = when(
 
 /*
 const setOperationWithRepeats = curry((fn, a, b) => {
-  const counter = compose(toCounterPairs, union)(a, b) // union!
+  const counter = compose(toCounterPairs, numbers.union)(a, b)
   const factoredA = reduce(addToCounterPairs, counter, a)
   const factoredB = reduce(addToCounterPairs, counter, b)
 
