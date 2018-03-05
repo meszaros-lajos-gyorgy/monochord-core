@@ -34,7 +34,7 @@ const findGreatestCommonDivisor = compose(
 
 const findLeastCommonMultiple = compose(
   reduce(multiply, 1),
-  converge(reduce(unionWithRepeats), [head, tail]),
+  converge(reduce(topWithRepeats), [head, tail]),
   map(getPrimeFactors)
 )
 */

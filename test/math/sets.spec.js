@@ -16,12 +16,10 @@ import {
   concatCounter,
   concatCounters,
   groupCountsWith,
-  expandCounters
-  /*
+  expandCounters,
   setOperationWithRepeats,
   intersectionWithRepeats,
-  unionWithRepeats
-  */
+  topWithRepeats
 } from '../../src/math/sets'
 
 describe('toCounterPairs', () => {
@@ -101,7 +99,6 @@ describe('concatCounters', () => {
     
     const result = concatCounters(a, b)
     
-    // [[2, [0, 3]], [3, [2, 1]], [5, [0, 1]]]
     assert.equal(result.length, 3)
     
     assert.equal(Array.isArray(result[0]), true)
@@ -191,7 +188,6 @@ describe('expandCounters', () => {
     assert.equal(expandCounters(cntrs), cntrs)
   })
   it('takes an array of touples and repeats the first number the second\'s time', () => {
-    // TODO: [[2, 3], [3, 0], [5, 1]] -> [2, 2, 2, 5]
     const cntrs = [[number(2), number(3)], [number(3), number(0)], [number(5), number(1)]]
     const result = expandCounters(cntrs)
 
@@ -203,24 +199,55 @@ describe('expandCounters', () => {
   })
 })
 
-/*
 describe('setOperationWithRepeats', () => {
-  it('', () => {
+  it('returns the leftmost array containing Left, when any of the given arrays contain one or more Lefts', () => {
+    const a = [number(1), number(2)]
+    const b = [Either.Left(1), number(2)]
+    const fn = () => {}
     
+    assert.equal(setOperationWithRepeats(fn, a, b), b)
+    assert.equal(setOperationWithRepeats(fn, b, a), b)
   })
+  // TODO
 })
-*/
 
-/*
 describe('intersectionWithRepeats', () => {
-  it('', () => {
+  it('returns the leftmost array containing Left, when any of the given arrays contain one or more Lefts', () => {
+    const a = [number(1), number(2)]
+    const b = [Either.Left(1), number(2)]
+    
+    assert.equal(intersectionWithRepeats(a, b), b)
+    assert.equal(intersectionWithRepeats(b, a), b)
+  })
+  it('takes two array of numbers as inputs and gives back the common elements from both', () => {
+    const a = [number(1), number(2), number(2)]
+    const b = [number(2), number(3), number(2)]
 
+    const result = intersectionWithRepeats(a, b)
+    assert.equal(result.length, 2)
+    assert.equal(result[0].value.toString(), '2')
+    assert.equal(result[1].value.toString(), '2')
   })
 })
 
-describe('unionWithRepeats', () => {
-  it('', () => {
+describe('topWithRepeats', () => {
+  it('returns the leftmost array containing Left, when any of the given arrays contain one or more Lefts', () => {
+    const a = [number(1), number(2)]
+    const b = [Either.Left(1), number(2)]
+    
+    assert.equal(topWithRepeats(a, b), b)
+    assert.equal(topWithRepeats(b, a), b)
+  })
+  it('takes two array of numbers as inputs and gives back each number\'s maximum occurence in either arrays', () => {
+    const a = [number(1), number(2), number(2)]
+    const b = [number(2), number(3), number(4)]
 
+    const result = topWithRepeats(a, b)
+    assert.equal(result.length, 5)
+    assert.equal(result[0].value.toString(), '1')
+    assert.equal(result[1].value.toString(), '2')
+    assert.equal(result[2].value.toString(), '2')
+    assert.equal(result[3].value.toString(), '3')
+    assert.equal(result[4].value.toString(), '4')
   })
 })
-*/

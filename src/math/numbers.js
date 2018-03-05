@@ -23,6 +23,8 @@ import {
   Either
 } from 'ramda-fantasy'
 
+// TODO: add memoization
+
 const isValid = all(Either.isRight)
 const isValidDeep = compose(isValid, flatten)
 const getValues = pluck('value')

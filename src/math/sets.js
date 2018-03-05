@@ -18,17 +18,9 @@ import {
   apply,
   repeat,
   toString,
-  map
-  /*
-  reduce,
-  */
+  map,
+  reduce
 } from 'ramda'
-
-/*
-import {
-  Either
-} from 'ramda-fantasy'
-*/
 
 import * as numbers from './numbers'
 
@@ -38,14 +30,14 @@ import {
 
 import {
   inc,
-  equals
-  /*
+  equals,
   min,
   max
-  */
 } from './basic'
 
 // -----------------
+
+// TODO: add memoization
 
 const toCounterPairs = numbers.map(compose(
   append(number(0)),
@@ -104,7 +96,6 @@ const expandCounters = when(
   )
 )
 
-/*
 const setOperationWithRepeats = curry((fn, a, b) => {
   const counter = compose(toCounterPairs, numbers.union)(a, b)
   const factoredA = reduce(addToCounterPairs, counter, a)
@@ -118,8 +109,7 @@ const setOperationWithRepeats = curry((fn, a, b) => {
 })
 
 const intersectionWithRepeats = setOperationWithRepeats(min)
-const unionWithRepeats = setOperationWithRepeats(max)
-*/
+const topWithRepeats = setOperationWithRepeats(max)
 
 // -----------------
 
@@ -129,10 +119,8 @@ export {
   concatCounter,
   concatCounters,
   groupCountsWith,
-  expandCounters
-  /*
+  expandCounters,
   setOperationWithRepeats,
   intersectionWithRepeats,
-  unionWithRepeats
-  */
+  topWithRepeats
 }
