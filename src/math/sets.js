@@ -10,7 +10,10 @@ import {
   prop,
   when,
   zip,
-  zipWith
+  zipWith,
+  nthArg,
+  both,
+  ifElse
   /*
   union,
   curry,
@@ -63,10 +66,24 @@ const addToCounterPairs = (counters, value) => when(
   )
 )(counters)
 
-const concatCounter = compose(adjust(head, 0), zip)
-const concatCounters = when(
-  numbers.isValidDeep,
-  zipWith(concatCounter)
+const concatCounter = compose(
+  adjust(head, 0),
+  zip
+)
+
+const concatCounters = ifElse(
+  both(
+    compose(
+      numbers.isValidDeep,
+      nthArg(0)
+    ),
+    compose(
+      numbers.isValidDeep,
+      nthArg(1)
+    )
+  ),
+  zipWith(concatCounter),
+  nthArg(0)
 )
 
 /*
