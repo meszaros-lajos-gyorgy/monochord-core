@@ -12,6 +12,10 @@ import {
   number
 } from '../../src/math/helpers'
 
+import {
+  add
+} from '../../src/math/basic'
+
 const T = () => Either.Right(true)
 const F = () => Either.Right(false)
 
@@ -144,5 +148,85 @@ describe('union', () => {
 
     assert.equal(numbers.union(a, b), b)
     assert.equal(numbers.union(b, a), b)
+  })
+})
+
+describe('reduce', () => {
+  it('returns the initial value, if it is a Left', () => {
+    const initial = Either.Left('x')
+    
+    assert.equal(numbers.reduce(T, initial, [number(1), number(2)]), initial)
+  })
+  it('returns the leftmost Left from the array of values, if there is any', () => {
+    const values = [number(1), Either.Left('a'), Either.Left('b')]
+    const result = numbers.reduce(T, number(0), values)
+
+    assert.equal(result, values[1])
+  })
+  it('can be curried', () => {
+    const list = [number(1), number(2), number(3)]
+
+    const result1 = numbers.reduce(add, number(0))(list)
+    const result2 = numbers.reduce(add)(number(0), list)
+    const result3 = numbers.reduce(add)(number(0))(list)
+    const result4 = numbers.reduce(add, number(0), list)
+    
+    assert.equal(result1.value.toString(), result2.value.toString())
+    assert.equal(result1.value.toString(), result3.value.toString())
+    assert.equal(result1.value.toString(), result4.value.toString())
+  })
+  it('calls fn to every value, where the result of the previous call is passed as the 1st parameter(initial is passed on the 1st run) and the current value as the 2nd. It doesn\'t expand the values from the Rights', () => {
+    const list = [number(1), number(2), number(3)]
+    const result = numbers.flatReduce(add, number(0), list)
+
+    assert.equal(result.isRight, true)
+    assert.equal(result.value.toString(), '6')
+  })
+})
+
+describe('flatReduce', () => {
+  it('returns the initial value, if it is a Left', () => {
+    const initial = Either.Left('x')
+    
+    assert.equal(numbers.flatReduce(T, initial, [number(1), number(2)]), initial)
+  })
+  it('returns the leftmost Left from the array of values, if there is any', () => {
+    const values = [number(1), Either.Left('a'), Either.Left('b')]
+    const result = numbers.flatReduce(T, number(0), values)
+
+    assert.equal(result, values[1])
+  })
+  it('can be curried', () => {
+    const list = [number(1), number(2), number(3)]
+    const fn = (acc, curr) => {
+      return acc.isRight ? Either.Right(curr.add(acc.value)) : acc
+    }
+
+    const result1 = numbers.flatReduce(fn, number(0))(list)
+    const result2 = numbers.flatReduce(fn)(number(0), list)
+    const result3 = numbers.flatReduce(fn)(number(0))(list)
+    const result4 = numbers.flatReduce(fn, number(0), list)
+    
+    assert.equal(result1.value.toString(), result2.value.toString())
+    assert.equal(result1.value.toString(), result3.value.toString())
+    assert.equal(result1.value.toString(), result4.value.toString())
+  })
+  it('applies fn for every value, where the result of the previous call is passed as the 1st parameter(initial is passed on the 1st run) and the current value as the 2nd', () => {
+    const list = [number(1), number(2), number(3)]
+    const fn = (acc, curr) => {
+      return acc.isRight ? Either.Right(curr.add(acc.value)) : acc
+    }
+    const result = numbers.flatReduce(fn, number(0), list)
+
+    assert.equal(result.isRight, true)
+    assert.equal(result.value.toString(), '6')
+  })
+  it('can change the element type from Right to Left', () => {
+    const list = [number(1), number(2), number(3)]
+    const fn = (acc, num) => Either.Left(num)
+    const result = numbers.flatReduce(fn, number(0), list)
+    
+    assert.equal(result.isLeft, true)
+    assert.equal(result.value.toString(), '3')
   })
 })

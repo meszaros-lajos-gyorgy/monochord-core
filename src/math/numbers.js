@@ -1,5 +1,6 @@
 import {
   when,
+  unless,
   curryN,
   apply,
   map,
@@ -16,7 +17,8 @@ import {
   ifElse,
   concat,
   uniqBy,
-  toString
+  toString,
+  reduce
 } from 'ramda'
 
 import {
@@ -70,6 +72,22 @@ const union = ifElse(
   nthArg(0)
 )
 
+const _reduce = curryN(3, (fn, initial, values) => unless(
+  Either.isLeft,
+  () => converge(defaultTo, [
+    reduce(fn, initial), // nthArg(0) + nthArg(1)
+    getLeft
+  ])(values) // nthArg(2)
+)(initial)) // nthArg(1)
+
+const flatReduce = curryN(3, (fn, initial, values) => unless(
+  Either.isLeft,
+  () => converge(defaultTo, [
+    reduce((acc, curr) => fn(acc, prop('value')(curr)), initial), // nthArg(0) + nthArg(1)
+    getLeft
+  ])(values) // nthArg(2)
+)(initial)) // nthArg(1)
+
 export {
   isValid,
   isValidDeep,
@@ -79,5 +97,7 @@ export {
   _map as map,
   flatMap,
   uniq,
-  union
+  union,
+  _reduce as reduce,
+  flatReduce
 }

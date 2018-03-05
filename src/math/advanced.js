@@ -1,49 +1,54 @@
-/*
 import {
-  wrapBinary,
-  wrapUnary,
-  number,
-  invert
+  compose,
+  converge,
+  nthArg
+} from 'ramda'
+
+import {
+  intersectionWithRepeats,
+  topWithRepeats
+} from './sets'
+
+import * as numbers from './numbers'
+
+import {
+  number
 } from './helpers'
 
 import {
-  Errors
-} from './constants'
-
-import {
-
+  multiply
 } from './basic'
-
-import {
-  Either
-} from 'ramda-fantasy'
-
-import {
-
-} from 'ramda'
-*/
 
 // -----------------
 
-/*
+const product = numbers.reduce(multiply, number(1))
+
+const getPrimeFactors = n => {
+  // TODO 2nd
+  return []
+}
+
 const findGreatestCommonDivisor = compose(
-  reduce(multiply, 1),
-  converge(reduce(intersectionWithRepeats), [head, tail]),
-  map(getPrimeFactors)
+  product,
+  converge(intersectionWithRepeats, [
+    compose(getPrimeFactors, nthArg(0)),
+    compose(getPrimeFactors, nthArg(1))
+  ])
 )
 
 const findLeastCommonMultiple = compose(
-  reduce(multiply, 1),
-  converge(reduce(topWithRepeats), [head, tail]),
-  map(getPrimeFactors)
+  product,
+  converge(topWithRepeats, [
+    compose(getPrimeFactors, nthArg(0)),
+    compose(getPrimeFactors, nthArg(1))
+  ])
 )
-*/
 
 // -----------------
 
-/*
 export {
+  product,
+  getPrimeFactors,
   findGreatestCommonDivisor,
   findLeastCommonMultiple
 }
-*/
