@@ -49,7 +49,7 @@ const getRepeatingDecimal = fraction => {
   return Either.Right(match ? match[1] : null)
 }
 
-const fractionToCents = compose(multiply(number(1200)), log(number(octaveRatio)))
+const fractionToCents = compose(multiply(number(1200)), log(__, number(octaveRatio)))
 const centsToFraction = compose(pow(octaveRatio), divide(__, 1200))
 
 const ratioToFraction = divide
