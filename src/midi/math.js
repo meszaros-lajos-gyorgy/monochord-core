@@ -1,6 +1,4 @@
-/*
 import {
-  memoize,
   clamp,
   curryN,
   __,
@@ -12,9 +10,10 @@ import {
   subtract,
   multiply,
   divide,
-  logN,
+  log,
   floor,
-  pow
+  pow,
+  number
 } from '../math/index'
 
 import {
@@ -29,37 +28,37 @@ import {
 
 // -----------------
 
-const moveNUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, n, frequency) => compose(
+const moveNUnits = curryN(4, (ratioOfSymmetry, divisionsPerRatio, n, frequency) => compose(
   multiply(frequency),
   pow(ratioOfSymmetry),
   divide(n)
-)(divisionsPerRatio)))
+)(divisionsPerRatio))
 
-const getDistanceInUnits = curryN(4, memoize((ratioOfSymmetry, divisionsPerRatio, frequency2, frequency1) => compose(
+const getDistanceInUnits = curryN(4, (ratioOfSymmetry, divisionsPerRatio, frequency2, frequency1) => compose(
   multiply(divisionsPerRatio),
-  logN(ratioOfSymmetry),
+  log(ratioOfSymmetry),
   divide(frequency2)
-)(frequency1)))
+)(frequency1))
 
 const moveNSemitones = moveNUnits(octaveRatio, semitonesPerOctave)
 const getDistanceInSemitones = getDistanceInUnits(octaveRatio, semitonesPerOctave)
 
-const bendingRatio = moveNSemitones(maxBendingDistanceInSemitones, 1)
+const bendingRatio = moveNSemitones(maxBendingDistanceInSemitones, number(1))
 
 const bendNUnits = moveNUnits(bendingRatio, pitchBendMax)
 const getBendingDistance = getDistanceInUnits(bendingRatio, pitchBendMax)
 
-const getNoteFrequency = memoize(compose(
+const getNoteFrequency = compose(
   moveNSemitones(__, referenceNote.frequency),
   subtract(__, referenceNote.id),
   clamp(keyIdMin, keyIdMax)
-))
+)
 
-const getNoteId = memoize(compose(
+const getNoteId = compose(
   floor,
   add(__, referenceNote.id),
   getDistanceInSemitones(__, referenceNote.frequency)
-))
+)
 
 // -----------------
 
@@ -73,4 +72,3 @@ export {
   getNoteFrequency,
   getNoteId
 }
-*/

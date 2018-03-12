@@ -1,4 +1,3 @@
-/*
 import {
   curry,
   keys,
@@ -60,4 +59,3 @@ export {
   updatePorts,
   updatePort
 }
-*/

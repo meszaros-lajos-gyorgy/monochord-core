@@ -57,72 +57,6 @@ import {
 // -----------------
 
 /*
-const canDivideWith = curry((divisor, number) => compose(isZero, modulo(number, divisor)))
-const step30 = curry((m, n) => n > m ? false : [n, n + 30])
-
-const leastFactor = memoize(n => {
-  let ret
-
-  if (!Number.isInteger(n)) {
-    ret = NaN
-  } else if (isZero(n)) {
-    ret = 0
-  } else if (lt(pow(n, 2), 2)) {
-    ret = 1
-  } else if (canDivideWith(2, n)) {
-    ret = 2
-  } else if (canDivideWith(3, n)) {
-    ret = 3
-  } else if (canDivideWith(5, n)) {
-    ret = 5
-  } else {
-    ret = defaultTo(
-      find(
-        canDivideWith(__, n),
-        flatten(
-          map(
-            compose(
-              map(__, [0, 4, 6, 10, 12, 16, 22, 24]),
-              add
-            ),
-            unfold(
-              step30(sqrt(n)),
-              7
-            )
-          )
-        )
-      ),
-      n
-    )
-  }
-
-  return ret
-})
-
-const getPrimeFactors = memoize(n => {
-  let ret = []
-
-  if (Number.isInteger(n) && !isZero(n)) {
-    if (n < 0) {
-      ret = adjust(negate, 0, getPrimeFactors(-n))
-    } else {
-      ret = compose(
-        ifElse(
-          equals(n),
-          of,
-          converge(concat, [
-            of,
-            compose(getPrimeFactors, divide(n))
-          ])
-        ),
-        leastFactor
-      )(n)
-    }
-  }
-
-  return ret
-})
-
 // http://stackoverflow.com/a/10803250/1806628
 function getRepeatingDecimal (fraction) {
   fraction += ''
@@ -170,8 +104,6 @@ const fractionToRatio = fraction => {
 
 export {
   /*
-  leastFactor,
-  getPrimeFactors
   getRepeatingDecimal,
   fractionToCents,
   centsToFraction,
