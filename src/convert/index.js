@@ -48,12 +48,15 @@ import {
 import {
   octaveRatio
 } from '../midi/constants'
+
+import {
+  isZero
+} from '../math/basic'
 */
 
 // -----------------
 
 /*
-const isZero = equals(0)
 const canDivideWith = curry((divisor, number) => compose(isZero, modulo(number, divisor)))
 const step30 = curry((m, n) => n > m ? false : [n, n + 30])
 

@@ -42,7 +42,9 @@ import {
   isFraction,
 
   min,
-  max
+  max,
+
+  product
 } from '../../src/math/basic'
 
 describe('add', () => {
@@ -551,14 +553,22 @@ describe('isNegative', () => {
 
 describe('isInteger', () => {
   it('returns true, when given number is an integer', () => {
-    const value = isInteger(12)
-    assert.equal(value.isRight, true)
-    assert.equal(value.value, true)
+    const value1 = isInteger(12)
+    assert.equal(value1.isRight, true)
+    assert.equal(value1.value, true)
+
+    const value2 = isInteger('32')
+    assert.equal(value2.isRight, true)
+    assert.equal(value2.value, true)
   })
   it('returns false, when given number is not an integer', () => {
-    const value = isInteger(12.5543)
-    assert.equal(value.isRight, true)
-    assert.equal(value.value, false)
+    const value1 = isInteger(12.5543)
+    assert.equal(value1.isRight, true)
+    assert.equal(value1.value, false)
+
+    const value2 = isInteger('76.42')
+    assert.equal(value2.isRight, true)
+    assert.equal(value2.value, false)
   })
   it('returns a Left with invalid number error, when given parameter is an invalid number', () => {
     const value = isInteger('apple')
@@ -648,3 +658,9 @@ describe('max', () => {
     assert.notEqual(max(a, b).value, a.value)
   })
 })
+
+/*
+describe('product', () => {
+
+})
+*/

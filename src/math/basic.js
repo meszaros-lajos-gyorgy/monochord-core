@@ -2,7 +2,8 @@ import {
   wrapBinary,
   wrapUnary,
   invert,
-  ifThenElse
+  ifThenElse,
+  number
 } from './helpers'
 
 import {
@@ -21,6 +22,8 @@ import {
   compose,
   curryN
 } from 'ramda'
+
+import * as numbers from './numbers'
 
 // -----------------
 
@@ -136,6 +139,8 @@ const isFraction = invert(isInteger)
 const min = curryN(2, ifThenElse(lt, nthArg(0), nthArg(1)))
 const max = curryN(2, ifThenElse(gt, nthArg(0), nthArg(1)))
 
+const product = numbers.reduce(multiply, number(1))
+
 // -----------------
 
 export {
@@ -170,5 +175,7 @@ export {
   isFraction,
 
   min,
-  max
+  max,
+
+  product
 }

@@ -25,7 +25,8 @@ import {
   wrapUnary,
   wrapBinary,
   invert,
-  ifThenElse
+  ifThenElse,
+  unfold
 } from '../../src/math/helpers'
 
 const T = () => Either.Right(true)
@@ -336,4 +337,12 @@ describe('ifThenElse', () => {
   })
   // memoize
   // does not change the orignal values
+})
+
+describe('unfold', () => {
+  it('returns the seed untouched, if it is a Left', () => {
+    const invalid = number('xy')
+    assert.equal(unfold(F, invalid), invalid)
+  })
+  // TODO add more tests
 })

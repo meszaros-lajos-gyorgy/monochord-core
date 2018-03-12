@@ -12,7 +12,8 @@ import {
   unless,
   map,
   compose,
-  slice
+  slice,
+  either
 } from 'ramda'
 
 import {
@@ -40,7 +41,7 @@ const memoizeCalculation = fn => {
     }
 
     return unless(
-      propIs(Boolean, 'value'),
+      either(is(Array), propIs(Boolean, 'value')),
       cloneNumber
     )(cache[key])
   }
@@ -81,12 +82,27 @@ const ifThenElse = curryN(3, (fn, onTrue, onFalse) => memoizeCalculation((...arg
     return checkResult
   } else {
     return compose(
-      when(Either.isRight, cloneNumber),
       apply(checkResult.value ? onTrue : onFalse),
       map(number)
     )(args)
   }
 }))
+
+const unfold = curryN(2, function (fn, seed) {
+  if (Either.isLeft(seed)) {
+    return seed
+  } else {
+    let pair = fn(seed)
+    const result = []
+
+    while (pair && pair.length) {
+      result[result.length] = pair[0]
+      pair = fn(pair[1])
+    }
+
+    return result
+  }
+})
 
 export {
   cloneNumber,
@@ -96,5 +112,6 @@ export {
   wrapUnary,
   wrapBinary,
   invert,
-  ifThenElse
+  ifThenElse,
+  unfold
 }

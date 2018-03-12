@@ -88,6 +88,22 @@ const flatReduce = curryN(3, (fn, initial, values) => unless(
   ])(values) // nthArg(2)
 )(initial)) // nthArg(1)
 
+const _find = curryN(2, (fn, arr) => when(
+  isValid,
+  () => {
+    let idx = 0
+    const len = arr.length
+    while (idx < len) {
+      const checkResult = fn(arr[idx])
+      if (Either.isRight(checkResult) && checkResult.value === true) {
+        return arr[idx]
+      }
+      idx += 1
+    }
+    return Either.Right(null)
+  }
+)(arr))
+
 export {
   isValid,
   isValidDeep,
@@ -99,5 +115,6 @@ export {
   uniq,
   union,
   _reduce as reduce,
-  flatReduce
+  flatReduce,
+  _find as find
 }

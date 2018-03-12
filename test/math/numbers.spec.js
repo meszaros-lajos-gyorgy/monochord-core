@@ -230,3 +230,9 @@ describe('flatReduce', () => {
     assert.equal(result.value.toString(), '3')
   })
 })
+
+describe('find', () => {
+  it('', () => {
+
+  })
+})
