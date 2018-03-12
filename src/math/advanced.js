@@ -11,7 +11,9 @@ import {
   __,
   adjust,
   map,
-  flatten
+  flatten,
+  of,
+  concat
 } from 'ramda'
 
 import {
@@ -39,40 +41,15 @@ import {
   modulo,
   add,
   lte,
-  sqrt
+  sqrt,
+  isNegative,
+  negate,
+  divide
 } from './basic'
 
 import {
   Errors
 } from './constants'
-
-// -----------------
-
-/*
-const getPrimeFactors = memoize(n => {
-  let ret = []
-
-  if (Number.isInteger(n) && !isZero(n)) {
-    if (n < 0) {
-      ret = adjust(negate, 0, getPrimeFactors(-n))
-    } else {
-      ret = compose(
-        ifElse(
-          equals(n),
-          of,
-          converge(concat, [
-            of,
-            compose(getPrimeFactors, divide(n))
-          ])
-        ),
-        leastFactor
-      )(n)
-    }
-  }
-
-  return ret
-})
-*/
 
 // -----------------
 
@@ -146,8 +123,28 @@ const smallestFactor = when(
 
 const getPrimeFactors = unless(
   Either.isLeft,
-  compose(
-    x => x
+  ifThenElse(
+    isInteger,
+    ifThenElse(
+      isZero,
+      always([]),
+      ifThenElse(
+        isNegative,
+        n => adjust(negate, 0, getPrimeFactors(negate(n))),
+        n => compose(
+          ifThenElse(
+            equals(n),
+            of,
+            converge(concat, [
+              of,
+              compose(getPrimeFactors, divide(n))
+            ])
+          ),
+          smallestFactor
+        )(n)
+      )
+    ),
+    always(Either.Left(Errors.INTEGER_REQUIRED))
   )
 )
 

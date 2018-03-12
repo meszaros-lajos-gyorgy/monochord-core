@@ -105,7 +105,6 @@ describe('smallestFactor', () => {
   })
 })
 
-/*
 describe('getPrimeFactors', () => {
   it('returns the given parameter as is, if it\'s a Left', () => {
     const value = Either.Left('asd')
@@ -135,11 +134,12 @@ describe('getPrimeFactors', () => {
     assert.equal(factors[1].value.toString(), '3')
     assert.equal(factors[2].value.toString(), '3')
   })
-  it('gives back an empty array, when given number is not an integer', () => {
-    assert.deepEqual(getPrimeFactors(number(1.145)), [])
+  it('returns an "integer required" error, when given number is not an integer', () => {
+    const result = getPrimeFactors(number('1.145'))
+    assert.equal(result.isLeft, true)
+    assert.equal(result.value, Errors.INTEGER_REQUIRED)
   })
 })
-*/
 
 /*
 describe('findGreatestCommonDivisor', () => {
