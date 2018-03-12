@@ -1,48 +1,19 @@
 // http://www.sengpielaudio.com/calculator-centsratio.htm
 
-/*
 import {
   compose,
-  memoize,
-  __,
-  adjust,
-  concat,
-  of,
-  ifElse,
-  converge,
-  curry,
-  defaultTo,
-  find,
-  flatten,
-  map,
-  unfold
-  reduce,
-  append,
-  findIndex,
-  head,
-  tail,
-  union,
-  inc,
-  identity,
-  apply,
-  repeat,
-  zip,
-  zipWith,
-  min,
-  max
+  __
 } from 'ramda'
 
 import {
-  logN,
   multiply,
-  add,
-  divide,
-  equals,
-  lt,
-  modulo,
+  log,
   pow,
-  sqrt,
-  negate
+  divide,
+  findGreatestCommonDivisor,
+  isInteger,
+  dec,
+  number
 } from '../math/index'
 
 import {
@@ -50,24 +21,24 @@ import {
 } from '../midi/constants'
 
 import {
-  isZero
-} from '../math/basic'
-*/
+  Either
+} from 'ramda-fantasy'
 
 // -----------------
 
-/*
 // http://stackoverflow.com/a/10803250/1806628
-function getRepeatingDecimal (fraction) {
-  fraction += ''
+const getRepeatingDecimal = fraction => {
+  if (Either.isLeft(fraction)) {
+    return fraction
+  }
+
   var RePatternInRepeatDec = /(?:[^.]+\.\d*)(\d{2,})+(?:\1)$/
   var ReRepeatingNums = /^(\d+)(?:\1)$/
-  var match = RePatternInRepeatDec.exec(fraction)
+  var match = RePatternInRepeatDec.exec(fraction.value.toString())
 
   if (!match) {
     // Try again but take off last digit incase of precision error.
-    fraction = fraction.replace(/\d$/, '')
-    match = RePatternInRepeatDec.exec(fraction)
+    match = RePatternInRepeatDec.exec(fraction.value.toString().replace(/\d$/, ''))
   }
 
   if (match && match.length > 1) {
@@ -75,39 +46,39 @@ function getRepeatingDecimal (fraction) {
     match[1] = ReRepeatingNums.test(match[1]) ? ReRepeatingNums.exec(match[1])[1] : match[1]
   }
 
-  return match ? match[1] : null
+  return Either.Right(match ? match[1] : null)
 }
 
-const fractionToCents = memoize(compose(multiply(1200), logN(octaveRatio)))
-const centsToFraction = memoize(compose(pow(octaveRatio), divide(__, 1200)))
+const fractionToCents = compose(multiply(number(1200)), log(number(octaveRatio)))
+const centsToFraction = compose(pow(octaveRatio), divide(__, 1200))
 
 const ratioToFraction = divide
 const fractionToRatio = fraction => {
-  if (Number.isInteger(fraction)) {
-    return [fraction, 1]
+  if (Either.isLeft(fraction)) {
+    return fraction
+  }
+  if (isInteger(fraction).value) {
+    return [fraction, number(1)]
   }
 
-  var repetition = getRepeatingDecimal(fraction)
-  var multiplier = (
-    repetition !== null
-    ? Math.pow(10, repetition.length) - 1
-    : Math.pow(10, fraction.toString().split('.')[1].length)
+  const repetition = getRepeatingDecimal(fraction)
+  let multiplier = (
+    repetition.value !== null
+      ? dec(pow(number(10), repetition.value.toString().length))
+      : pow(number(10), fraction.value.toString().split('.')[1].length)
   )
 
-  multiplier /= findGreatestCommonDivisor([fraction * multiplier, multiplier])
+  multiplier = divide(multiplier, findGreatestCommonDivisor(multiplier, multiply(multiplier, fraction)))
 
-  return [fraction * multiplier, multiplier]
+  return [multiply(fraction, multiplier), multiplier]
 }
-*/
 
 // -----------------
 
 export {
-  /*
   getRepeatingDecimal,
   fractionToCents,
   centsToFraction,
   ratioToFraction,
   fractionToRatio
-  */
 }

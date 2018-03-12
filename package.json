@@ -31,13 +31,12 @@
   "devDependencies": {
     "assert": "^1.4.1",
     "babel-core": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
     "cz-conventional-changelog": "^2.1.0",
-    "mocha": "^4.0.1",
+    "mocha": "^5.0.4",
     "npm-run-all": "^4.1.2",
     "pre-commit": "^1.2.2",
-    "semantic-release": "^8.2.0",
-    "standard": "^10.0.3"
+    "semantic-release": "^15.0.2",
+    "standard": "^11.0.0"
   },
   "config": {
     "commitizen": {
@@ -45,7 +44,8 @@
     }
   },
   "dependencies": {
-    "decimal.js": "^9.0.1",
+    "babel-preset-env": "^1.6.1",
+    "decimal.js": "^10.0.0",
     "ramda": "^0.25.0",
     "ramda-fantasy": "^0.8.0"
   }
