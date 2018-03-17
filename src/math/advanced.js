@@ -70,11 +70,15 @@ const smallestFactor = ifThenElse(
 
     if (val.value === null) {
       const end = ceil(sqrt(n))
-      for (let i = nextPrime; lt(i, end).value; i = add(i, 2)) {
-        if (isDivisableBy(i, n).value) {
-          val = i
-          break
-        }
+      for (let i = nextPrime; lt(i, end).value; i = add(i, 30)) {
+        if (isDivisableBy(i, n).value) { val = i; break }
+        i = add(i, 4); if (isDivisableBy(i, n).value) { val = i; break }
+        i = add(i, 6); if (isDivisableBy(i, n).value) { val = i; break }
+        i = add(i, 10); if (isDivisableBy(i, n).value) { val = i; break }
+        i = add(i, 12); if (isDivisableBy(i, n).value) { val = i; break }
+        i = add(i, 16); if (isDivisableBy(i, n).value) { val = i; break }
+        i = add(i, 22); if (isDivisableBy(i, n).value) { val = i; break }
+        i = add(i, 24); if (isDivisableBy(i, n).value) { val = i; break }
       }
     }
 

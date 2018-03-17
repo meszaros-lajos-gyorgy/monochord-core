@@ -24,6 +24,8 @@ import {
   Either
 } from 'ramda-fantasy'
 
+import Decimal from 'decimal.js'
+
 // -----------------
 
 // http://stackoverflow.com/a/10803250/1806628
@@ -61,6 +63,20 @@ const fractionToRatio = fraction => {
     return [fraction, number(1)]
   }
 
+  // ---------------
+
+  const capSize = Number.MAX_SAFE_INTEGER.toString().length
+  const digitsLength = fraction.value.toString().replace('.', '').length
+  const decimalLength = fraction.value.toString().split('.')[1].length
+
+  if (digitsLength > capSize) {
+    Decimal.set({ precision: decimalLength - (digitsLength - capSize) })
+    fraction = multiply(fraction, 1)
+    Decimal.set({ precision: 20 })
+  }
+
+  // ---------------
+
   const repetition = getRepeatingDecimal(fraction)
   let multiplier = (
     repetition.value !== null
@@ -68,15 +84,9 @@ const fractionToRatio = fraction => {
       : pow(number(10), fraction.value.toString().split('.')[1].length)
   )
 
-  console.log(findGreatestCommonDivisor(multiplier, multiply(multiplier, fraction)).value.toString())
-
-  /*
   multiplier = divide(multiplier, findGreatestCommonDivisor(multiplier, multiply(multiplier, fraction)))
 
   return [multiply(fraction, multiplier), multiplier]
-  */
-
-  return [number(1), number(1)]
 }
 
 // -----------------
