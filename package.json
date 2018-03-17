@@ -20,14 +20,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/meszaros-lajos-gyorgy/monochord-core.git"
+    "url": "https://github.com/the-monochord/monochord-core.git"
   },
   "author": "Lajos Meszaros <m_lajos@hotmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/meszaros-lajos-gyorgy/monochord-core/issues"
+    "url": "https://github.com/the-monochord/monochord-core/issues"
   },
-  "homepage": "https://github.com/meszaros-lajos-gyorgy/monochord-core#readme",
+  "homepage": "https://github.com/the-monochord/monochord-core#readme",
   "devDependencies": {
     "assert": "^1.4.1",
     "babel-core": "^6.26.0",
