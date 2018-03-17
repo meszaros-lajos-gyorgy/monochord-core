@@ -15,7 +15,7 @@ import Decimal from 'decimal.js'
 
 import {
   Errors
-} from '../../src/math/constants'
+} from '../../src/math/constants/errors'
 
 import {
   cloneNumber,

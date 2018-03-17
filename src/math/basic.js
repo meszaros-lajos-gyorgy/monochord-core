@@ -8,7 +8,7 @@ import {
 
 import {
   Errors
-} from './constants'
+} from './constants/errors'
 
 import {
   Either

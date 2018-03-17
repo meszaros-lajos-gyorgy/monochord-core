@@ -4,7 +4,7 @@ import assert from 'assert'
 
 import {
   Errors
-} from '../../src/math/constants'
+} from '../../src/math/constants/errors'
 
 import {
   number

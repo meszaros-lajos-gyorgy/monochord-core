@@ -8,7 +8,6 @@ import {
 
 import {
   isDivisableBy,
-  step30,
   smallestFactor,
   getPrimeFactors,
   findGreatestCommonDivisor,
@@ -21,7 +20,7 @@ import {
 
 import {
   Errors
-} from '../../src/math/constants'
+} from '../../src/math/constants/errors'
 
 describe('isDivisableBy', () => {
   it('returns the leftmost Left parameter, when any of the parameters is a Left', () => {
@@ -49,48 +48,10 @@ describe('isDivisableBy', () => {
   })
 })
 
-describe('step30', () => {
-  it('returns the leftmost Left parameter, when any of the parameters is a Left', () => {
-    const incorrect = number('asf')
-    const correct = number(3)
-
-    assert.equal(step30(incorrect, correct), incorrect)
-    assert.equal(step30(correct, incorrect), incorrect)
-  })
-  it('returns false, when the 2nd parameter is greater, than the 1st', () => {
-    const a = number(3)
-    const b = number(10)
-    assert.equal(step30(a, b).value, false)
-    assert.equal(step30(a, a).value, false)
-  })
-  it('returns an array containing the number and the number increased by 30, when the 2nd parameter is lesser or equal, than the 1st', () => {
-    const a = number(3)
-    const b = number(10)
-    const result = step30(b, a)
-
-    assert.equal(Array.isArray(result), true)
-    assert.equal(result.length, 2)
-    
-    assert.equal(result[0].isRight, true)
-    assert.equal(result[0].value.toString(), '3')
-    
-    assert.equal(result[1].isRight, true)
-    assert.equal(result[1].value.toString(), '33')
-  })
-})
-
 describe('smallestFactor', () => {
   it('returns the given parameter as is, if it\'s a Left', () => {
     const value = Either.Left('asd')
     assert.equal(smallestFactor(value), value)
-  })
-  it('returns an "integer required" error, when given number is not an integer', () => {
-    const result = smallestFactor(number('12.45'))
-    assert.equal(result.isLeft, true)
-    assert.equal(result.value, Errors.INTEGER_REQUIRED)
-  })
-  it('returns 0, when given number is zero', () => {
-    assert.equal(smallestFactor(number(0)).value.toString(), '0')
   })
   it('returns 1, when given number is 1', () => {
     assert.equal(smallestFactor(number(1)).value.toString(), '1')

@@ -68,9 +68,15 @@ const fractionToRatio = fraction => {
       : pow(number(10), fraction.value.toString().split('.')[1].length)
   )
 
+  console.log(findGreatestCommonDivisor(multiplier, multiply(multiplier, fraction)).value.toString())
+
+  /*
   multiplier = divide(multiplier, findGreatestCommonDivisor(multiplier, multiply(multiplier, fraction)))
 
   return [multiply(fraction, multiplier), multiplier]
+  */
+
+  return [number(1), number(1)]
 }
 
 // -----------------

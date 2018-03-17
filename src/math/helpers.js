@@ -24,7 +24,7 @@ import Decimal from 'decimal.js'
 
 import {
   Errors
-} from './constants'
+} from './constants/errors'
 
 import * as numbers from './numbers'
 

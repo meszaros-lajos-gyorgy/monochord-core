@@ -6,12 +6,8 @@ import {
   flip,
   curryN,
   always,
-  when,
-  repeat,
   __,
   adjust,
-  map,
-  flatten,
   of,
   concat
 } from 'ramda'
@@ -27,8 +23,7 @@ import {
 
 import {
   number,
-  ifThenElse,
-  unfold
+  ifThenElse
 } from './helpers'
 
 import * as numbers from './numbers'
@@ -40,85 +35,51 @@ import {
   equals,
   modulo,
   add,
-  lte,
   sqrt,
   isNegative,
   negate,
-  divide
+  divide,
+  lt,
+  ceil
 } from './basic'
 
 import {
   Errors
-} from './constants'
+} from './constants/errors'
+
+import {
+  lowPrimes,
+  nextPrime
+} from './constants/primes'
 
 // -----------------
 
-const isDivisableBy = curryN(2, ifThenElse(
-  compose(Either.Right, Either.isRight, nthArg(0)),
-  ifThenElse(
-    compose(Either.Right, Either.isRight, nthArg(1)),
-    compose(isZero, flip(modulo)),
-    nthArg(1)
-  ),
-  nthArg(0)
-))
+const checkArgument = (n, fn) => ifThenElse(
+  compose(Either.Right, Either.isRight, nthArg(n)),
+  fn,
+  nthArg(n)
+)
 
-const step30 = curryN(2, ifThenElse(
-  compose(Either.Right, Either.isRight, nthArg(0)),
-  ifThenElse(
-    compose(Either.Right, Either.isRight, nthArg(1)),
-    ifThenElse(
-      lte,
-      always(Either.Right(false)),
-      compose(
-        adjust(add(30), 1),
-        repeat(__, 2),
-        nthArg(1)
-      )
-    ),
-    nthArg(1)
-  ),
-  nthArg(0)
-))
+const isDivisableBy = curryN(2, checkArgument(0, checkArgument(1, compose(isZero, flip(modulo)))))
 
-const smallestFactor = when(
-  Either.isRight,
-  ifThenElse(
-    isInteger,
-    ifThenElse(
-      isZero,
-      always(number(0)),
-      ifThenElse(
-        equals(1),
-        always(number(1)),
-        ifThenElse(
-          isDivisableBy(number(2)),
-          always(number(2)),
-          ifThenElse(
-            isDivisableBy(number(3)),
-            always(number(3)),
-            ifThenElse(
-              isDivisableBy(number(5)),
-              always(number(5)),
+const smallestFactor = ifThenElse(
+  equals(1),
+  always(number(1)),
+  n => {
+    let val = numbers.find(isDivisableBy(__, n), lowPrimes)
 
-              n => {
-                const val = numbers.find(
-                  isDivisableBy(__, n),
-                  flatten(numbers.map(
-                    compose(map(__, [0, 4, 6, 10, 12, 16, 22, 24]), add),
-                    unfold(step30(sqrt(n)), 7)
-                  ))
-                )
+    if (val.value === null) {
+      const end = ceil(sqrt(n))
+      for (let i = nextPrime; lt(i, end).value; i = add(i, 2)) {
+        if (isDivisableBy(i, n).value) {
+          val = i
+          break
+        }
+      }
+    }
 
-                return val.value === null ? n : val
-              }
-            )
-          )
-        )
-      )
-    ),
-    always(Either.Left(Errors.INTEGER_REQUIRED))
-  )
+    return val.value === null ? n : val
+  }
 )
 
 const getPrimeFactors = unless(
@@ -168,7 +129,6 @@ const findLeastCommonMultiple = compose(
 
 export {
   isDivisableBy,
-  step30,
   smallestFactor,
   getPrimeFactors,
   findGreatestCommonDivisor,
