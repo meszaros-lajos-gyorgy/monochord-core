@@ -24,8 +24,6 @@ import {
   Either
 } from 'ramda-fantasy'
 
-import Decimal from 'decimal.js'
-
 // -----------------
 
 // http://stackoverflow.com/a/10803250/1806628
@@ -62,20 +60,6 @@ const fractionToRatio = fraction => {
   if (isInteger(fraction).value) {
     return [fraction, number(1)]
   }
-
-  // ---------------
-
-  const capSize = Number.MAX_SAFE_INTEGER.toString().length
-  const digitsLength = fraction.value.toString().replace('.', '').length
-  const decimalLength = fraction.value.toString().split('.')[1].length
-
-  if (digitsLength > capSize) {
-    Decimal.set({ precision: decimalLength - (digitsLength - capSize) })
-    fraction = multiply(fraction, 1)
-    Decimal.set({ precision: 20 })
-  }
-
-  // ---------------
 
   const repetition = getRepeatingDecimal(fraction)
   let multiplier = (
