@@ -1,7 +1,5 @@
 export * from './advanced'
 export * from './basic'
 export * from './constants/errors'
-export * from './constants/primes'
 export * from './helpers'
 export * from './numbers'
-export * from './sets'
