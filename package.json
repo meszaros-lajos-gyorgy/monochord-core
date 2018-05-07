@@ -51,7 +51,6 @@
   },
   "dependencies": {
     "decimal.js": "^10.0.0",
-    "ramda": "^0.25.0",
-    "ramda-fantasy": "^0.8.0"
+    "ramda": "^0.25.0"
   }
 }

@@ -10,10 +10,9 @@ import {
   subtract,
   multiply,
   divide,
-  log,
-  floor,
   pow,
-  number
+  log,
+  floor
 } from '../math/index'
 
 import {
@@ -43,7 +42,7 @@ const getDistanceInUnits = curryN(4, (ratioOfSymmetry, divisionsPerRatio, freque
 const moveNSemitones = moveNUnits(octaveRatio, semitonesPerOctave)
 const getDistanceInSemitones = getDistanceInUnits(octaveRatio, semitonesPerOctave)
 
-const bendingRatio = moveNSemitones(maxBendingDistanceInSemitones, number(1))
+const bendingRatio = moveNSemitones(maxBendingDistanceInSemitones, 1)
 
 const bendNUnits = moveNUnits(bendingRatio, pitchBendMax)
 const getBendingDistance = getDistanceInUnits(bendingRatio, pitchBendMax)

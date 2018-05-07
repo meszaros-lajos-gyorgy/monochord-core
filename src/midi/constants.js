@@ -155,6 +155,7 @@ const defaultOutputData = {
 const octaveRatio = 2
 const semitonesPerOctave = 12
 const maxBendingDistanceInSemitones = 12
+const centsPerOctave = 1200
 
 // semitones = 1..12
 // channel = 1..16
@@ -174,5 +175,6 @@ export {
   defaultOutputData,
   octaveRatio,
   semitonesPerOctave,
-  maxBendingDistanceInSemitones
+  maxBendingDistanceInSemitones,
+  centsPerOctave
 }
