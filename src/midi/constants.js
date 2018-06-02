@@ -160,6 +160,9 @@ const centsPerOctave = 1200
 // semitones = 1..12
 // channel = 1..16
 
+const middleC = 60
+const drumChannel = 10 // when counting from 1
+
 // -----------------
 
 export {
@@ -176,5 +179,7 @@ export {
   octaveRatio,
   semitonesPerOctave,
   maxBendingDistanceInSemitones,
-  centsPerOctave
+  centsPerOctave,
+  middleC,
+  drumChannel
 }
