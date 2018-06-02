@@ -16,10 +16,12 @@ import {
 
 const fractionToCents = fraction => multiply(centsPerOctave, log(fraction, octaveRatio))
 const centsToFraction = cents => pow(octaveRatio, divide(cents, centsPerOctave))
+const ratioToFraction = divide
 
 // -----------------
 
 export {
   fractionToCents,
-  centsToFraction
+  centsToFraction,
+  ratioToFraction
 }
