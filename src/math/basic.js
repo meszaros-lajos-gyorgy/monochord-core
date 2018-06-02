@@ -24,6 +24,8 @@ const floor = a => Decimal.floor(a)
 
 const isZero = a => (new Decimal(a)).isZero()
 
+const gt = curry((a, b) => (new Decimal(a)).gt(b))
+
 // -----------------
 
 export {
@@ -35,5 +37,6 @@ export {
   pow,
   log,
   floor,
-  isZero
+  isZero,
+  gt
 }

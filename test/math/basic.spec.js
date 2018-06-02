@@ -11,7 +11,8 @@ import {
   pow,
   log,
   floor,
-  isZero
+  isZero,
+  gt
 } from '../../src/math/basic'
 
 describe('add', () => {
@@ -144,5 +145,12 @@ describe('isZero', () => {
   it('returns false, when given number is not zero', () => {
     const value = isZero(63)
     assert.equal(value, false)
+  })
+})
+
+describe('gt', () => {
+  it('returns true, when first number is greater, than the second', () => {
+    const value = gt(12, 4)
+    assert.equal(value, true)
   })
 })
