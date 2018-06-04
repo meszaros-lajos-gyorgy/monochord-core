@@ -20,7 +20,9 @@ import {
 import {
   defaultInputData,
   defaultOutputData,
-  whiteOnlyMap
+  whiteOnlyMap,
+  keyIdMin,
+  keyIdMax
 } from './constants'
 
 // -----------------
@@ -58,7 +60,7 @@ const updatePort = curry((port, devices, onMidiMessage) => {
   return name
 })
 
-const getAllKeys = () => unfold(n => n > 127 ? false : [n, n + 1], 0)
+const getAllKeys = () => unfold(n => n > keyIdMax ? false : [n, n + 1], keyIdMin)
 const getWhiteKeys = compose(map(parseInt), keys, always(whiteOnlyMap))
 const getBlackKeys = converge(difference, [getAllKeys, getWhiteKeys])
 
