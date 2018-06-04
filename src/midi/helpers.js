@@ -4,7 +4,12 @@ import {
   map,
   forEach,
   assoc,
-  __
+  __,
+  unfold,
+  difference,
+  converge,
+  compose,
+  always
 } from 'ramda'
 
 import {
@@ -14,7 +19,8 @@ import {
 
 import {
   defaultInputData,
-  defaultOutputData
+  defaultOutputData,
+  whiteOnlyMap
 } from './constants'
 
 // -----------------
@@ -52,10 +58,17 @@ const updatePort = curry((port, devices, onMidiMessage) => {
   return name
 })
 
+const getAllKeys = () => unfold(n => n > 127 ? false : [n, n + 1], 0)
+const getWhiteKeys = compose(map(parseInt), keys, always(whiteOnlyMap))
+const getBlackKeys = converge(difference, [getAllKeys, getWhiteKeys])
+
 // -----------------
 
 export {
   getNameFromPort,
   updatePorts,
-  updatePort
+  updatePort,
+  getAllKeys,
+  getWhiteKeys,
+  getBlackKeys
 }
