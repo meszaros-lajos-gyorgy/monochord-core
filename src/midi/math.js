@@ -35,7 +35,7 @@ const moveNUnits = curryN(4, (ratioOfSymmetry, divisionsPerRatio, n, frequency) 
 
 const getDistanceInUnits = curryN(4, (ratioOfSymmetry, divisionsPerRatio, frequency2, frequency1) => compose(
   multiply(divisionsPerRatio),
-  log(ratioOfSymmetry),
+  log(__, ratioOfSymmetry),
   divide(frequency2)
 )(frequency1))
 
