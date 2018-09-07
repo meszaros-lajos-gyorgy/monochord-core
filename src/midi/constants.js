@@ -110,22 +110,22 @@ const keyIdMax = 127
 const defaultInputData = {
   enabled: true,
   channels: [
-    {id: 1, enabled: true, pitchBendAmount: 0},
-    {id: 2, enabled: true, pitchBendAmount: 0},
-    {id: 3, enabled: true, pitchBendAmount: 0},
-    {id: 4, enabled: true, pitchBendAmount: 0},
-    {id: 5, enabled: true, pitchBendAmount: 0},
-    {id: 6, enabled: true, pitchBendAmount: 0},
-    {id: 7, enabled: true, pitchBendAmount: 0},
-    {id: 8, enabled: true, pitchBendAmount: 0},
-    {id: 9, enabled: true, pitchBendAmount: 0},
-    {id: 10, enabled: false, pitchBendAmount: 0}, // drum channel
-    {id: 11, enabled: true, pitchBendAmount: 0},
-    {id: 12, enabled: true, pitchBendAmount: 0},
-    {id: 13, enabled: true, pitchBendAmount: 0},
-    {id: 14, enabled: true, pitchBendAmount: 0},
-    {id: 15, enabled: true, pitchBendAmount: 0},
-    {id: 16, enabled: true, pitchBendAmount: 0}
+    { id: 1, enabled: true, pitchBendAmount: 0 },
+    { id: 2, enabled: true, pitchBendAmount: 0 },
+    { id: 3, enabled: true, pitchBendAmount: 0 },
+    { id: 4, enabled: true, pitchBendAmount: 0 },
+    { id: 5, enabled: true, pitchBendAmount: 0 },
+    { id: 6, enabled: true, pitchBendAmount: 0 },
+    { id: 7, enabled: true, pitchBendAmount: 0 },
+    { id: 8, enabled: true, pitchBendAmount: 0 },
+    { id: 9, enabled: true, pitchBendAmount: 0 },
+    { id: 10, enabled: false, pitchBendAmount: 0 }, // drum channel
+    { id: 11, enabled: true, pitchBendAmount: 0 },
+    { id: 12, enabled: true, pitchBendAmount: 0 },
+    { id: 13, enabled: true, pitchBendAmount: 0 },
+    { id: 14, enabled: true, pitchBendAmount: 0 },
+    { id: 15, enabled: true, pitchBendAmount: 0 },
+    { id: 16, enabled: true, pitchBendAmount: 0 }
   ]
 }
 
@@ -133,22 +133,22 @@ const defaultInputData = {
 const defaultOutputData = {
   enabled: false,
   channels: [
-    {id: 1, enabled: true, pitchBendAmount: 0},
-    {id: 2, enabled: false, pitchBendAmount: 0},
-    {id: 3, enabled: false, pitchBendAmount: 0},
-    {id: 4, enabled: false, pitchBendAmount: 0},
-    {id: 5, enabled: false, pitchBendAmount: 0},
-    {id: 6, enabled: false, pitchBendAmount: 0},
-    {id: 7, enabled: false, pitchBendAmount: 0},
-    {id: 8, enabled: false, pitchBendAmount: 0},
-    {id: 9, enabled: false, pitchBendAmount: 0},
-    {id: 10, enabled: false, pitchBendAmount: 0},
-    {id: 11, enabled: false, pitchBendAmount: 0},
-    {id: 12, enabled: false, pitchBendAmount: 0},
-    {id: 13, enabled: false, pitchBendAmount: 0},
-    {id: 14, enabled: false, pitchBendAmount: 0},
-    {id: 15, enabled: false, pitchBendAmount: 0},
-    {id: 16, enabled: false, pitchBendAmount: 0}
+    { id: 1, enabled: true, pitchBendAmount: 0 },
+    { id: 2, enabled: false, pitchBendAmount: 0 },
+    { id: 3, enabled: false, pitchBendAmount: 0 },
+    { id: 4, enabled: false, pitchBendAmount: 0 },
+    { id: 5, enabled: false, pitchBendAmount: 0 },
+    { id: 6, enabled: false, pitchBendAmount: 0 },
+    { id: 7, enabled: false, pitchBendAmount: 0 },
+    { id: 8, enabled: false, pitchBendAmount: 0 },
+    { id: 9, enabled: false, pitchBendAmount: 0 },
+    { id: 10, enabled: false, pitchBendAmount: 0 },
+    { id: 11, enabled: false, pitchBendAmount: 0 },
+    { id: 12, enabled: false, pitchBendAmount: 0 },
+    { id: 13, enabled: false, pitchBendAmount: 0 },
+    { id: 14, enabled: false, pitchBendAmount: 0 },
+    { id: 15, enabled: false, pitchBendAmount: 0 },
+    { id: 16, enabled: false, pitchBendAmount: 0 }
   ]
 }
 
